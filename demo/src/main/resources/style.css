@@ -1,0 +1,35 @@
+.button {
+    -fx-background-color: #1ABC9C;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: #16A085;
+}
+
+.button:pressed {
+    -fx-background-color: #148F77;
+}
+
+.label {
+    -fx-font-family: "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-font-size: 14px;
+}
+
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: #3A3F44;
+    -fx-border-width: 0 0 2 0;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 5 0 5 0;
+}
+
+.text-field:focused {
+    -fx-border-color: #1ABC9C;
+}

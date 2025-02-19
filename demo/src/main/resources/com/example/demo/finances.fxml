@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.demo.FinancesController"
+      spacing="30" alignment="TOP_LEFT"
+      style="-fx-background-color: #1F2833; -fx-padding: 30;">
+
+    <!-- Header -->
+    <Label text="Finances" textFill="white"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <!-- Finances Section -->
+    <GridPane hgap="20" vgap="15" alignment="TOP_LEFT">
+        <columnConstraints>
+            <ColumnConstraints minWidth="150" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="300" halignment="LEFT"/>
+        </columnConstraints>
+
+        <!-- Expenditures Field -->
+        <Label text="Expenditures:" textFill="white" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="expendituresField" promptText="Enter expenditures" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Profits Field -->
+        <Label text="Profits:" textFill="white" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="profitsField" promptText="Enter profits" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Net Field -->
+        <Label text="Net:" textFill="white" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="netField" promptText="Net profit" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="300" editable="false"/>
+    </GridPane>
+
+</VBox>

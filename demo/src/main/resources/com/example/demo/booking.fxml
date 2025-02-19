@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.demo.BookingController"
+      spacing="30" alignment="TOP_LEFT"
+      style="-fx-background-color: #1F2833; -fx-padding: 30;">
+
+    <!-- Header -->
+    <Label text="Event" textFill="white"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <!-- Booking Details Section -->
+    <GridPane hgap="20" vgap="15" alignment="TOP_LEFT">
+        <columnConstraints>
+            <!-- Labels column -->
+            <ColumnConstraints minWidth="120" halignment="RIGHT"/>
+            <!-- Fields column -->
+            <ColumnConstraints minWidth="300" halignment="LEFT"/>
+        </columnConstraints>
+
+        <!-- Date Field -->
+        <Label text="Date:" textFill="white" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="dateField" promptText="YYYY-MM-DD" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Time Field -->
+        <Label text="Time:" textFill="white" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="timeField" promptText="HH:MM" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Name Field -->
+        <Label text="Name:" textFill="white" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="nameField" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Description Field -->
+        <Label text="Description:" textFill="white" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="descriptionField" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Client Field -->
+        <Label text="Client:" textFill="white" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="clientField" GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="300"/>
+
+        <!-- Contact Field -->
+        <Label text="Contact:" textFill="white" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="contactField" GridPane.rowIndex="5" GridPane.columnIndex="1" prefWidth="300"/>
+    </GridPane>
+
+    <!-- Seating Section -->
+    <VBox spacing="15" alignment="TOP_LEFT">
+        <Label text="Seating" textFill="white" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <GridPane hgap="20" vgap="15" alignment="TOP_LEFT">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" halignment="RIGHT"/>
+                <ColumnConstraints minWidth="300" halignment="LEFT"/>
+            </columnConstraints>
+            <!-- Number of Seats -->
+            <Label text="Number of Seats:" textFill="white" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="seatsField" promptText="Enter number of seats" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="300"/>
+
+            <!-- Price per Seat -->
+            <Label text="Price per Seat:" textFill="white" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="priceField" promptText="Enter price per seat" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="300"/>
+
+            <!-- Total -->
+            <Label text="Total:" textFill="white" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="totalField" promptText="Total" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="300" editable="false"/>
+        </GridPane>
+    </VBox>
+
+    <!-- Confirm Booking Button -->
+    <Button fx:id="confirmButton" onAction="#handleConfirmButton" text="Confirm Booking" prefWidth="200" prefHeight="50"
+            style="-fx-background-color: #1ABC9C; -fx-text-fill: white; -fx-font-size: 18px;"/>
+
+</VBox>

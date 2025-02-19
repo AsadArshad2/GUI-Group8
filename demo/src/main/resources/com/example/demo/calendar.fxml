@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.demo.CalendarController"
+      spacing="20" alignment="TOP_CENTER"
+      style="-fx-background-color: #1F2833; -fx-padding: 30;">
+
+    <!-- Header: Month Navigation -->
+    <HBox alignment="CENTER" spacing="20">
+        <!-- Escape the < and > characters -->
+        <Button fx:id="prevMonthButton" text="&lt;" style="-fx-font-size: 16px;"/>
+        <Label fx:id="monthYearLabel" text="MARCH 2025" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Button fx:id="nextMonthButton" text="&gt;" style="-fx-font-size: 16px;"/>
+    </HBox>
+
+    <!-- Day Names Row -->
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <children>
+            <Label text="Sun" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="0"/>
+            <Label text="Mon" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="1"/>
+            <Label text="Tue" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="2"/>
+            <Label text="Wed" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="3"/>
+            <Label text="Thu" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="4"/>
+            <Label text="Fri" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="5"/>
+            <Label text="Sat" style="-fx-text-fill: white; -fx-font-size: 14px;" GridPane.columnIndex="6"/>
+        </children>
+    </GridPane>
+
+    <!-- Calendar Grid: dates will be populated dynamically -->
+    <GridPane fx:id="calendarGrid" hgap="10" vgap="10" alignment="CENTER">
+        <!-- The CalendarController will populate this GridPane -->
+    </GridPane>
+
+</VBox>

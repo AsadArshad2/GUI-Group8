@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER" spacing="20"
+      style="-fx-background-color: #1F2833;">
+
+    <!-- Tick icon using Unicode checkmark -->
+    <Label text="✓" textFill="#1ABC9C" style="-fx-font-size: 100px;"/>
+
+    <!-- Confirmation text -->
+    <Label text="Booking Confirmed" textFill="white"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+</VBox>

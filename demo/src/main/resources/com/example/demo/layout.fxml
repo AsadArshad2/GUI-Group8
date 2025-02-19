@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:controller="com.example.demo.HelloController"
+            style="-fx-background-color: #1F2833;"
+            stylesheets="@/style.css">
+
+  <!-- Top: Horizontal menu bar (final layout, initially hidden) -->
+  <top>
+    <HBox fx:id="menuBar" alignment="CENTER_LEFT" spacing="10.0" visible="false">
+      <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+      </padding>
+    </HBox>
+  </top>
+
+  <!-- Center: StackPane holding the initial horizontal button list and the display label -->
+  <center>
+    <StackPane>
+      <!-- HBox for the initial buttons (centered horizontally) -->
+      <HBox fx:id="initialBox" alignment="CENTER" spacing="20.0">
+        <Button text="Bookings" onAction="#handleButtonClick"/>
+        <Button text="Calendar" onAction="#handleButtonClick"/>
+        <Button text="Finances" onAction="#handleButtonClick"/>
+        <Button text="Reviews" onAction="#handleButtonClick"/>
+        <Button text="Daily Sheet" onAction="#handleButtonClick"/>
+        <Button text="Logout" onAction="#handleButtonClick"/>
+      </HBox>
+      <!-- Label to display which button was selected -->
+      <Label fx:id="displayText" visible="false"/>
+    </StackPane>
+  </center>
+
+</BorderPane>
