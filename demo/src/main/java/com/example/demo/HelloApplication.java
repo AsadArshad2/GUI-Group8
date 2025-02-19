@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
         Parent root = fxmlLoader.load();
 
         Scene scene = new Scene(root, 800, 800);
-        primaryStage.setTitle("Modern JavaFX Menu Bar Example");
+        primaryStage.setTitle("GUI");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
