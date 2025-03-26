@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="516.0" prefWidth="256.0" stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.LoginController">
+    <VBox alignment="CENTER" layoutY="-9.0" prefHeight="525.0" prefWidth="300.0" spacing="15.0" stylesheets="@../../../style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="-9.0">
+        <padding>
+            <Insets bottom="50" left="50" right="50" top="50" />
+        </padding>
+
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Staff Login" />
+
+        <TextField fx:id="usernameField" maxWidth="200" promptText="Username" />
+        <PasswordField fx:id="passwordField" maxWidth="200" promptText="Password" />
+
+        <Button fx:id="loginButton" onAction="#handleLogin" text="Login" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../../Downloads/lanclogo.JPG" />
+         </image>
+      </ImageView>
+
+    </VBox>
+
+</AnchorPane>

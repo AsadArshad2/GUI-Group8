@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/17.0.12"
-            fx:controller="com.example.demo.HelloController"
-            style="-fx-background-color: #1F2833;"
-            stylesheets="@/style.css">
+<BorderPane prefHeight="70.0" prefWidth="718.0" style="-fx-background-color: #1F2833;" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
 
   <!-- Top: Horizontal menu bar (final layout, initially hidden) -->
   <top>
-    <HBox fx:id="menuBar" alignment="CENTER_LEFT" spacing="10.0" visible="false">
+    <HBox fx:id="menuBar" alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="718.0" spacing="10.0" visible="false">
       <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
+        <Insets bottom="10" left="10" right="10" top="10" />
       </padding>
     </HBox>
   </top>
@@ -24,15 +25,20 @@
     <StackPane>
       <!-- HBox for the initial buttons (centered horizontally) -->
       <HBox fx:id="initialBox" alignment="CENTER" spacing="20.0">
-        <Button text="Bookings" onAction="#handleButtonClick"/>
-        <Button text="Calendar" onAction="#handleButtonClick"/>
-        <Button text="Finances" onAction="#handleButtonClick"/>
-        <Button text="Reviews" onAction="#handleButtonClick"/>
-        <Button text="Daily Sheet" onAction="#handleButtonClick"/>
-        <Button text="Logout" onAction="#handleButtonClick"/>
+        <Button onAction="#handleButtonClick" text="Bookings" />
+        <Button onAction="#handleButtonClick" text="Calendar" />
+        <Button onAction="#handleButtonClick" text="Finances" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../../Downloads/lanclogo.JPG" />
+               </image>
+            </ImageView>
+        <Button onAction="#handleButtonClick" text="Reviews" />
+        <Button onAction="#handleButtonClick" text="Daily Sheet" />
+        <Button onAction="#handleButtonClick" text="Logout" />
       </HBox>
       <!-- Label to display which button was selected -->
-      <Label fx:id="displayText" visible="false"/>
+      <Label fx:id="displayText" visible="false" />
     </StackPane>
   </center>
 

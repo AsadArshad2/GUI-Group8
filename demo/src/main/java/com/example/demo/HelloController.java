@@ -195,6 +195,27 @@ public class HelloController {
      * Closes the application when Logout is selected.
      */
     private void handleLogout() {
-        Platform.exit();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login.fxml"));
+            Parent reviewForm = loader.load();
+            BorderPane rootPane = (BorderPane) menuBar.getScene().getRoot();
+            rootPane.setCenter(reviewForm);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }}
+
+
+    private void handleLogin(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/layout.fxml"));
+            Parent reviewForm = loader.load();
+            BorderPane rootPane = (BorderPane) menuBar.getScene().getRoot();
+            rootPane.setCenter(reviewForm);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
+
 }
+
