@@ -28,6 +28,7 @@
         <Button onAction="#handleButtonClick" text="Bookings" />
         <Button onAction="#handleButtonClick" text="Calendar" />
         <Button onAction="#handleButtonClick" text="Finances" />
+
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../../../../Downloads/lanclogo.JPG" />

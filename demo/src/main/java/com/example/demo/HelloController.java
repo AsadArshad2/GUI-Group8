@@ -18,6 +18,7 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,13 +197,30 @@ public class HelloController {
      */
     private void handleLogout() {
         try {
+            // Load login FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Login.fxml"));
-            Parent reviewForm = loader.load();
-            BorderPane rootPane = (BorderPane) menuBar.getScene().getRoot();
-            rootPane.setCenter(reviewForm);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }}
+            Parent loginRoot = loader.load();
+
+            // Get current stage from any node
+            Stage stage = (Stage) displayText.getScene().getWindow();
+
+            // Replace the scene with a new login scene
+            Scene loginScene = new Scene(loginRoot);
+            stage.setScene(loginScene);
+
+            // Optional: reset title and center window
+            stage.setTitle("Staff Login");
+            stage.centerOnScreen();
+
+            // Optional: resize to fit login layout
+            stage.sizeToScene();
+
+            System.out.println("Logged out and returned to login screen.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private void handleLogin(){

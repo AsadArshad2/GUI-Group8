@@ -14,8 +14,9 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/demo/login.fxml"));
         Parent root = fxmlLoader.load();
 
-        Scene scene = new Scene(root, 1000, 1000);
-        primaryStage.setTitle("GUI");
+        Scene scene = new Scene(root);
+//         1000, 1000 commented out size
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
