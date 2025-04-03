@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuController" spacing="20" alignment="CENTER" prefWidth="900" prefHeight="600">
+    <Label text="Lancaster Music Hall - Staff Dashboard" style="-fx-font-size: 24px;" />
+    <Button text="Manage Bookings" onAction="#goToBooking"/>
+    <Button text="Finances and Film Costs" onAction="#goToFinances"/>
+    <Button text="Review System" onAction="#goToReviews"/>
+</VBox>
+
+

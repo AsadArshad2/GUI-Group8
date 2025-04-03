@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.LoginController" prefWidth="900" prefHeight="600">
+    <VBox alignment="CENTER" spacing="15" layoutX="300" layoutY="200">
+        <Label text="Lancaster Music Hall - Staff Login" style="-fx-font-size: 20px;" />
+        <TextField fx:id="usernameField" promptText="Username"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <Button text="Login" onAction="#handleLogin"/>
+        <Label fx:id="loginStatus" textFill="red"/>
+    </VBox>
+</AnchorPane>
+
+

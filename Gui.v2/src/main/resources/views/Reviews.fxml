@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ReviewsController"
+      alignment="CENTER" spacing="15" prefWidth="700" prefHeight="500">
+
+    <Label text="📋 Review Management"
+           style="-fx-font-size: 18px; -fx-text-fill: #333;" />
+
+    <Button text="Fetch Reviews from API" onAction="#handleFetchReviews"/>
+
+    <ListView fx:id="reviewList" prefHeight="250" prefWidth="600"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="nameField" promptText="Name" prefWidth="150"/>
+        <TextField fx:id="reviewField" promptText="Review" prefWidth="350"/>
+        <Button text="Add" onAction="#handleAddReview"/>
+        <Button text="Delete" onAction="#handleDeleteReview"/>
+    </HBox>
+
+    <Button text="⬅ Back to Menu" onAction="#handleBackToMenu"/>
+
+</VBox>

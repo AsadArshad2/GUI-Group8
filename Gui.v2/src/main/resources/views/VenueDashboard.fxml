@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.VenueDashboardController" prefWidth="800" prefHeight="600">
+    <VBox spacing="20" alignment="TOP_CENTER" prefWidth="700" layoutX="50" layoutY="30">
+        <Label text="Lancaster Music Hall – Venue Booking Dashboard" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <!-- Date Picker and Check Button Row -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Select Date:" />
+            <DatePicker fx:id="datePicker" />
+            <Button text="Check Availability" onAction="#handleCheckAvailability"/>
+        </HBox>
+
+        <!-- Table -->
+        <TableView fx:id="venueTable" prefHeight="250" prefWidth="700">
+            <columns>
+                <TableColumn fx:id="venueNameColumn" text="Room" prefWidth="200"/>
+                <TableColumn fx:id="statusColumn" text="Booking Status" prefWidth="200"/>
+                <TableColumn fx:id="capacityColumn" text="Max Capacity" prefWidth="200"/>
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Reserve Selected Slot" onAction="#handleReserveSlot"/>
+            <Button text="Delete Booking" onAction="#handleDeleteBooking" />
+        </HBox>
+
+
+        <!-- Venue selection -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Select Venue:" />
+            <ComboBox fx:id="venueComboBox" prefWidth="200"/>
+            <Button text="Reserve Slot" onAction="#handleReserveSlot"/>
+        </HBox>
+
+        <!-- Navigation -->
+        <Button text="Back to Menu" onAction="#handleBackToMenu" style="-fx-padding: 10 20;" />
+
+        <!-- Status message -->
+        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-text-fill: #7f8c8d;" />
+    </VBox>
+</AnchorPane>

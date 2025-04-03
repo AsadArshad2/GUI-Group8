@@ -1,0 +1,33 @@
+.root {
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-background-color: #F7F9FB;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2C3E50;
+}
+
+.button {
+    -fx-background-color: #1ABC9C;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 18px;
+    -fx-font-size: 14px;
+}
+
+.button:hover {
+    -fx-background-color: #16A085;
+}
+
+.button:pressed {
+    -fx-background-color: #148F77;
+}
+
+.text-field, .password-field, .combo-box, .date-picker, .text-area {
+    -fx-background-color: white;
+    -fx-border-color: #CCC;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+}

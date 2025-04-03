@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.FinancesController" prefWidth="900" prefHeight="600">
+    <VBox spacing="20" alignment="CENTER" layoutX="100" layoutY="50" prefWidth="700">
+        <Label text="Film Cost and Revenue Tracking" style="-fx-font-size: 18px;"/>
+
+        <HBox spacing="10">
+            <TextField fx:id="filmTitleField" promptText="Film Title"/>
+            <TextField fx:id="filmCostField" promptText="Film Cost"/>
+            <Button text="Log Film Cost" onAction="#handleLogCost"/>
+        </HBox>
+
+        <HBox spacing="10">
+            <TextField fx:id="ticketSalesField" promptText="Ticket Sales for Film"/>
+            <Button text="Retrieve Sales" onAction="#handleRetrieveSales"/>
+        </HBox>
+
+        <TextArea fx:id="financeOutput" prefHeight="200" promptText="Results and financial summaries here..."/>
+        <Button text="Back to Menu" onAction="#handleBackToMenu"/>
+    </VBox>
+</AnchorPane>
