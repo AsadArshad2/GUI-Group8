@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuController" spacing="20" alignment="CENTER" prefWidth="900" prefHeight="600">
-    <Label text="Lancaster Music Hall - Staff Dashboard" style="-fx-font-size: 24px;" />
-    <Button text="Manage Bookings" onAction="#goToBooking"/>
-    <Button text="Finances and Film Costs" onAction="#goToFinances"/>
-    <Button text="Review System" onAction="#goToReviews"/>
+<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.MenuController">
+   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../images/LancasterLogo.jpg" />
+      </image>
+   </ImageView>
+    <Label style="-fx-font-size: 24px;" text="Lancaster Music Hall - Staff Dashboard" />
+    <Button onAction="#goToBooking" text="Manage Bookings" />
+    <Button onAction="#goToFinances" text="Finances and Film Costs" />
+    <Button onAction="#goToReviews" text="Review System" />
 </VBox>
-
-

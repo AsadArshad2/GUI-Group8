@@ -1,11 +1,11 @@
 .root {
     -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -fx-background-color: #F7F9FB;
+    -fx-background-color: black;
 }
 
 .label {
     -fx-font-size: 14px;
-    -fx-text-fill: #2C3E50;
+    -fx-text-fill: white;
 }
 
 .button {
@@ -25,9 +25,10 @@
 }
 
 .text-field, .password-field, .combo-box, .date-picker, .text-area {
-    -fx-background-color: white;
-    -fx-border-color: #CCC;
-    -fx-border-radius: 8px;
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-border-radius: 10px;
     -fx-padding: 8px;
     -fx-font-size: 14px;
+    -fx-text-fill: white;
 }
