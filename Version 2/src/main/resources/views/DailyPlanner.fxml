@@ -10,7 +10,8 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.DailyPlannerController"
-      alignment="CENTER" spacing="15" prefWidth="800" prefHeight="600">
+      stylesheets="@../styles/style.css"
+alignment="CENTER" spacing="15" prefWidth="800" prefHeight="600">
 
     <!-- ✅ Proper padding syntax for JavaFX 21 -->
     <padding>

@@ -19,4 +19,6 @@
     <Button onAction="#goToFinances" text="Finances and Film Costs" />
     <Button onAction="#goToReviews" text="Review System" />
     <Button onAction="#goToDailyPlanner" text="Daily Planner" />
+    <Button onAction="#goToContract" text="Manage Contracts" />
+
 </VBox>
