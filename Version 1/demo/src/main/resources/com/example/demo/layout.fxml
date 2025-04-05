@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane prefHeight="70.0" prefWidth="718.0" style="-fx-background-color: #1F2833;" stylesheets="@/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+
+  <!-- Top: Horizontal menu bar (final layout, initially hidden) -->
+  <top>
+    <HBox fx:id="menuBar" alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="718.0" spacing="10.0" visible="false">
+      <padding>
+        <Insets bottom="10" left="10" right="10" top="10" />
+      </padding>
+    </HBox>
+  </top>
+
+  <!-- Center: StackPane holding the initial horizontal button list and the display label -->
+  <center>
+    <StackPane>
+      <!-- HBox for the initial buttons (centered horizontally) -->
+      <HBox fx:id="initialBox" alignment="CENTER" spacing="20.0">
+        <Button onAction="#handleButtonClick" text="Bookings" />
+        <Button onAction="#handleButtonClick" text="Calendar" />
+        <Button onAction="#handleButtonClick" text="Finances" />
+
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../../Downloads/lanclogo.JPG" />
+               </image>
+            </ImageView>
+        <Button onAction="#handleButtonClick" text="Reviews" />
+        <Button onAction="#handleButtonClick" text="Daily Sheet" />
+        <Button onAction="#handleButtonClick" text="Logout" />
+      </HBox>
+      <!-- Label to display which button was selected -->
+      <Label fx:id="displayText" visible="false" />
+    </StackPane>
+  </center>
+
+</BorderPane>

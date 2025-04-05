@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BookingController" prefWidth="900" prefHeight="600">
+    <VBox spacing="20" layoutX="50" layoutY="20" alignment="TOP_CENTER" prefWidth="800">
+        <Label text="Venue Bookings - Operations and Marketing" style="-fx-font-size: 18px;"/>
+
+        <HBox spacing="10">
+            <Label text="Select Date:"/>
+            <DatePicker fx:id="datePicker"/>
+            <Button text="Check Availability" onAction="#handleCheckAvailability"/>
+        </HBox>
+
+        <TableView fx:id="venueTable" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="venueNameColumn" text="Venue"/>
+                <TableColumn fx:id="statusColumn" text="Status"/>
+                <TableColumn fx:id="capacityColumn" text="Capacity"/>
+            </columns>
+        </TableView>
+
+        <HBox spacing="10">
+            <Button text="Reserve Slot" onAction="#handleReserveSlot"/>
+            <Button text="Delete Booking" onAction="#handleDeleteBooking"/>
+        </HBox>
+
+        <Button text="Back to Menu" onAction="#handleBackToMenu"/>
+        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-text-fill: #7f8c8d;"/>
+    </VBox>
+</AnchorPane>
