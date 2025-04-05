@@ -27,18 +27,26 @@
 <img width="500" alt="2 1 0 ExportPDF" src="https://github.com/user-attachments/assets/49327c55-1394-47fc-99a2-8c43a1adb7d8" />
 
 ### 2.0.1 - Patch
+- Ui theme and colour matches with lancasters music hall logo
 - Small patch to improve compilation efficency
 - Bugs with alignment of buttons have been fixed
 - Added Lancaster Music Hall Logo to UI
-<img width="500" alt="v2 0 1 Login" src="https://github.com/user-attachments/assets/54c33669-e1b7-41cb-ab4f-15d0b0050896" />
-<img width="500" alt="v2 0 1 Menu" src="https://github.com/user-attachments/assets/922952a5-9bab-4867-b8ec-fe27371587ed" />
+<img width="400" alt="v2 0 1 Login" src="https://github.com/user-attachments/assets/54c33669-e1b7-41cb-ab4f-15d0b0050896" />
+<img width="400" alt="v2 0 1 Menu" src="https://github.com/user-attachments/assets/922952a5-9bab-4867-b8ec-fe27371587ed" />
 
 ## 2.0.0 - New version!
 - Total Ui overhall
 - TouchScreen Freindly Ui
 - Menu style instead of tab style
 - Simplified sections
-- Merged Tab groups into one Menu group 
+- Merged Tab groups into one Menu group
+- Booking | Revenue | Review Sections
+<img width="400" alt="2 0 0 login" src="https://github.com/user-attachments/assets/eefbd774-03c5-4d49-8096-6ab145be1eac" />
+<img width="400" alt="2 0 0 menu" src="https://github.com/user-attachments/assets/24fe2a22-49ca-4f9c-ac98-8e67c9157cd5" />
+<img width="400" alt="2 0 0 booking" src="https://github.com/user-attachments/assets/bc4a69a0-e77e-4635-af7b-b9f3c537be0b" />
+<img width="400" alt="2 0 0 revenue" src="https://github.com/user-attachments/assets/8809f775-5ff3-4cf1-923b-d2a690b88a4e" />
+<img width="400" alt="2 0 0 reviews" src="https://github.com/user-attachments/assets/983721f2-3ebe-4f6c-bb04-0fffeacf9609" />
+
 
 
 ## Version 1 - Older | Redundant 
