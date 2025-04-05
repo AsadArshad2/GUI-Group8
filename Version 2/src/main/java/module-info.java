@@ -1,6 +1,9 @@
 module com.example.guitest {
     requires javafx.controls;
     requires javafx.fxml;
+    requires kernel;
+    requires java.desktop;
+    requires layout;
 
 
     opens com.example.models to javafx.fxml;
