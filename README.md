@@ -31,8 +31,8 @@
 - Small patch to improve compilation efficency
 - Bugs with alignment of buttons have been fixed
 - Added Lancaster Music Hall Logo to UI
-<img width="400" alt="v2 0 1 Login" src="https://github.com/user-attachments/assets/54c33669-e1b7-41cb-ab4f-15d0b0050896" />
-<img width="400" alt="v2 0 1 Menu" src="https://github.com/user-attachments/assets/922952a5-9bab-4867-b8ec-fe27371587ed" />
+<img width="500" alt="v2 0 1 Login" src="https://github.com/user-attachments/assets/54c33669-e1b7-41cb-ab4f-15d0b0050896" />
+<img width="500" alt="v2 0 1 Menu" src="https://github.com/user-attachments/assets/922952a5-9bab-4867-b8ec-fe27371587ed" />
 
 ## 2.0.0 - New version!
 - Total Ui overhall
