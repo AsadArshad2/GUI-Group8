@@ -38,5 +38,6 @@
 
     <Button onAction="#handleCreateContract" text="Create Contract" />
 
+    
     <Button onAction="#handleBackToMenu" text="⬅ Back to Menu" />
 </VBox>
