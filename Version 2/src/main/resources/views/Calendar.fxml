@@ -5,7 +5,6 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.CalendarController"
-            stylesheets="@../styles/style.css"
             prefWidth="900" prefHeight="600">
 
     <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
@@ -13,15 +12,14 @@
         <!-- Title and Back Button -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Button text="Back" onAction="#handleBackToMenu" styleClass="back-button" />
-            <Label text="Venue Calendar - Operations and Marketing" style="-fx-font-size: 18px; -fx-text-fill: white;" />
+            <Label text="Venue Calendar" styleClass="title" />
         </HBox>
 
-        <!-- Improved Date Picker and Check Availability -->
-        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #2E2E2E; -fx-padding: 10; -fx-background-radius: 5;">
-            <Label text="Select Date:" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
-            <DatePicker fx:id="datePicker" style="-fx-background-color: #FFFFFF; -fx-border-radius: 3;" />
-            <Button text="Check Availability" onAction="#handleCheckAvailability"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+        <!-- Date Picker and Check Availability -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Select Date:" style="-fx-font-weight: bold;" />
+            <DatePicker fx:id="datePicker" style="-fx-border-radius: 3;" />
+            <Button text="Check Availability" onAction="#handleCheckAvailability" prefWidth="150" />
         </HBox>
 
         <!-- Reduced Height TableView -->
@@ -40,7 +38,7 @@
         </ScrollPane>
 
         <!-- Status Label -->
-        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-text-fill: lightgray; -fx-font-weight: bold;" />
+        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-font-weight: bold;" />
 
         <!-- Spacer to Push Buttons to Bottom -->
         <Region VBox.vgrow="ALWAYS" />
@@ -49,31 +47,18 @@
         <HBox spacing="20" alignment="CENTER">
             <!-- Left Section -->
             <VBox spacing="10" alignment="TOP_LEFT">
-                <Button text="Add Booking" onAction="#handleAddBooking"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
-                        prefWidth="150" />
-                <Button text="Check Bookings" onAction="#handleCheckBookings"
-                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
-                        prefWidth="150" />
+                <Button text="Check Bookings" onAction="#handleCheckBookings" prefWidth="150" />
             </VBox>
 
             <!-- Middle Section -->
             <VBox spacing="10" alignment="TOP_CENTER">
-                <Button text="Add Event"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
-                        prefWidth="150" />
-                <Button text="Check Events"
-                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
-                        prefWidth="150" />
+                <Button text="Check Events" onAction="#handleCheckEvents" prefWidth="150" />
             </VBox>
 
             <!-- Right Section -->
             <VBox spacing="10" alignment="TOP_RIGHT">
-                <Button text="Finish Edit" onAction="#handleFinishEdit"
-                        style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
-                        prefWidth="150" />
+                <Button text="Finish Edit" onAction="#handleFinishEdit" prefWidth="150" />
             </VBox>
         </HBox>
-
     </VBox>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package DatabaseLogic;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 import javafx.beans.property.*;
 
@@ -45,6 +46,13 @@ public class Booking {
         this.status.set(status);
     }
 
+    public LocalTime getStartTimeAsLocalTime() {
+        return LocalTime.parse(startTime.get());
+    }
+
+    public LocalTime getEndTimeAsLocalTime() {
+        return LocalTime.parse(endTime.get());
+    }
 
     public int getBookingID() { return bookingID.get(); }
     public int getClientID() { return clientID.get(); }

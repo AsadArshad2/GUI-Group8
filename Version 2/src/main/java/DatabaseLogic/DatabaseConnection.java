@@ -4,8 +4,10 @@ import controllers.BookingController;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DatabaseConnection {
     //way to connect to the database
@@ -171,8 +173,8 @@ public class DatabaseConnection {
         List<Room> rooms = new ArrayList<>();
         String sql = "SELECT * FROM Rooms";
         try (Connection conn = connectToDatabase();
-             PreparedStatement p = conn.prepareStatement(sql);
-             ResultSet rs = p.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 Room room = new Room(
@@ -181,6 +183,7 @@ public class DatabaseConnection {
                         rs.getInt("capacity"),
                         rs.getString("layouts")
                 );
+                System.out.println("Loaded room: ID=" + room.getRoomID() + ", Name=" + room.getName());
                 rooms.add(room);
             }
         } catch (SQLException e) {
@@ -192,66 +195,414 @@ public class DatabaseConnection {
 
     public static List<Booking> getBookings() {
         List<Booking> bookings = new ArrayList<>();
-        String sql = "SELECT c.name as client_name, e.name as event_name, b.date, b.start_time, b.end_time, b.total_cost, b.configuration_details, b.status, b.booking_id, b.client_id, b.event_id, b.room_id FROM Bookings b JOIN Clients c ON b.client_id = c.client_id JOIN Event_details e ON b.event_id = e.event_id";
-
+        String query = "SELECT * FROM Bookings";
         try (Connection conn = connectToDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
+                // Ensure time strings are in "HH:mm:ss" format
+                String startTime = rs.getString("start_time");
+                String endTime = rs.getString("end_time");
+                if (startTime != null && startTime.length() == 5) {
+                    startTime = startTime + ":00";
+                }
+                if (endTime != null && endTime.length() == 5) {
+                    endTime = endTime + ":00";
+                }
+
                 Booking booking = new Booking(
-                        rs.getInt("booking_ID"),
-                        rs.getString("client_name"),
-                        rs.getString("event_name"),
+                        rs.getInt("booking_id"),
+                        rs.getInt("client_id"),
+                        rs.getInt("event_id"),
+                        rs.getInt("room_id"),
                         rs.getString("date"),
-                        rs.getString("start_time"),
-                        rs.getString("end_time"),
+                        startTime,
+                        endTime,
                         rs.getDouble("total_cost"),
                         rs.getString("configuration_details"),
                         rs.getString("status")
                 );
+                booking.setClientName(getClientNameById(booking.getClientID()));
+                booking.setEventName(getEventNameById(booking.getEventID()));
                 bookings.add(booking);
             }
         } catch (SQLException e) {
-            System.err.println("Error in fetching bookings: " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Error fetching bookings: " + e.getMessage());
         }
         return bookings;
     }
 
     public static String getClientNameById(int clientId) {
-        String clientName = "";
-        String sql = "SELECT name FROM Clients WHERE client_id = ?";
+        String query = "SELECT name FROM Clients WHERE client_id = ?";
         try (Connection conn = connectToDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, clientId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    clientName = rs.getString("name");
-                }
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching client name: " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Error fetching client name for client_id " + clientId + ": " + e.getMessage());
         }
-        return clientName;
+        return "";
     }
 
     public static String getEventNameById(int eventId) {
-        String eventName = "";
-        String sql = "SELECT name FROM Event_details WHERE event_id = ?";
+        String query = "SELECT name FROM Event_details WHERE event_id = ?";
         try (Connection conn = connectToDatabase();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, eventId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    eventName = rs.getString("name");
-                }
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, eventId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching event name: " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Error fetching event name for event_id " + eventId + ": " + e.getMessage());
         }
-        return eventName;
+        return "";
     }
+
+    public static void pushEventEditsToDatabase(List<Event> events) {
+        String updateSQL = "UPDATE Event_details SET name = ?, selling_price = ?, start_date = ?, end_date = ?, description = ?, max_discount = ? WHERE event_id = ?";
+        String insertSQL = "INSERT INTO Event_details (name, selling_price, start_date, end_date, description, max_discount) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = connectToDatabase();
+             PreparedStatement updateStmt = conn.prepareStatement(updateSQL);
+             PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
+
+            for (Event e : events) {
+                if (e.getEventId() > 0) {
+                    // Update existing event
+                    updateStmt.setString(1, e.getName());
+                    updateStmt.setDouble(2, e.getSellingPrice());
+                    updateStmt.setString(3, e.getStartDate());
+                    updateStmt.setString(4, e.getEndDate());
+                    updateStmt.setString(5, e.getEventDescription());
+                    updateStmt.setDouble(6, e.getMaxDiscount());
+                    updateStmt.setInt(7, e.getEventId());
+                    updateStmt.addBatch();
+                } else {
+                    // Insert new event
+                    insertStmt.setString(1, e.getName());
+                    insertStmt.setDouble(2, e.getSellingPrice());
+                    insertStmt.setString(3, e.getStartDate());
+                    insertStmt.setString(4, e.getEndDate());
+                    insertStmt.setString(5, e.getEventDescription());
+                    insertStmt.setDouble(6, e.getMaxDiscount());
+                    insertStmt.addBatch();
+                }
+            }
+
+            updateStmt.executeBatch();
+            insertStmt.executeBatch();
+
+            System.out.println("All event changes pushed to database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to push event changes: " + e.getMessage());
+        }
+    }
+
+    public static void pushCalendarEditsToDatabase(List<Calendar> calendarBookings) {
+        String updateSQL = "UPDATE Bookings SET start_time = ?, end_time = ?, total_cost = ?, " +
+                "status = ? WHERE booking_id = ?";
+
+        String updateRoomsSQL = "UPDATE Rooms SET capacity = ? WHERE room_id = ?";
+
+        String updateEventsSQL = "UPDATE Event_details SET name = ? WHERE event_id = ?";
+
+        try (Connection conn = connectToDatabase();
+             PreparedStatement updateBookingsStmt = conn.prepareStatement(updateSQL);
+             PreparedStatement updateRoomsStmt = conn.prepareStatement(updateRoomsSQL);
+             PreparedStatement updateEventsStmt = conn.prepareStatement(updateEventsSQL)) {
+
+            for (Calendar c : calendarBookings) {
+                if (c.getBookingID() > 0) {
+                    // Update Bookings table
+                    updateBookingsStmt.setString(1, c.getStartTime());
+                    updateBookingsStmt.setString(2, c.getEndTime());
+                    updateBookingsStmt.setDouble(3, c.getTotalCost());
+                    updateBookingsStmt.setString(4, c.getStatus());
+                    updateBookingsStmt.setInt(5, c.getBookingID());
+                    updateBookingsStmt.addBatch();
+
+                    // Update Rooms table
+                    updateRoomsStmt.setInt(1, c.getCapacity());
+                    updateRoomsStmt.setInt(2, c.getRoomID());
+                    updateRoomsStmt.addBatch();
+
+                    // Update Event_details table
+                    updateEventsStmt.setString(1, c.getEventName());
+                    updateEventsStmt.setInt(2, c.getEventID());
+                    updateEventsStmt.addBatch();
+                }
+            }
+
+            updateBookingsStmt.executeBatch();
+            updateRoomsStmt.executeBatch();
+            updateEventsStmt.executeBatch();
+
+            System.out.println("All changes pushed to database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Failed to push changes: " + e.getMessage());
+        }
+    }
+
+    public static void pushBookingEditsToDatabase(List<Booking> bookings) {
+        String insertSQL = "INSERT INTO Bookings (client_id, event_id, room_id, date, start_time, end_time, total_cost, configuration_details, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String checkOverlapSQL = "SELECT COUNT(*) FROM Bookings WHERE room_id = ? AND date = ? AND " +
+                "((start_time < ? AND (end_time > ? OR end_time = '00:00:00')) OR " +
+                "(start_time < ? AND (end_time > ? OR end_time = '00:00:00')) OR " +
+                "(start_time >= ? AND (end_time <= ? OR end_time = '00:00:00')))";
+
+        try (Connection conn = connectToDatabase()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkOverlapSQL);
+                 PreparedStatement insertStmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+
+                for (Booking booking : bookings) {
+                    int roomId = booking.getRoomID();
+                    if (roomId <= 0) {
+                        throw new SQLException("Invalid room_id " + roomId + " for booking. Room ID must be greater than 0.");
+                    }
+
+                    String startTime = booking.getStartTime();
+                    String endTime = booking.getEndTime();
+                    if (startTime != null && startTime.length() == 5) {
+                        startTime = startTime + ":00";
+                    }
+                    if (endTime != null && endTime.length() == 5) {
+                        endTime = endTime + ":00";
+                    }
+
+                    // Check for overlaps with all bookings
+                    checkStmt.setInt(1, booking.getRoomID());
+                    checkStmt.setString(2, booking.getDate());
+                    checkStmt.setString(3, endTime);
+                    checkStmt.setString(4, startTime);
+                    checkStmt.setString(5, endTime);
+                    checkStmt.setString(6, startTime);
+                    checkStmt.setString(7, startTime);
+                    checkStmt.setString(8, endTime);
+
+                    ResultSet rs = checkStmt.executeQuery();
+                    rs.next();
+                    int overlapCount = rs.getInt(1);
+                    if (overlapCount > 0) {
+                        throw new SQLException("Cannot add booking: timeslot " + booking.getStartTime() + " - " + booking.getEndTime() + " overlaps with an existing booking.");
+                    }
+
+                    insertStmt.setInt(1, booking.getClientID());
+                    if (booking.getEventID() == 0) {
+                        insertStmt.setNull(2, java.sql.Types.INTEGER);
+                    } else {
+                        insertStmt.setInt(2, booking.getEventID());
+                    }
+                    insertStmt.setInt(3, booking.getRoomID());
+                    insertStmt.setString(4, booking.getDate());
+                    insertStmt.setString(5, startTime);
+                    insertStmt.setString(6, endTime);
+                    insertStmt.setDouble(7, booking.getTotalCost());
+                    insertStmt.setString(8, booking.getConfigurationDetails());
+                    insertStmt.setString(9, booking.getStatus());
+                    insertStmt.executeUpdate();
+
+                    ResultSet generatedKeys = insertStmt.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        booking.setBookingID(generatedKeys.getInt(1));
+                    }
+                }
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to save bookings: " + e.getMessage(), e);
+        }
+    }
+
+    public static List<Timeslot> getAvailableTimeslots(String venueType, String venueName, LocalDate date) {
+        List<Timeslot> availableTimeslots = new ArrayList<>();
+
+        List<Booking> bookingsOnDate = getBookings().stream()
+                .filter(b -> {
+                    try {
+                        return LocalDate.parse(b.getDate()).equals(date);
+                    } catch (Exception e) {
+                        System.out.println("Warning: Invalid date format for booking ID " + b.getBookingID() + ": " + b.getDate());
+                        return false;
+                    }
+                })
+                .filter(b -> {
+                    if (venueType.equals("Venue")) {
+                        return true;
+                    } else if (venueType.equals("Performance Space") || venueType.equals("Room")) {
+                        int roomId = b.getRoomID();
+                        if (roomId <= 0) {
+                            System.out.println("Warning: Skipping booking with invalid room_id " + roomId + " for booking ID " + b.getBookingID());
+                            return false;
+                        }
+                        String roomName = getRoomNameById(roomId);
+                        if (roomName.isEmpty()) {
+                            System.out.println("Warning: Skipping booking with room_id " + roomId + " because room name is empty for booking ID " + b.getBookingID());
+                            return false;
+                        }
+                        boolean matches = roomName.toLowerCase().equals(venueName.toLowerCase());
+                        System.out.println("Checking booking for room_id " + roomId + " (Room: " + roomName + ") against venueName " + venueName + ": " + matches);
+                        return matches;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+
+        System.out.println("DatabaseConnection: Bookings on " + date + " for " + venueType + " (" + venueName + "): " + bookingsOnDate.size());
+        bookingsOnDate.forEach(b -> System.out.println("Booking: " + b.getEventID() + " - Room ID: " + b.getRoomID() + " - Start: " + b.getStartTime() + " - End: " + b.getEndTime() + " - Status: " + b.getStatus()));
+
+        List<Timeslot> possibleTimeslots = new ArrayList<>();
+        if (venueType.equals("Venue")) {
+            possibleTimeslots.add(new Timeslot("17:00", "00:00", "Evening", date.getDayOfWeek().getValue() >= 5 ? 6750 : 6250));
+            possibleTimeslots.add(new Timeslot("10:00", "00:00", "Full Day", date.getDayOfWeek().getValue() >= 5 ? 9500 : 8500));
+        } else if (venueType.equals("Performance Space")) {
+            if (venueName.equals("Main Hall")) {
+                if (date.getDayOfWeek().getValue() <= 5) { // Monday to Friday
+                    for (int startHour = 10; startHour <= 14; startHour++) {
+                        String start = String.format("%02d:00", startHour);
+                        String end = String.format("%02d:00", startHour + 3);
+                        possibleTimeslots.add(new Timeslot(start, end, "Hourly (3h)", 325 * 3));
+                    }
+                }
+                possibleTimeslots.add(new Timeslot("17:00", "00:00", "Evening", date.getDayOfWeek().getValue() >= 5 ? 2200 : 1850));
+                possibleTimeslots.add(new Timeslot("10:00", "00:00", "Daily", date.getDayOfWeek().getValue() >= 5 ? 4200 : 3800));
+            } else if (venueName.equals("Small Hall")) {
+                if (date.getDayOfWeek().getValue() <= 5) {
+                    for (int startHour = 10; startHour <= 14; startHour++) {
+                        String start = String.format("%02d:00", startHour);
+                        String end = String.format("%02d:00", startHour + 3);
+                        possibleTimeslots.add(new Timeslot(start, end, "Hourly (3h)", 225 * 3));
+                    }
+                }
+                possibleTimeslots.add(new Timeslot("17:00", "00:00", "Evening", date.getDayOfWeek().getValue() >= 5 ? 1300 : 950));
+                possibleTimeslots.add(new Timeslot("10:00", "00:00", "Daily", date.getDayOfWeek().getValue() >= 5 ? 2500 : 2200));
+            } else if (venueName.equals("Rehearsal Space")) {
+                if (date.getDayOfWeek().getValue() <= 5) {
+                    for (int startHour = 10; startHour <= 14; startHour++) {
+                        String start = String.format("%02d:00", startHour);
+                        String end = String.format("%02d:00", startHour + 3);
+                        possibleTimeslots.add(new Timeslot(start, end, "Hourly (3h)", 60 * 3));
+                    }
+                }
+                possibleTimeslots.add(new Timeslot("10:00", "17:00", "Daily", date.getDayOfWeek().getValue() >= 6 ? 340 : 240));
+                possibleTimeslots.add(new Timeslot("10:00", "23:00", "Daily (Extended)", date.getDayOfWeek().getValue() >= 6 ? 500 : 450));
+            }
+        } else if (venueType.equals("Room")) {
+            double hourlyRate = 0, morningAfternoonRate = 0, allDayRate = 0;
+            switch (venueName) {
+                case "The Green Room":
+                    hourlyRate = 25;
+                    morningAfternoonRate = 75;
+                    allDayRate = 130;
+                    break;
+                case "Brontë Boardroom":
+                    hourlyRate = 40;
+                    morningAfternoonRate = 120;
+                    allDayRate = 200;
+                    break;
+                case "Dickens Den":
+                    hourlyRate = 30;
+                    morningAfternoonRate = 90;
+                    allDayRate = 150;
+                    break;
+                case "Poe Parlor":
+                    hourlyRate = 35;
+                    morningAfternoonRate = 100;
+                    allDayRate = 170;
+                    break;
+                case "Globe Room":
+                    hourlyRate = 50;
+                    morningAfternoonRate = 150;
+                    allDayRate = 250;
+                    break;
+                case "Chekhov Chamber":
+                    hourlyRate = 38;
+                    morningAfternoonRate = 110;
+                    allDayRate = 180;
+                    break;
+            }
+            for (int startHour = 10; startHour <= 16; startHour++) {
+                String start = String.format("%02d:00", startHour);
+                String end = String.format("%02d:00", startHour + 1);
+                possibleTimeslots.add(new Timeslot(start, end, "Hourly", hourlyRate));
+            }
+            possibleTimeslots.add(new Timeslot("10:00", "13:00", "Morning", morningAfternoonRate));
+            possibleTimeslots.add(new Timeslot("13:00", "17:00", "Afternoon", morningAfternoonRate));
+            possibleTimeslots.add(new Timeslot("10:00", "17:00", "All Day", allDayRate));
+        }
+
+        for (Timeslot slot : possibleTimeslots) {
+            boolean isAvailable = true;
+            LocalTime slotStart = LocalTime.parse(slot.getStartTime() + ":00");
+            LocalTime slotEnd = slot.getEndTime().equals("00:00") ? LocalTime.MAX : LocalTime.parse(slot.getEndTime() + ":00");
+
+            for (Booking booking : bookingsOnDate) {
+                // Consider all bookings (held, confirmed, cancelled) for overlap checks
+                LocalTime bookingStart;
+                LocalTime bookingEnd;
+                try {
+                    bookingStart = LocalTime.parse(booking.getStartTime());
+                    bookingEnd = booking.getEndTime().equals("00:00:00") ? LocalTime.MAX : LocalTime.parse(booking.getEndTime());
+                } catch (Exception e) {
+                    System.out.println("Warning: Invalid time format for booking ID " + booking.getBookingID() + ": Start " + booking.getStartTime() + ", End " + booking.getEndTime());
+                    continue;
+                }
+
+                System.out.println("Comparing timeslot " + slot.getRateType() + " (" + slot.getStartTime() + " - " + slot.getEndTime() + ") with booking: " + booking.getStartTime() + " - " + booking.getEndTime());
+                System.out.println("Slot Start: " + slotStart + ", Slot End: " + slotEnd + ", Booking Start: " + bookingStart + ", Booking End: " + bookingEnd);
+                System.out.println("Condition 1 (bookingStart.isBefore(slotEnd)): " + bookingStart.isBefore(slotEnd));
+                System.out.println("Condition 2 (bookingEnd.isAfter(slotStart)): " + bookingEnd.isAfter(slotStart));
+
+                if (bookingStart.isBefore(slotEnd) && bookingEnd.isAfter(slotStart)) {
+                    isAvailable = false;
+                    System.out.println("Timeslot " + slot.getRateType() + " (" + slot.getStartTime() + " - " + slot.getEndTime() + ") overlaps with booking: " + booking.getStartTime() + " - " + booking.getEndTime());
+                    break;
+                }
+            }
+
+            if (isAvailable) {
+                availableTimeslots.add(slot);
+                System.out.println("Timeslot available: " + slot.getRateType() + " (" + slot.getStartTime() + " - " + slot.getEndTime() + ")");
+            }
+        }
+
+        System.out.println("DatabaseConnection: Available timeslots for " + venueType + " (" + venueName + ") on " + date + " = " + availableTimeslots.size());
+        return availableTimeslots;
+    }
+
+    public static String getRoomNameById(int roomId) {
+        String query = "SELECT name FROM Rooms WHERE room_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, roomId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String roomName = rs.getString("name");
+                if (roomName == null || roomName.trim().isEmpty()) {
+                    System.out.println("Warning: Room name is empty for room_id " + roomId);
+                    return "";
+                }
+                return roomName;
+            } else {
+                System.out.println("Warning: No room found for room_id " + roomId);
+                return "";
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching room name for room_id " + roomId + ": " + e.getMessage());
+            return "";
+        }
+    }
+
 }

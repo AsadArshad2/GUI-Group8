@@ -13,10 +13,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.converter.DoubleStringConverter;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +33,9 @@ public class BookingController {
     private ObservableList<Booking> bookings = FXCollections.observableArrayList();
 
     public void initialize() {
+        System.out.println("BookingController: Initializing...");
+        System.out.println("BookingController: Stylesheet URL = " + getClass().getResource("/styles/style.css"));
+
         bookingTableView.setEditable(true);
         bookingTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -74,10 +75,12 @@ public class BookingController {
         bookingTableView.setItems(bookings);
 
         adjustTableColumnWidths();
+        System.out.println("BookingController: Initialized successfully.");
     }
 
     private void loadAllBookings() {
         bookings.setAll(DatabaseConnection.getBookings());
+        System.out.println("BookingController: Loaded bookings = " + bookings.size());
         statusLabel.setText("All bookings loaded (" + bookings.size() + " bookings)");
     }
 
@@ -86,53 +89,6 @@ public class BookingController {
         bookingTableView.getColumns().forEach(column ->
                 column.prefWidthProperty().bind(bookingTableView.widthProperty().multiply(widthPercentage))
         );
-    }
-
-    public static void pushEditsToDatabase(List<Booking> bookings) {
-        String updateSQL = "UPDATE Bookings SET date = ?, start_time = ?, end_time = ?, total_cost = ?, " +
-                "configuration_details = ?, status = ? WHERE booking_id = ?";
-
-        String insertSQL = "INSERT INTO Bookings (client_id, event_id, room_id, date, start_time, end_time, total_cost, configuration_details, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConnection.connectToDatabase();
-             PreparedStatement updateStmt = conn.prepareStatement(updateSQL);
-             PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
-
-            for (Booking b : bookings) {
-                if (b.getBookingID() > 0) {
-                    // Update existing booking
-                    updateStmt.setString(1, b.getDate());
-                    updateStmt.setString(2, b.getStartTime());
-                    updateStmt.setString(3, b.getEndTime());
-                    updateStmt.setDouble(4, b.getTotalCost());
-                    updateStmt.setString(5, b.getConfigurationDetails());
-                    updateStmt.setString(6, b.getStatus());
-                    updateStmt.setInt(7, b.getBookingID());
-                    updateStmt.addBatch();
-                } else {
-                    // Insert new booking
-                    insertStmt.setInt(1, b.getClientID());
-                    insertStmt.setInt(2, b.getEventID());
-                    insertStmt.setInt(3, b.getRoomID());
-                    insertStmt.setString(4, b.getDate());
-                    insertStmt.setString(5, b.getStartTime());
-                    insertStmt.setString(6, b.getEndTime());
-                    insertStmt.setDouble(7, b.getTotalCost());
-                    insertStmt.setString(8, b.getConfigurationDetails());
-                    insertStmt.setString(9, b.getStatus());
-                    insertStmt.addBatch();
-                }
-            }
-
-            updateStmt.executeBatch();
-            insertStmt.executeBatch();
-
-            System.out.println("All changes pushed to database.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Failed to push changes: " + e.getMessage());
-        }
     }
 
     @FXML
@@ -144,20 +100,41 @@ public class BookingController {
         ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
 
-        TextField clientIdField = new TextField();
-        clientIdField.setPromptText("Client ID");
+        List<Client> clients = DatabaseConnection.getAllClients();
+        List<Event> events = DatabaseConnection.getAllEvents();
+        List<Room> rooms = DatabaseConnection.getAllRooms();
 
-        TextField eventIdField = new TextField();
-        eventIdField.setPromptText("Event ID");
+        ComboBox<Client> clientBox = new ComboBox<>(FXCollections.observableArrayList(clients));
+        clientBox.setPromptText("Select Client");
 
-        TextField roomIdField = new TextField();
-        roomIdField.setPromptText("Room ID");
+        ComboBox<Event> eventBox = new ComboBox<>(FXCollections.observableArrayList(events));
+        eventBox.setPromptText("Select Event");
 
-        TextField dateField = new TextField(LocalDate.now().toString());
-        TextField startTimeField = new TextField("09:00");
-        TextField endTimeField = new TextField("17:00");
-        TextField costField = new TextField("0.0");
+        ComboBox<Room> roomBox = new ComboBox<>(FXCollections.observableArrayList(rooms));
+        roomBox.setPromptText("Select Room");
+
+        DatePicker datePicker = new DatePicker(LocalDate.now());
+        ComboBox<Timeslot> timeslotBox = new ComboBox<>();
+        timeslotBox.setPromptText("Select Timeslot");
+
+        Runnable updateTimeslots = () -> {
+            timeslotBox.getItems().clear();
+            if (datePicker.getValue() != null && roomBox.getValue() != null) {
+                String venueType = "Room";
+                String venueName = roomBox.getValue().getName();
+                if (venueName.equals("Main Hall") || venueName.equals("Small Hall") || venueName.equals("Rehearsal Space")) {
+                    venueType = "Performance Space";
+                }
+                List<Timeslot> timeslots = DatabaseConnection.getAvailableTimeslots(venueType, venueName, datePicker.getValue());
+                timeslotBox.setItems(FXCollections.observableArrayList(timeslots));
+            }
+        };
+
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateTimeslots.run());
+        roomBox.valueProperty().addListener((obs, oldVal, newVal) -> updateTimeslots.run());
+
         TextField configField = new TextField();
+        configField.setPromptText("Configuration Details");
 
         ComboBox<String> statusBox = new ComboBox<>();
         statusBox.getItems().addAll("held", "confirmed", "cancelled");
@@ -167,113 +144,96 @@ public class BookingController {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        grid.add(new Label("Client ID:"), 0, 0);
-        grid.add(clientIdField, 1, 0);
-        grid.add(new Label("Event ID:"), 0, 1);
-        grid.add(eventIdField, 1, 1);
-        grid.add(new Label("Room ID:"), 0, 2);
-        grid.add(roomIdField, 1, 2);
+        grid.add(new Label("Client:"), 0, 0);
+        grid.add(clientBox, 1, 0);
+        grid.add(new Label("Event:"), 0, 1);
+        grid.add(eventBox, 1, 1);
+        grid.add(new Label("Room:"), 0, 2);
+        grid.add(roomBox, 1, 2);
         grid.add(new Label("Date:"), 0, 3);
-        grid.add(dateField, 1, 3);
-        grid.add(new Label("Start Time:"), 0, 4);
-        grid.add(startTimeField, 1, 4);
-        grid.add(new Label("End Time:"), 0, 5);
-        grid.add(endTimeField, 1, 5);
-        grid.add(new Label("Cost:"), 0, 6);
-        grid.add(costField, 1, 6);
-        grid.add(new Label("Configuration:"), 0, 7);
-        grid.add(configField, 1, 7);
-        grid.add(new Label("Status:"), 0, 8);
-        grid.add(statusBox, 1, 8);
+        grid.add(datePicker, 1, 3);
+        grid.add(new Label("Timeslot:"), 0, 4);
+        grid.add(timeslotBox, 1, 4);
+        grid.add(new Label("Configuration:"), 0, 5);
+        grid.add(configField, 1, 5);
+        grid.add(new Label("Status:"), 0, 6);
+        grid.add(statusBox, 1, 6);
 
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {
-                try {
-                    int clientId = Integer.parseInt(clientIdField.getText());
-                    int eventId = Integer.parseInt(eventIdField.getText());
-                    int roomId = Integer.parseInt(roomIdField.getText());
-                    double cost = Double.parseDouble(costField.getText());
+                Client selectedClient = clientBox.getValue();
+                Event selectedEvent = eventBox.getValue();
+                Room selectedRoom = roomBox.getValue();
+                Timeslot selectedTimeslot = timeslotBox.getValue();
 
-                    // Fetch client name and event name for display
-                    String clientName = DatabaseConnection.getClientNameById(clientId);
-                    String eventName = DatabaseConnection.getEventNameById(eventId);
-
-                    if (clientName.isEmpty() || eventName.isEmpty()) {
-                        statusLabel.setText("Invalid Client ID or Event ID.");
-                        return null;
-                    }
-
-                    Booking newBooking = new Booking(
-                            0, // booking_id = 0 → INSERT
-                            clientId,
-                            eventId,
-                            roomId,
-                            dateField.getText(),
-                            startTimeField.getText(),
-                            endTimeField.getText(),
-                            cost,
-                            configField.getText(),
-                            statusBox.getValue()
-                    );
-
-                    // Set the client name and event name for display in the table
-                    newBooking.setClientName(clientName);
-                    newBooking.setEventName(eventName);
-
-                    return newBooking;
-                } catch (NumberFormatException e) {
-                    statusLabel.setText("Please enter valid numeric values for IDs and cost.");
+                if (selectedClient == null || selectedRoom == null || selectedTimeslot == null) {
+                    statusLabel.setText("Please select a client, room, and timeslot.");
                     return null;
                 }
+
+                int roomId = selectedRoom.getRoomID();
+                if (roomId <= 0) {
+                    statusLabel.setText("Invalid room selected: room ID must be greater than 0.");
+                    return null;
+                }
+
+                String venueType = "Room";
+                String venueName = selectedRoom.getName();
+                if (venueName.equals("Main Hall") || venueName.equals("Small Hall") || venueName.equals("Rehearsal Space")) {
+                    venueType = "Performance Space";
+                }
+                List<Timeslot> availableTimeslots = DatabaseConnection.getAvailableTimeslots(venueType, venueName, datePicker.getValue());
+                boolean isTimeslotAvailable = availableTimeslots.stream().anyMatch(slot ->
+                        slot.getStartTime().equals(selectedTimeslot.getStartTime()) &&
+                                slot.getEndTime().equals(selectedTimeslot.getEndTime()) &&
+                                slot.getRateType().equals(selectedTimeslot.getRateType())
+                );
+
+                if (!isTimeslotAvailable) {
+                    statusLabel.setText("Selected timeslot is no longer available. Please choose another timeslot.");
+                    return null;
+                }
+
+                System.out.println("Creating booking with room_id: " + roomId + " (Room: " + selectedRoom.getName() + ")");
+
+                Booking newBooking = new Booking(
+                        0,
+                        selectedClient.getClientID(),
+                        selectedEvent != null ? selectedEvent.getEventId() : 0,
+                        roomId,
+                        datePicker.getValue().toString(),
+                        selectedTimeslot.getStartTime(),
+                        selectedTimeslot.getEndTime(),
+                        selectedTimeslot.getCost(),
+                        configField.getText(),
+                        statusBox.getValue()
+                );
+
+                newBooking.setClientName(selectedClient.getName());
+                newBooking.setEventName(selectedEvent != null ? selectedEvent.getName() : "");
+
+                return newBooking;
             }
             return null;
         });
 
         dialog.showAndWait().ifPresent(booking -> {
             if (booking != null) {
-                bookings.add(booking); // Adds to observable table
-                statusLabel.setText("New booking added.");
-                loadAllBookings(); // Refresh the table to show all bookings
+                try {
+                    bookings.add(booking);
+                    List<Booking> newBookingList = new ArrayList<>();
+                    newBookingList.add(booking);
+                    DatabaseConnection.pushBookingEditsToDatabase(newBookingList);
+                    loadAllBookings();
+                    statusLabel.setText("New booking added: " + booking.getEventName());
+                } catch (RuntimeException e) {
+                    bookings.remove(booking);
+                    statusLabel.setText("Failed to add booking: " + e.getMessage());
+                }
             }
         });
-    }
-
-    @FXML
-    private void handleHeldBooking() {
-        Booking selected = bookingTableView.getSelectionModel().getSelectedItem();
-        if (selected != null && !selected.getStatus().equalsIgnoreCase("held")) {
-            selected.setStatus("held");
-            bookingTableView.refresh();
-            statusLabel.setText("Booking marked as held for: " + selected.getEventName());
-        } else {
-            statusLabel.setText("Select a booking to mark as held.");
-        }
-    }
-
-    @FXML
-    private void handleConfirmedBooking() {
-        Booking selected = bookingTableView.getSelectionModel().getSelectedItem();
-        if (selected != null && !selected.getStatus().equalsIgnoreCase("confirmed")) {
-            selected.setStatus("confirmed");
-            bookingTableView.refresh();
-            statusLabel.setText("Booking confirmed for: " + selected.getEventName());
-        } else {
-            statusLabel.setText("Select a booking to mark as confirmed.");
-        }
-    }
-
-    @FXML
-    private void handleCancelledBooking() {
-        Booking selected = bookingTableView.getSelectionModel().getSelectedItem();
-        if (selected != null && !selected.getStatus().equalsIgnoreCase("cancelled")) {
-            selected.setStatus("cancelled");
-            bookingTableView.refresh();
-            statusLabel.setText("Booking cancelled for: " + selected.getEventName());
-        } else {
-            statusLabel.setText("Select a booking to mark as cancelled.");
-        }
     }
 
     @FXML
@@ -285,8 +245,8 @@ public class BookingController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                pushEditsToDatabase(new ArrayList<>(bookingTableView.getItems()));
-                loadAllBookings(); // Refresh the table after saving changes
+                DatabaseConnection.pushBookingEditsToDatabase(new ArrayList<>(bookingTableView.getItems()));
+                loadAllBookings();
             }
         });
     }
