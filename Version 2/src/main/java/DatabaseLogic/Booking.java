@@ -33,7 +33,8 @@ public class Booking {
     }
 
     //Constructor for bookings Page
-    public Booking(String clientName, String eventName, String date, String startTime, String endTime, double totalCost, String configurationDetails, String status) {
+    public Booking(int bookingID, String clientName, String eventName, String date, String startTime, String endTime, double totalCost, String configurationDetails, String status) {
+        this.bookingID.set(bookingID);
         this.clientName.set(clientName);
         this.eventName.set(eventName);
         this.date.set(date);

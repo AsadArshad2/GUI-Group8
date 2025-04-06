@@ -27,6 +27,11 @@ public class Event {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 
     public int getEventId() { return eventId; }
     public String getName() { return name; }
