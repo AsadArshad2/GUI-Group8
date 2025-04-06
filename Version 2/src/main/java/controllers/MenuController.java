@@ -19,6 +19,10 @@ public class MenuController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
+    @FXML
+    private void goToContract(ActionEvent event) throws Exception {
+        switchScene("Contract.fxml", event);  // Adjust the filename to your contract FXML
+    }
 
     @FXML
     private void goToBooking(ActionEvent event) throws Exception {

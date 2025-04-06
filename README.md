@@ -7,13 +7,81 @@
 - Utilising SceneBuilder 👷‍♂️ + JavaFX
 
 
-# Features
-- A GUI made for staff memebrs to facilitate operations @ the music hall
-- Staff login page
-- Access to an external database (in progress)
-- Managing Bookings via Planner + Booking System
-- Managing Finances via Finances page
-- Managing Reviews via Reviews page
+# Features Checklist
+
+### Bookings & Scheduling
+- [ ] Interface to create and manage client bookings
+- [ ] Ability to assign rooms/spaces to bookings with:
+  - Start/end dates
+  - Room configuration/setup requirements
+- [ ] Confirm performance times and details
+- [ ] Mark whether a booking is confirmed or held
+- [ ] Display and update venue calendar availability
+- [ ] Restrict conflicting bookings (e.g., same room & time)
+
+### Event & Venue Management
+- [x] Daily venue report generator
+  - Show all spaces in use, by whom, time, and configuration
+- [ ] Real-time venue usage chart to compare with previous years
+- [ ] Prevent bookings more than 3 weeks in advance (if by Marketing)
+- [ ] Notify Marketing when Operations overrides a Marketing booking
+
+### Seating Configuration
+- [ ] Finalize and lock seating layouts before ticket sales
+- [ ] Mark restricted-view seats (25% discount)
+- [ ] Mark wheelchair-accessible seats clearly
+- [ ] Auto-apply pricing adjustments for restricted views
+
+### Financial & Contract Management
+- [ ] Interface to create and manage client contracts
+- [ ] Input and track:
+  - Venue hire cost
+  - Ticket sale revenue
+  - Revenue split (none, partial, full)
+- [ ] Auto-calculate invoice totals
+- [ ] Track income from both venue hire and ticket sales
+- [ ] Interface to view/print invoice summaries
+
+### Ticketing Data Sync
+- [ ] Pull ticket sales data from Box Office
+- [ ] Interface to confirm sales totals payable to clients
+- [ ] Sync pricing and discount rules with Box Office team
+- [ ] Support for agreed max discounts for shows
+
+### Room/Space Information
+- [ ] Interface to manage:
+  - Room names
+  - Capacity
+  - Layouts
+- [ ] Show which spaces are in use today (for daily sheet)
+
+### Review Management
+- [ ] Interface to view and manage venue and show reviews
+- [ ] Optional (since API use was dropped): manual input of reviews
+- [ ] Option to forward show reviews to clients
+
+### GUI & System Features
+- [ ] Print/save PDF versions of:
+  - Daily sheets
+  - Contracts
+  - Invoices
+  - Financial reports
+- [ ] Interface for Operations Team user logins
+- [ ] Navigation between: bookings, calendar, invoices, reviews, reports
+- [ ] Alerts for:
+  - Double-bookings
+  - Overdue contracts
+  - Upcoming performances needing setup
+
+### Inter-Team Coordination
+- [ ] Send and receive data via internal APIs only (no external APIs)
+- [ ] Share:
+  - Venue availability
+  - Room configurations
+  - Performance details
+  - Ticket sale summaries
+- [ ] Clearly show all data received from Box Office and Marketing teams
+
 
 
 # Version History

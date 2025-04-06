@@ -3,7 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BookingController" prefWidth="900" prefHeight="600">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BookingController"             stylesheets="@../styles/style.css"
+    prefWidth="900" prefHeight="600">
     <VBox spacing="20" layoutX="50" layoutY="20" alignment="TOP_CENTER" prefWidth="800">
         <Label text="Venue Bookings - Operations and Marketing" style="-fx-font-size: 18px;"/>
 

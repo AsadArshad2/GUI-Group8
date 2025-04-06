@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.ContractController">
+    <Label style="-fx-font-size: 24px;" text="Venue Contract Form" />
+
+    <HBox spacing="10">
+        <Label text="Client Name: " />
+        <TextField fx:id="clientNameField" promptText="Enter Client Name" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Event Name: " />
+        <TextField fx:id="eventNameField" promptText="Enter Event Name" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Event Date: " />
+        <DatePicker fx:id="eventDatePicker" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Venue Cost (£): " />
+        <TextField fx:id="venueCostField" promptText="Enter Venue Cost" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Contract Details: " />
+        <TextArea fx:id="contractDetailsField" promptText="Enter additional details" />
+    </HBox>
+
+    <Button onAction="#handleCreateContract" text="Create Contract" />
+
+    
+    <Button onAction="#handleBackToMenu" text="⬅ Back to Menu" />
+</VBox>
