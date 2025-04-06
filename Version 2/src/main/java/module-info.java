@@ -4,6 +4,7 @@ module com.example.guitest {
     requires kernel;
     requires java.desktop;
     requires layout;
+    requires java.sql;
 
 
     opens com.example.models to javafx.fxml;

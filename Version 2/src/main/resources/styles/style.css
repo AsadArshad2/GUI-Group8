@@ -1,6 +1,6 @@
 .root {
     -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -fx-background-color: black;
+    -fx-background-color: white;
 }
 
 .label {
@@ -25,7 +25,7 @@
 }
 
 .text-field, .password-field, .combo-box, .date-picker, .text-area {
-    -fx-background-color: black;
+    -fx-background-color: grey;
     -fx-border-color: white;
     -fx-border-radius: 10px;
     -fx-padding: 8px;
