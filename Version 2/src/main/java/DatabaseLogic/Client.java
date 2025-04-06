@@ -20,6 +20,11 @@ public class Client {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public int getClientID() { return clientID; }
     public String getName() { return name; }
     public String getEmail() { return email; }

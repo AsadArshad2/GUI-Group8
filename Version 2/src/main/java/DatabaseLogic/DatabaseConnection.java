@@ -20,9 +20,9 @@ public class DatabaseConnection {
         }
     }
 
-    public List<Event> getEvents() {
+    public static List<Event> getAllEvents() {
         List<Event> events = new ArrayList<>();
-        String sql = "SELECT * FROM EventDetails";
+        String sql = "SELECT * FROM Event_details";
         try (Connection conn = connectToDatabase();
              PreparedStatement p = conn.prepareStatement(sql);
              ResultSet rs = p.executeQuery()) {
@@ -40,7 +40,7 @@ public class DatabaseConnection {
                 events.add(event);
             }
         } catch (SQLException e) {
-            System.err.println("Error in fetching venues: " + e.getMessage());
+            System.err.println("Error in fetching events: " + e.getMessage());
             e.printStackTrace();
         }
         return events;
@@ -75,6 +75,54 @@ public class DatabaseConnection {
         return bookings;
     }
 
+    public static List<Client> getAllClients() {
+        List<Client> clients = new ArrayList<>();
+        String sql = "SELECT * FROM Clients";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+
+            while (rs.next()) {
+                Client client = new Client(
+                        rs.getInt("client_id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getString("telephone_number")
+                );
+                clients.add(client);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching clients: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return clients;
+    }
+
+    public static List<Room> getAllRooms() {
+        List<Room> rooms = new ArrayList<>();
+        String sql = "SELECT * FROM Rooms";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+
+            while (rs.next()) {
+                Room room = new Room(
+                        rs.getInt("room_id"),
+                        rs.getString("name"),
+                        rs.getInt("capacity"),
+                        rs.getString("layouts")
+                );
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching rooms: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return rooms;
+    }
+
+
     public static List<Booking> getBookings() {
         List<Booking> bookings = new ArrayList<>();
         String sql = "SELECT c.name as client_name, e.name as event_name, b.date, b.start_time, b.end_time, b.total_cost, b.configuration_details, b.status, b.booking_id, b.client_id, b.event_id, b.room_id FROM Bookings b JOIN Clients c ON b.client_id = c.client_id JOIN Event_details e ON b.event_id = e.event_id";
@@ -86,6 +134,7 @@ public class DatabaseConnection {
             while (rs.next()) {
                 // Create a new Booking object that includes client and event names
                 Booking booking = new Booking(
+                        rs.getInt("booking_ID"),
                         rs.getString("client_name"),
                         rs.getString("event_name"),
                         rs.getString("date"),
@@ -103,5 +152,4 @@ public class DatabaseConnection {
         }
         return bookings;
     }
-
 }
