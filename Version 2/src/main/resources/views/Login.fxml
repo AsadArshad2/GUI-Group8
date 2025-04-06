@@ -14,11 +14,14 @@
             </image>
         </ImageView>
 
-        <Label style="-fx-font-size: 20px;" text="Lancaster Music Hall - Staff Login" />
+        <Label style="-fx-font-size: 20px; -fx-text-fill: white;" text="Lancaster Music Hall - Staff Login" />
 
-        <TextField fx:id="usernameField" promptText="Username" />
-        <PasswordField fx:id="passwordField" promptText="Password" />
-        <Button onAction="#handleLogin" text="Login" />
+        <VBox spacing="10" alignment="CENTER" maxWidth="300">
+            <TextField fx:id="usernameField" promptText="Username" maxWidth="300" />
+            <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300" />
+        </VBox>
+
+        <Button onAction="#handleLogin" text="Login" maxWidth="100" />
         <Label fx:id="loginStatus" textFill="red" />
     </VBox>
 
