@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
 
-import java.io.IOException;
-
 public class MenuController {
 
     private void switchScene(String fxml, ActionEvent event) throws Exception {
@@ -19,9 +17,10 @@ public class MenuController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
+
     @FXML
     private void goToContract(ActionEvent event) throws Exception {
-        switchScene("Contract.fxml", event);  // Adjust the filename to your contract FXML
+        switchScene("Contract.fxml", event);
     }
 
     @FXML
@@ -42,5 +41,25 @@ public class MenuController {
     @FXML
     private void goToDailyPlanner(ActionEvent event) throws Exception {
         switchScene("DailyPlanner.fxml", event);
+    }
+
+    @FXML
+    private void goToVenueCalendar(ActionEvent event) throws Exception {
+        switchScene("VenueCalendar.fxml", event);
+    }
+
+    @FXML
+    private void goToSeating(ActionEvent event) throws Exception {
+        switchScene("Seating.fxml", event);
+    }
+
+    @FXML
+    private void goToUsageTracker(ActionEvent event) throws Exception {
+        switchScene("UsageTracker.fxml", event);
+    }
+
+    @FXML
+    private void goToSystemSettings(ActionEvent event) throws Exception {
+        switchScene("SystemSettings.fxml", event);
     }
 }

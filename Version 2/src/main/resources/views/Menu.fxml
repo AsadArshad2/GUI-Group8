@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.MenuController">
+
     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../images/LancasterLogo.jpg" />
@@ -16,9 +17,13 @@
     <Label style="-fx-font-size: 24px;" text="Lancaster Music Hall - Staff Dashboard" />
 
     <Button onAction="#goToBooking" text="Manage Bookings" />
-    <Button onAction="#goToFinances" text="Finances and Film Costs" />
+    <Button onAction="#goToVenueCalendar" text="Venue Calendar" />
+    <Button onAction="#goToDailyPlanner" text="Daily Reports" />
+    <Button onAction="#goToSeating" text="Seating Configurations" />
+    <Button onAction="#goToContract" text="Contracts and Invoices" />
+    <Button onAction="#goToFinances" text="Ticket Sales Overview" />
+    <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
     <Button onAction="#goToReviews" text="Review System" />
-    <Button onAction="#goToDailyPlanner" text="Daily Planner" />
-    <Button onAction="#goToContract" text="Manage Contracts" />
+    <Button onAction="#goToSystemSettings" text="System Settings" />
 
 </VBox>
