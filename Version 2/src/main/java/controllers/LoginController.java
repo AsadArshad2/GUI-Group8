@@ -13,7 +13,7 @@ public class LoginController {
 
     @FXML
     private void handleLogin() {
-        if ("test".equals(usernameField.getText()) && "test".equals(passwordField.getText())) {
+        if ("".equals(usernameField.getText()) && "".equals(passwordField.getText())) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
                 Scene scene = new Scene(loader.load());

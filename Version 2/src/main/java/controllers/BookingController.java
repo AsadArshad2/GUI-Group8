@@ -1,41 +1,60 @@
 package controllers;
 
+import DatabaseLogic.Booking;
+import DatabaseLogic.DatabaseConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
-import com.example.models.Venue;
+//import com.example.models.Venue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingController {
     @FXML private DatePicker datePicker;
-    @FXML private TableView<Venue> venueTable;
-    @FXML private TableColumn<Venue, String> venueNameColumn;
-    @FXML private TableColumn<Venue, String> statusColumn;
-    @FXML private TableColumn<Venue, Integer> capacityColumn;
+    @FXML private TableView<Booking> bookingTableView;
+    @FXML private TableColumn<Booking, String> clientName;
+    @FXML private TableColumn<Booking, String> eventName;
+    @FXML private TableColumn<Booking, String> date;
+    @FXML private TableColumn<Booking, String> startTime;
+    @FXML private TableColumn<Booking, String> endTime;
+    @FXML private TableColumn<Booking, Double> totalCost;
+    @FXML private TableColumn<Booking, String> configurationDetails;
+    @FXML private TableColumn<Booking, String> status;
     @FXML private Label statusLabel;
 
-    private ObservableList<Venue> venues = FXCollections.observableArrayList();
+    private List<Booking> bookingsLIST = DatabaseConnection.getBookings();
+    private ObservableList<Booking> bookings = FXCollections.observableArrayList();
 
     public void initialize() {
-        venueNameColumn.setCellValueFactory(cellData -> cellData.getValue().venueNameProperty());
-        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
-        capacityColumn.setCellValueFactory(cellData -> cellData.getValue().capacityProperty().asObject());
+        date.setCellValueFactory(cellData -> cellData.getValue().getClientNameProperty());
+        startTime.setCellValueFactory(cellData -> cellData.getValue().getEventNameProperty());
+        date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
+        startTime.setCellValueFactory(cellData -> cellData.getValue().getStartTimeProperty());
+        endTime.setCellValueFactory(cellData -> cellData.getValue().getEndTimeProperty()) ;
+        totalCost.setCellValueFactory(cellData -> cellData.getValue().getTotalCostProperty().asObject());
+        configurationDetails.setCellValueFactory(cellData -> cellData.getValue().getConfigurationDetailsProperty());
+        status.setCellValueFactory(cellData -> cellData.getValue().getStatusProperty());
 
-        venues.addAll(
-                new Venue("Main Hall", "Available", 370),
-                new Venue("Meeting Room A", "Available", 20),
-                new Venue("Meeting Room B", "Available", 20)
-        );
+        for (Booking booking : bookingsLIST) {
+            bookings.add(
+                    new Booking(booking.getClientName(),booking.getEventName(), booking.getDate(), booking.getStartTime(), booking.getEndTime(), booking.getTotalCost(), booking.getConfigurationDetails(), booking.getStatus())
+            );
+        }
     }
 
     @FXML
     private void handleCheckAvailability() {
+        if (datePicker.getValue() == null) {
+            datePicker.setValue(LocalDate.now());
+        }
+
         LocalDate selected = datePicker.getValue();
         if (selected == null) {
             statusLabel.setText("Please select a date.");
@@ -43,25 +62,34 @@ public class BookingController {
         }
 
         long daysAhead = ChronoUnit.DAYS.between(LocalDate.now(), selected);
-        if (daysAhead > 21) {
-            statusLabel.setText("Bookings are limited to 3 weeks in advance.");
+        if (daysAhead > 30) {
+            statusLabel.setText("Bookings are limited to 4 weeks in advance.");
             return;
         }
 
-        venueTable.setItems(venues);
+        ObservableList<Booking> bookingDates = FXCollections.observableArrayList();
+        for (Booking booking : bookingsLIST){
+            if (LocalDate.parse(booking.getDate()).equals(selected)) {
+                bookingDates.add(booking);
+            }
+        }
+
+
+        bookingTableView.setItems(bookingDates);
         statusLabel.setText("Availability loaded for " + selected);
     }
 
+/*
     @FXML
     private void handleReserveSlot() {
-        Venue selected = venueTable.getSelectionModel().getSelectedItem();
+        Venue selected = bookingTableView.getSelectionModel().getSelectedItem();
         if (selected != null && "Available".equals(selected.getStatus())) {
             if ("Main Hall".equals(selected.getVenueName())) {
                 selected.setStatus("FILM SHOWING (Reserved)");
             } else {
                 selected.setStatus("Reserved");
             }
-            venueTable.refresh();
+            bookingTableView.refresh();
             statusLabel.setText("Reserved: " + selected.getVenueName());
         } else {
             statusLabel.setText("Please select an available venue.");
@@ -70,10 +98,10 @@ public class BookingController {
 
     @FXML
     private void handleDeleteBooking() {
-        Venue selected = venueTable.getSelectionModel().getSelectedItem();
+        Venue selected = bookingTableView.getSelectionModel().getSelectedItem();
         if (selected != null && !selected.getStatus().equals("Available")) {
             selected.setStatus("Available");
-            venueTable.refresh();
+            bookingTableView.refresh();
             statusLabel.setText("Booking removed for: " + selected.getVenueName());
         } else {
             statusLabel.setText("Select a reserved venue to delete.");
@@ -85,7 +113,8 @@ public class BookingController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
         Scene scene = new Scene(loader.load());
         scene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
-        Stage stage = (Stage) venueTable.getScene().getWindow();
+        Stage stage = (Stage) bookingTableView.getScene().getWindow();
         stage.setScene(scene);
     }
+    */
 }

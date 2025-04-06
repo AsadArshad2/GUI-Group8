@@ -1,12 +1,13 @@
 .root {
+    /* Choose the desired font-family and background-color */
     -fx-font-family: "JetBrains Mono", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -fx-background-color: #000000;
+    -fx-background-color: #000000; /* black background or choose white if preferred */
 }
 
 /* Headings / Labels */
 .label {
     -fx-font-size: 16px;
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #FFFFFF; /* white text color */
     -fx-font-weight: bold;
 }
 
@@ -35,15 +36,15 @@
 .combo-box,
 .date-picker,
 .text-area {
-    -fx-background-color: #1A1A1A;
-    -fx-border-color: #2ECC71;
+    -fx-background-color: #1A1A1A; /* dark background for input fields */
+    -fx-border-color: #2ECC71; /* green border color */
     -fx-border-width: 1;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 8 12;
     -fx-font-size: 14px;
     -fx-font-family: "JetBrains Mono";
-    -fx-text-fill: white;
+    -fx-text-fill: white; /* white text in inputs */
 }
 
 /* Scrollbars */
@@ -63,9 +64,10 @@
 .axis-label,
 .chart-legend-item,
 .chart-legend {
-    -fx-text-fill: white;
+    -fx-text-fill: white; /* white text for chart components */
     -fx-font-family: "JetBrains Mono";
 }
+
 .text-area .content {
     -fx-highlight-fill: #00ffcc; /* selection background color */
     -fx-highlight-text-fill: black; /* selection text color */
@@ -79,9 +81,10 @@
 .chart-vertical-grid-lines {
     -fx-stroke: #444;
 }
+
 /* TableView Styling */
 .table-view {
-    -fx-background-color: #000000;
+    -fx-background-color: #000000; /* consistent black background for table */
     -fx-table-cell-border-color: #2ECC71;
     -fx-border-color: #2ECC71;
     -fx-border-radius: 8;
@@ -121,6 +124,7 @@
     -fx-background-color: #27AE60;
     -fx-text-fill: black;
 }
+
 .table-row-cell:empty {
     -fx-background-color: transparent;
 }
@@ -129,4 +133,3 @@
     -fx-table-cell-border-color: transparent;
     -fx-padding: 0;
 }
-
