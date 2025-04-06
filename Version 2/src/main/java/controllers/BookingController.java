@@ -306,10 +306,10 @@ public class BookingController {
             updateStmt.executeBatch();
             insertStmt.executeBatch();
 
-            System.out.println("✔ All changes pushed to database.");
+            System.out.println("All changes pushed to database.");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("❌ Failed to push changes: " + e.getMessage());
+            System.err.println("Failed to push changes: " + e.getMessage());
         }
     }
 
