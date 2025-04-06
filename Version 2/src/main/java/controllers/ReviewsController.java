@@ -20,7 +20,17 @@ public class ReviewsController {
                 "Bob: Booking process was smooth."
         ));
     }
-
+    @FXML
+    private void handleForwardReview() {
+        String selected = reviewList.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Forward Review");
+            alert.setHeaderText(null);
+            alert.setContentText("Review forwarded to client:\n\n" + selected);
+            alert.showAndWait();
+        }
+    }
     @FXML
     private void handleAddReview() {
         String name = nameField.getText().trim();

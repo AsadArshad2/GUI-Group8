@@ -42,5 +42,7 @@
     </TableView>
 
     <Button text="Save Configuration" onAction="#handleSave" />
+    <Button text="Finalize Layout" onAction="#handleFinalizeLayout" />
+
     <Button text="Return to Main Menu" onAction="#goToMainMenu" />
 </VBox>

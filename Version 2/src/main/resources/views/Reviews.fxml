@@ -23,6 +23,8 @@
         <TextField fx:id="reviewField" promptText="Review" prefWidth="350"/>
         <Button text="Add" onAction="#handleAddReview"/>
         <Button text="Delete" onAction="#handleDeleteReview"/>
+        <Button text="Forward to Client" onAction="#handleForwardReview" />
+
     </HBox>
 
     <Button text="⬅ Back to Menu" onAction="#handleBackToMenu"/>

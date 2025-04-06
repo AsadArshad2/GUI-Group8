@@ -25,5 +25,5 @@
     <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
     <Button onAction="#goToReviews" text="Review System" />
     <Button onAction="#goToSystemSettings" text="System Settings" />
-
+    <Button onAction="#goToInterTeam" text="Team Data Sync" />
 </VBox>

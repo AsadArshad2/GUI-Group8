@@ -15,6 +15,7 @@ import models.Seat;
 import java.io.IOException;
 
 public class SeatingController {
+    private boolean layoutFinalized = false;
 
     @FXML
     private ComboBox<String> roomSelector;
@@ -72,4 +73,21 @@ public class SeatingController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
+    @FXML
+    private void handleFinalizeLayout() {
+        layoutFinalized = true;
+        seatingTable.setDisable(true);
+        roomSelector.setDisable(true);
+        showAlert("Seating layout has been finalized and locked.");
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Seating Finalized");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+
 }

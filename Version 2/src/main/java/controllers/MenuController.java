@@ -22,6 +22,10 @@ public class MenuController {
     private void goToContract(ActionEvent event) throws Exception {
         switchScene("Contract.fxml", event);
     }
+    @FXML
+    private void goToInterTeam(ActionEvent event) throws Exception {
+        switchScene("InterTeamView.fxml", event);
+    }
 
     @FXML
     private void goToBooking(ActionEvent event) throws Exception {
