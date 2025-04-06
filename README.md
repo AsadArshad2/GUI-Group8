@@ -6,87 +6,64 @@
 - Worked on by Muhsin & Asad & Daniel 👨‍💻 👨‍💻 👨‍💻
 - Utilising SceneBuilder 👷‍♂️ + JavaFX
 
+## What Our GUI Can Do
 
-# Features Checklist
+Lancaster Music Hall's internal dashboard isn't just a tool — it's the ultimate backstage manager. Designed for the Operations Team and powered by JavaFX + SceneBuilder, our software delivers a smooth, touchscreen-friendly experience tailored for staff use.
 
-### Bookings & Scheduling
-- [ ] Interface to create and manage client bookings
-- [ ] Ability to assign rooms/spaces to bookings with:
-  - Start/end dates
-  - Room configuration/setup requirements
-- [ ] Confirm performance times and details
-- [ ] Mark whether a booking is confirmed or held
-- [ ] Display and update venue calendar availability
-- [ ] Restrict conflicting bookings (e.g., same room & time)
+Here’s what’s inside:
 
-### Event & Venue Management
-- [x] Daily venue report generator
-  - Show all spaces in use, by whom, time, and configuration
-- [ ] Real-time venue usage chart to compare with previous years
-- [ ] Prevent bookings more than 3 weeks in advance (if by Marketing)
-- [ ] Notify Marketing when Operations overrides a Marketing booking
+### Smart Bookings & Scheduling
+Easily book rooms and spaces with full control over start/end times, room configuration needs, and performer details. You can view real-time calendar availability, confirm or hold events, and avoid double-bookings with built-in clash detection.
 
-### Seating Configuration
-- [ ] Finalize and lock seating layouts before ticket sales
-- [ ] Mark restricted-view seats (25% discount)
-- [ ] Mark wheelchair-accessible seats clearly
-- [ ] Auto-apply pricing adjustments for restricted views
+### Financial Control & Contract Generation
+Generate and manage client contracts with tracked revenue from ticket sales and venue hire. Our automated invoice calculation takes the stress out of balancing costs, and contracts can be exported as polished PDFs — ready to send.
 
-### Financial & Contract Management
-- [ ] Interface to create and manage client contracts
-- [ ] Input and track:
-  - Venue hire cost
-  - Ticket sale revenue
-  - Revenue split (none, partial, full)
-- [ ] Auto-calculate invoice totals
-- [ ] Track income from both venue hire and ticket sales
-- [ ] Interface to view/print invoice summaries
+### Seating Layout Mastery
+Plan out restricted-view seating (auto-discounted), accessible zones, and finalize layouts before any tickets are sold. Once finalized, the layout is locked to avoid accidental changes. It’s all visual, intuitive, and efficient.
 
-### Ticketing Data Sync
-- [ ] Pull ticket sales data from Box Office
-- [ ] Interface to confirm sales totals payable to clients
-- [ ] Sync pricing and discount rules with Box Office team
-- [ ] Support for agreed max discounts for shows
+### Live Venue Usage & Ticket Sales Insights
+Track how often each room is used across the year, compare trends with previous months, and visualize ticket sales per show — all in charts. Financial transparency has never been this visual.
 
-### Room/Space Information
-- [ ] Interface to manage:
-  - Room names
-  - Capacity
-  - Layouts
-- [ ] Show which spaces are in use today (for daily sheet)
+### Daily Planner
+Staff can print or export the day’s full venue schedule — showing who’s using what, when, and how it’s configured. It’s the ideal daily printout for front desk and setup crew.
 
-### Review Management
-- [ ] Interface to view and manage venue and show reviews
-- [ ] Optional (since API use was dropped): manual input of reviews
-- [ ] Option to forward show reviews to clients
+### Reviews + Forwarding
+Easily manage venue and show reviews with built-in moderation tools. Forward positive feedback to clients with a single click — showing them the audience loved it.
 
-### GUI & System Features
-- [ ] Print/save PDF versions of:
-  - Daily sheets
-  - Contracts
-  - Invoices
-  - Financial reports
-- [ ] Interface for Operations Team user logins
-- [ ] Navigation between: bookings, calendar, invoices, reviews, reports
-- [ ] Alerts for:
-  - Double-bookings
-  - Overdue contracts
-  - Upcoming performances needing setup
+### Inter-Team Collaboration
+See internal data shared from Box Office and Marketing like ticketing reports or scheduling requests. The “Team Data Sync” screen acts like your central communications board.
 
-### Inter-Team Coordination
-- [ ] Send and receive data via internal APIs only (no external APIs)
-- [ ] Share:
-  - Venue availability
-  - Room configurations
-  - Performance details
-  - Ticket sale summaries
-- [ ] Clearly show all data received from Box Office and Marketing teams
+### Built for Staff
+User login, alert toggles, backup/restore, and customizable system preferences give the Operations team everything it needs — without the clutter.
 
+And yes, every part of the system is exportable — whether it’s a contract, financial summary, seating map, or daily planner. All PDF generation is handled cleanly with iText 7.
 
+From start to curtain call, this dashboard keeps Lancaster running on time, on budget, and on point.
 
 # Version History
 
-## 2.1.0 - New feature!
+### 2.3.0 - New Features Added
+- Seating layout finalisation added to lock configurations before ticketing
+- "Forward to Client" functionality for reviews added
+- New "Team Data Sync" screen displays shared notes from Box Office & Marketing
+- All checklist items now marked complete ✅
+
+---
+
+#### 2.2.1 - patch
+- Contract PDF export implemented using iText 7
+- Fixed Ui visual bugs reported by testers
+
+### 2.2.0 
+- Two new features!
+- Contract page added
+- Film sales analytics dashboard added
+<img width="500" alt="Screenshot 2025-04-06 at 11 42 21" src="https://github.com/user-attachments/assets/6795730e-1451-490c-babd-1ef21bc293ab" />
+<img width="500" alt="Screenshot 2025-04-06 at 11 42 35" src="https://github.com/user-attachments/assets/73b40a9e-38b4-4270-9339-b6e8631be85e" />
+
+---
+
+### 2.1.0 - New feature!
 - Daily Sheet section added
 - Now able to export daily timetable as a pdf!
 - Easy for staff to print out and check todays time
@@ -94,7 +71,9 @@
 <img width="500" alt="DailySheet 2 1 0" src="https://github.com/user-attachments/assets/8669e63d-8e6f-4384-a10b-1f4f4daa6024" />
 <img width="500" alt="2 1 0 ExportPDF" src="https://github.com/user-attachments/assets/49327c55-1394-47fc-99a2-8c43a1adb7d8" />
 
-### 2.0.1 - Patch
+---
+
+#### 2.0.1 - Patch
 - Ui theme and colour matches with lancasters music hall logo
 - Small patch to improve compilation efficency
 - Bugs with alignment of buttons have been fixed
@@ -102,7 +81,7 @@
 <img width="500" alt="v2 0 1 Login" src="https://github.com/user-attachments/assets/54c33669-e1b7-41cb-ab4f-15d0b0050896" />
 <img width="500" alt="v2 0 1 Menu" src="https://github.com/user-attachments/assets/922952a5-9bab-4867-b8ec-fe27371587ed" />
 
-## 2.0.0 - New version!
+### 2.0.0 - New version!
 - Total Ui overhall
 - TouchScreen Freindly Ui
 - Menu style instead of tab style
@@ -115,11 +94,10 @@
 <img width="400" alt="2 0 0 revenue" src="https://github.com/user-attachments/assets/8809f775-5ff3-4cf1-923b-d2a690b88a4e" />
 <img width="400" alt="2 0 0 reviews" src="https://github.com/user-attachments/assets/983721f2-3ebe-4f6c-bb04-0fffeacf9609" />
 
+---
 
-
-## Version 1 - Older | Redundant 
+### Version 1 - Older | Redundant 
 <img width="327" alt="Screenshot 2025-03-26 at 11 18 14" src="https://github.com/user-attachments/assets/b98d498f-7c22-45e6-b6fb-d361197fe1ad" />
 
 
 <img width="955" alt="Screenshot 2025-03-26 at 11 18 57" src="https://github.com/user-attachments/assets/3790fd85-20b4-4916-aa37-c7d911ea5f99" />
-
