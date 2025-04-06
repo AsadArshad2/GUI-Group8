@@ -28,11 +28,6 @@ public class MenuController {
     }
 
     @FXML
-    private void goToBooking(ActionEvent event) throws Exception {
-        switchScene("Booking.fxml", event);
-    }
-
-    @FXML
     private void goToFinances(ActionEvent event) throws Exception {
         switchScene("Finances.fxml", event);
     }
@@ -48,13 +43,13 @@ public class MenuController {
     }
 
     @FXML
-    private void goToVenueCalendar(ActionEvent event) throws Exception {
-        switchScene("VenueCalendar.fxml", event);
+    private void goToSeating(ActionEvent event) throws Exception {
+        switchScene("Seating.fxml", event);
     }
 
     @FXML
-    private void goToSeating(ActionEvent event) throws Exception {
-        switchScene("Seating.fxml", event);
+    private void goToCalendar(ActionEvent event) throws Exception {
+        switchScene("Calendar.fxml", event);
     }
 
     @FXML

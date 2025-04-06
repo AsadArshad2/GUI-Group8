@@ -3,6 +3,7 @@ package DatabaseLogic;
 import controllers.BookingController;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class DatabaseConnection {
                         rs.getInt("event_id"),
                         rs.getString("name"),
                         rs.getDouble("selling_price"),
-                        rs.getDate("start_date"),
-                        rs.getDate("end_date"),
+                        rs.getString("start_date"),
+                        rs.getString("end_date"),
                         rs.getString("description"),
                         rs.getDouble("max_discount")
                 );
@@ -44,6 +45,73 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return events;
+    }
+
+    public static List<Calendar> getAllCalendarBookings() {
+        List<Calendar> calendarList = new ArrayList<>();
+        String sql = """
+        SELECT 
+            b.booking_id,
+            b.date,
+            b.start_time,
+            b.end_time,
+            b.total_cost,
+            b.configuration_details,
+            b.status,
+
+            e.event_id,
+            e.name AS event_name,
+            e.selling_price,
+            e.start_date AS event_start,
+            e.end_date AS event_end,
+            e.description,
+            e.max_discount,
+
+            r.room_id,
+            r.name AS room_name,
+            r.capacity,
+            r.layouts
+        FROM Bookings b
+        LEFT JOIN Event_details e ON b.event_id = e.event_id
+        LEFT JOIN Rooms r ON b.room_id = r.room_id
+        """;
+
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+
+            while (rs.next()) {
+                Calendar calendar = new Calendar(
+                        rs.getInt("booking_id"),
+                        rs.getString("date"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"),
+                        rs.getDouble("total_cost"),
+                        rs.getString("configuration_details"),
+                        rs.getString("status"),
+
+                        rs.getInt("event_id"),
+                        rs.getString("event_name"),
+                        rs.getDouble("selling_price"),
+                        rs.getString("event_start"),
+                        rs.getString("event_end"),
+                        rs.getString("description"),
+                        rs.getDouble("max_discount"),
+
+                        rs.getInt("room_id"),
+                        rs.getString("room_name"),
+                        rs.getInt("capacity"),
+                        rs.getString("layouts")
+                );
+                calendarList.add(calendar);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error fetching calendar bookings: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return calendarList;
     }
 
     public static List<Booking> getAllBookings() {
@@ -122,7 +190,6 @@ public class DatabaseConnection {
         return rooms;
     }
 
-
     public static List<Booking> getBookings() {
         List<Booking> bookings = new ArrayList<>();
         String sql = "SELECT c.name as client_name, e.name as event_name, b.date, b.start_time, b.end_time, b.total_cost, b.configuration_details, b.status, b.booking_id, b.client_id, b.event_id, b.room_id FROM Bookings b JOIN Clients c ON b.client_id = c.client_id JOIN Event_details e ON b.event_id = e.event_id";
@@ -132,7 +199,6 @@ public class DatabaseConnection {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                // Create a new Booking object that includes client and event names
                 Booking booking = new Booking(
                         rs.getInt("booking_ID"),
                         rs.getString("client_name"),
@@ -151,5 +217,41 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return bookings;
+    }
+
+    public static String getClientNameById(int clientId) {
+        String clientName = "";
+        String sql = "SELECT name FROM Clients WHERE client_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    clientName = rs.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching client name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return clientName;
+    }
+
+    public static String getEventNameById(int eventId) {
+        String eventName = "";
+        String sql = "SELECT name FROM Event_details WHERE event_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, eventId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    eventName = rs.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching event name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return eventName;
     }
 }

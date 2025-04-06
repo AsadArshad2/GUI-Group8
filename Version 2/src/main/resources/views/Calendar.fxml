@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.CalendarController"
+            stylesheets="@../styles/style.css"
+            prefWidth="900" prefHeight="600">
+
+    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <!-- Title and Back Button -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Back" onAction="#handleBackToMenu" styleClass="back-button" />
+            <Label text="Venue Calendar - Operations and Marketing" style="-fx-font-size: 18px; -fx-text-fill: white;" />
+        </HBox>
+
+        <!-- Improved Date Picker and Check Availability -->
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #2E2E2E; -fx-padding: 10; -fx-background-radius: 5;">
+            <Label text="Select Date:" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+            <DatePicker fx:id="datePicker" style="-fx-background-color: #FFFFFF; -fx-border-radius: 3;" />
+            <Button text="Check Availability" onAction="#handleCheckAvailability"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+        </HBox>
+
+        <!-- Reduced Height TableView -->
+        <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="300" hbarPolicy="NEVER">
+            <TableView fx:id="calendarTableView" editable="true">
+                <columns>
+                    <TableColumn fx:id="eventNameColumn" text="Event Name" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="roomNameColumn" text="Room Name" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="startTimeColumn" text="Start Time" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="endTimeColumn" text="End Time" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="totalCostColumn" text="Total Cost" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="statusColumn" text="Status" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="capacityColumn" text="Room Capacity" style="-fx-alignment: CENTER;" />
+                </columns>
+            </TableView>
+        </ScrollPane>
+
+        <!-- Status Label -->
+        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-text-fill: lightgray; -fx-font-weight: bold;" />
+
+        <!-- Spacer to Push Buttons to Bottom -->
+        <Region VBox.vgrow="ALWAYS" />
+
+        <!-- Button Layout at the Bottom -->
+        <HBox spacing="20" alignment="CENTER">
+            <!-- Left Section -->
+            <VBox spacing="10" alignment="TOP_LEFT">
+                <Button text="Add Booking" onAction="#handleAddBooking"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                        prefWidth="150" />
+                <Button text="Check Bookings" onAction="#handleCheckBookings"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                        prefWidth="150" />
+            </VBox>
+
+            <!-- Middle Section -->
+            <VBox spacing="10" alignment="TOP_CENTER">
+                <Button text="Add Event"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                        prefWidth="150" />
+                <Button text="Check Events"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                        prefWidth="150" />
+            </VBox>
+
+            <!-- Right Section -->
+            <VBox spacing="10" alignment="TOP_RIGHT">
+                <Button text="Finish Edit" onAction="#handleFinishEdit"
+                        style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                        prefWidth="150" />
+            </VBox>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

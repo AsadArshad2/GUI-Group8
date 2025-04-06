@@ -1,155 +1,121 @@
 .root {
-    /* Choose the desired font-family and background-color */
     -fx-font-family: "JetBrains Mono", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -fx-background-color: #000000; /* black background or choose white if preferred */
+    -fx-background-color: white; /* Make the background white */
 }
 
-/* Headings / Labels */
+/* Label text */
 .label {
     -fx-font-size: 16px;
-    -fx-text-fill: #FFFFFF; /* white text color */
+    -fx-text-fill: #222;
     -fx-font-weight: bold;
 }
 
-/* Buttons */
-.button {
-    -fx-background-color: #1ABC9C;
-    -fx-text-fill: white;
-    -fx-background-radius: 12;
-    -fx-padding: 10 20;
-    -fx-font-size: 14px;
-    -fx-font-family: "JetBrains Mono";
-    -fx-cursor: hand;
-}
-
-.button:hover {
-    -fx-background-color: #16A085;
-}
-
-.button:pressed {
-    -fx-background-color: #148F77;
-}
-
-/* Inputs - consistent look across types */
-.text-field,
-.password-field,
-.combo-box,
-.date-picker,
-.text-area {
-    -fx-background-color: #1A1A1A; /* dark background for input fields */
-    -fx-border-color: #2ECC71; /* green border color */
-    -fx-border-width: 1;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 8 12;
-    -fx-font-size: 14px;
-    -fx-font-family: "JetBrains Mono";
-    -fx-text-fill: white; /* white text in inputs */
-}
-
-/* Scrollbars */
-.scroll-bar:vertical,
-.scroll-bar:horizontal {
-    -fx-background-color: #333;
-}
-
-.scroll-bar .thumb {
-    -fx-background-color: #888;
-    -fx-background-insets: 2;
-    -fx-background-radius: 5;
-}
-
-/* Charts (if using BarChart, LineChart, etc.) */
-.chart-title,
-.axis-label,
-.chart-legend-item,
-.chart-legend {
-    -fx-text-fill: white; /* white text for chart components */
-    -fx-font-family: "JetBrains Mono";
-}
-
-.text-area .content {
-    -fx-highlight-fill: #00ffcc; /* selection background color */
-    -fx-highlight-text-fill: black; /* selection text color */
-}
-
-.chart-plot-background {
-    -fx-background-color: #111;
-}
-
-.chart-horizontal-grid-lines,
-.chart-vertical-grid-lines {
-    -fx-stroke: #444;
-}
-
-/* TableView Styling */
+/* Calendar TableView */
 .table-view {
-    -fx-background-color: #000000; /* consistent black background for table */
-    -fx-table-cell-border-color: #2ECC71;
-    -fx-border-color: #2ECC71;
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
     -fx-border-radius: 8;
     -fx-padding: 4;
     -fx-font-family: "JetBrains Mono";
-    -fx-text-fill: white;
 }
 
 /* Table Header */
 .table-view .column-header-background {
-    -fx-background-color: #1ABC9C;
-    -fx-border-radius: 8 8 0 0;
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #e0e0e0;
 }
 
 .table-view .column-header {
     -fx-background-color: transparent;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: black;
+    -fx-text-fill: #333;
 }
 
-/* Table Cells */
+/* Table Cell Styling */
 .table-cell {
-    -fx-background-color: #111;
-    -fx-text-fill: white;
-    -fx-font-family: "JetBrains Mono";
+    -fx-background-color: white;
+    -fx-text-fill: #000;
     -fx-font-size: 13px;
     -fx-alignment: CENTER;
 }
 
-/* Selected Row */
+/* Row hover */
+.table-row-cell:hover {
+    -fx-background-color: #f0f8ff;
+}
+
+/* Row selected */
 .table-row-cell:filled:selected {
-    -fx-background-color: #00ff99; /* bright green for selection */
+    -fx-background-color: #d0f0ff;
     -fx-text-fill: black;
 }
 
 .table-row-cell:filled:selected:hover {
-    -fx-background-color: #27ae60; /* darker green when hovered */
+    -fx-background-color: #b0e0ff;
     -fx-text-fill: black;
 }
-
 
 .table-row-cell:empty {
     -fx-background-color: transparent;
 }
 
-.table-view {
-    -fx-table-cell-border-color: transparent;
-    -fx-padding: 0;
+/* Inputs */
+.text-field,
+.password-field,
+.combo-box,
+.date-picker,
+.text-area {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #222;
 }
 
+/* Buttons */
+.button {
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+    -fx-font-size: 14px;
+}
+
+.button:hover {
+    -fx-background-color: #16a085;
+}
+
+.button:pressed {
+    -fx-background-color: #138f77;
+}
+
+/* Back Button */
 .back-button {
-    -fx-background-color: #E74C3C;  /* bright red */
+    -fx-background-color: #E74C3C;
     -fx-text-fill: white;
     -fx-background-radius: 12;
-    -fx-font-weight: bold;
     -fx-padding: 10 20;
-    -fx-cursor: hand;
+    -fx-font-weight: bold;
 }
 
 .back-button:hover {
-    -fx-background-color: #C0392B;  /* darker red on hover */
+    -fx-background-color: #C0392B;
 }
 
 .back-button:pressed {
     -fx-background-color: #A93226;
 }
 
+.grid-pane {
+    -fx-grid-lines-visible: true;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+}
+
+.grid-pane .grid-line {
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+}

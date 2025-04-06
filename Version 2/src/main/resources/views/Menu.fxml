@@ -16,8 +16,7 @@
 
     <Label style="-fx-font-size: 24px;" text="Lancaster Music Hall - Staff Dashboard" />
 
-    <Button onAction="#goToBooking" text="Manage Bookings" />
-    <Button onAction="#goToVenueCalendar" text="Venue Calendar" />
+    <Button onAction="#goToCalendar" text="Calendar" />
     <Button onAction="#goToDailyPlanner" text="Daily Reports" />
     <Button onAction="#goToSeating" text="Seating Configurations" />
     <Button onAction="#goToContract" text="Contracts and Invoices" />
