@@ -9,12 +9,18 @@
     </padding>
 
     <!-- Title -->
-    <Label text="Ticket Adjuster" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+    <Label text="Ticket Adjuster" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
 
     <!-- Event Selection -->
     <HBox spacing="15" alignment="CENTER_LEFT">
         <Label text="Select Event:" style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
         <ComboBox fx:id="eventComboBox" prefWidth="250" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5;"/>
+    </HBox>
+
+    <!-- Ticket Selection -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Select Ticket:" style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+        <ComboBox fx:id="ticketComboBox" prefWidth="250" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5;"/>
     </HBox>
 
     <!-- Base Price -->
@@ -32,10 +38,10 @@
 
     <!-- Buttons -->
     <HBox spacing="15" alignment="CENTER">
-        <Button fx:id="goBackButton" text="Go Back" onAction="#handleGoBack" style="-fx-background-color: #ff6f61; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+        <Button fx:id="goBackButton" text="Go Back" onAction="#handleGoBack" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5;"/>
         <Button fx:id="saveButton" text="Save Changes" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5;"/>
     </HBox>
 
     <!-- Status Message -->
-    <Label fx:id="statusLabel" text="" style="-fx-font-size: 12px; -fx-text-fill: #f44336;"/>
+    <Label fx:id="statusLabel" text="" style="-fx-font-size: 12px; -fx-text-fill: #d32f2f;"/>
 </VBox>

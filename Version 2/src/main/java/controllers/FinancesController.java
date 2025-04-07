@@ -58,13 +58,13 @@ public class FinancesController {
         // Set table data
         venueSummaryTable.setItems(summaryData);
 
-        // Load venue profits
-        loadVenueProfits();
+        // Load venue profits and ticket revenue
+        loadVenueProfitsAndTicketRevenue();
     }
 
-    private void loadVenueProfits() {
-        // Fetch venue profits from the database (now excludes cancelled bookings)
-        List<VenueProfitSummary> venueProfits = DatabaseConnection.getVenueProfits();
+    private void loadVenueProfitsAndTicketRevenue() {
+        // Fetch venue profits and ticket revenue from the database
+        List<VenueProfitSummary> venueSummaries = DatabaseConnection.getVenueProfitsAndTicketRevenue();
 
         // Clear existing data to prevent duplicates
         summaryData.clear();
@@ -73,7 +73,7 @@ public class FinancesController {
 
         // Use a Set to ensure uniqueness based on venue name
         Set<String> seenVenues = new HashSet<>();
-        for (VenueProfitSummary summary : venueProfits) {
+        for (VenueProfitSummary summary : venueSummaries) {
             if (seenVenues.add(summary.getVenueName())) {
                 summaryData.add(summary);
             } else {
@@ -99,14 +99,28 @@ public class FinancesController {
         }
         venueProfitsChart.setData(FXCollections.observableArrayList(profitSeries));
 
-        // Update the ticket revenue chart (still empty as per your data)
+        // Update the ticket revenue chart
         XYChart.Series<String, Number> revenueSeries = new XYChart.Series<>();
         revenueSeries.setName("Ticket Revenue");
+        for (VenueProfitSummary summary : summaryData) {
+            XYChart.Data<String, Number> data = new XYChart.Data<>(summary.getVenueName(), summary.getRevenue());
+            Tooltip tooltip = new Tooltip(summary.getVenueName() + ": £" + String.format("%.2f", summary.getRevenue()));
+            revenueSeries.getData().add(data);
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {
+                    Tooltip.install(newNode, tooltip);
+                }
+            });
+        }
         salesChart.setData(FXCollections.observableArrayList(revenueSeries));
 
-        // Update the output area with total venue profit
+        // Update the output area with total venue profit and total ticket revenue
         double totalVenueProfit = summaryData.stream().mapToDouble(VenueProfitSummary::getTotalProfit).sum();
-        financeOutput.setText("Total Venue Profits: £" + String.format("%.2f", totalVenueProfit));
+        double totalTicketRevenue = summaryData.stream().mapToDouble(VenueProfitSummary::getRevenue).sum();
+        double totalProfit = summaryData.stream().mapToDouble(VenueProfitSummary::getProfit).sum();
+        financeOutput.setText("Total Venue Profits: £" + String.format("%.2f", totalVenueProfit) +
+                "\nTotal Ticket Revenue: £" + String.format("%.2f", totalTicketRevenue) +
+                "\nTotal Profit: £" + String.format("%.2f", totalProfit));
 
         // Debug: Log the number of entries
         System.out.println("Number of entries in summaryData: " + summaryData.size());

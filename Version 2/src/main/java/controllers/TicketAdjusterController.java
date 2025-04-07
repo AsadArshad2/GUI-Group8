@@ -2,6 +2,7 @@ package controllers;
 
 import DatabaseLogic.DatabaseConnection;
 import DatabaseLogic.Event;
+import DatabaseLogic.Ticket;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,12 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class TicketAdjusterController {
 
     @FXML private ComboBox<Event> eventComboBox;
+    @FXML private ComboBox<Ticket> ticketComboBox;
     @FXML private TextField basePriceField;
     @FXML private TextField discountField;
     @FXML private Label maxDiscountLabel;
@@ -24,6 +25,7 @@ public class TicketAdjusterController {
     @FXML private Button cancelButton;
 
     private List<Event> events;
+    private List<Ticket> tickets;
 
     @FXML
     public void initialize() {
@@ -56,9 +58,57 @@ public class TicketAdjusterController {
         // Event selection listener
         eventComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                basePriceField.setText(String.format("%.2f", newVal.getSellingPrice()));
-                discountField.setText("0"); // Reset discount
+                // Load tickets for the selected event
+                tickets = DatabaseConnection.getTicketsForEvent(newVal.getEventId());
+                ticketComboBox.setItems(FXCollections.observableArrayList(tickets));
+                ticketComboBox.getSelectionModel().clearSelection();
+                basePriceField.clear();
+                discountField.setText("0");
                 maxDiscountLabel.setText("Max: " + newVal.getMaxDiscount() + "%");
+            } else {
+                ticketComboBox.getItems().clear();
+                basePriceField.clear();
+                discountField.setText("0");
+                maxDiscountLabel.setText("Max: 0%");
+            }
+        });
+
+        // Ticket selection listener
+        ticketComboBox.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Ticket item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText("Ticket ID: " + item.getTicketID() + " (Seats: " + item.getNumberOfSeats() + ")");
+                }
+            }
+        });
+        ticketComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Ticket item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText("Ticket ID: " + item.getTicketID() + " (Seats: " + item.getNumberOfSeats() + ")");
+                }
+            }
+        });
+        ticketComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                // Set the base price to the event's default price, not the ticket's current price
+                Event selectedEvent = eventComboBox.getSelectionModel().getSelectedItem();
+                if (selectedEvent != null) {
+                    basePriceField.setText(String.format("%.2f", selectedEvent.getSellingPrice()));
+                } else {
+                    basePriceField.clear();
+                }
+                discountField.setText("0");
+            } else {
+                basePriceField.clear();
+                discountField.setText("0");
             }
         });
 
@@ -70,8 +120,14 @@ public class TicketAdjusterController {
     @FXML
     private void handleSave() {
         Event selectedEvent = eventComboBox.getSelectionModel().getSelectedItem();
+        Ticket selectedTicket = ticketComboBox.getSelectionModel().getSelectedItem();
+
         if (selectedEvent == null) {
             statusLabel.setText("Please select an event.");
+            return;
+        }
+        if (selectedTicket == null) {
+            statusLabel.setText("Please select a ticket.");
             return;
         }
 
@@ -89,13 +145,14 @@ public class TicketAdjusterController {
                 return;
             }
 
-            // Apply discount to price
+            // Apply discount to the base price (which starts as the event's default price)
             double finalPrice = newPrice * (1 - discount / 100);
-            selectedEvent.setSellingPrice(finalPrice);
+            selectedTicket.setSellingPrice(finalPrice);
 
-            // Update database
-            DatabaseConnection.pushEventEditsToDatabase(List.of(selectedEvent));
-            statusLabel.setText("Price updated successfully to £" + String.format("%.2f", finalPrice));
+            // Update the ticket price in the database
+            DatabaseConnection.updateTicketPrice(selectedTicket.getTicketID(), finalPrice);
+
+            statusLabel.setText("Ticket price updated successfully to £" + String.format("%.2f", finalPrice));
             basePriceField.setText(String.format("%.2f", finalPrice));
             discountField.setText("0");
 
@@ -107,12 +164,23 @@ public class TicketAdjusterController {
     }
 
     @FXML
-    private void handleGoBack() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
-        Stage stage = (Stage) goBackButton.getScene().getWindow();
-        stage.setScene(scene);
+    private void handleCancel() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void handleGoBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Menu.fxml"));
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
+            Stage stage = (Stage) goBackButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+            statusLabel.setText("Error loading Menu: " + e.getMessage());
+        }
     }
 
     private void restrictToNumeric(TextField textField) {

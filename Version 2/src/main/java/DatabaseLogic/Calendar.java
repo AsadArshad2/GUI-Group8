@@ -3,41 +3,34 @@ package DatabaseLogic;
 import javafx.beans.property.*;
 
 public class Calendar {
-    // Existing Booking fields
     private IntegerProperty bookingID = new SimpleIntegerProperty();
     private StringProperty date = new SimpleStringProperty();
     private StringProperty startTime = new SimpleStringProperty();
     private StringProperty endTime = new SimpleStringProperty();
     private DoubleProperty totalCost = new SimpleDoubleProperty();
-    private StringProperty configurationDetails = new SimpleStringProperty();
     private StringProperty status = new SimpleStringProperty();
 
-    // New Event fields
     private IntegerProperty eventID = new SimpleIntegerProperty();
     private StringProperty eventName = new SimpleStringProperty();
     private DoubleProperty sellingPrice = new SimpleDoubleProperty();
     private StringProperty eventStart = new SimpleStringProperty();
     private StringProperty eventEnd = new SimpleStringProperty();
-    private StringProperty description = new SimpleStringProperty();
+    private StringProperty eventDescription = new SimpleStringProperty();
     private DoubleProperty maxDiscount = new SimpleDoubleProperty();
 
-    // New Room fields
     private IntegerProperty roomID = new SimpleIntegerProperty();
     private StringProperty roomName = new SimpleStringProperty();
     private IntegerProperty capacity = new SimpleIntegerProperty();
     private StringProperty layouts = new SimpleStringProperty();
 
-    public Calendar(int bookingID, String date, String startTime, String endTime, double totalCost,
-                    String configurationDetails, String status,
-                    int eventID, String eventName, double sellingPrice, String eventStart,
-                    String eventEnd, String description, double maxDiscount,
+    public Calendar(int bookingID, String date, String startTime, String endTime, double totalCost, String status,
+                    int eventID, String eventName, double sellingPrice, String eventStart, String eventEnd, String eventDescription, double maxDiscount,
                     int roomID, String roomName, int capacity, String layouts) {
         this.bookingID.set(bookingID);
         this.date.set(date);
         this.startTime.set(startTime);
         this.endTime.set(endTime);
         this.totalCost.set(totalCost);
-        this.configurationDetails.set(configurationDetails);
         this.status.set(status);
 
         this.eventID.set(eventID);
@@ -45,7 +38,7 @@ public class Calendar {
         this.sellingPrice.set(sellingPrice);
         this.eventStart.set(eventStart);
         this.eventEnd.set(eventEnd);
-        this.description.set(description);
+        this.eventDescription.set(eventDescription);
         this.maxDiscount.set(maxDiscount);
 
         this.roomID.set(roomID);
@@ -60,7 +53,6 @@ public class Calendar {
     public String getStartTime() { return startTime.get(); }
     public String getEndTime() { return endTime.get(); }
     public double getTotalCost() { return totalCost.get(); }
-    public String getConfigurationDetails() { return configurationDetails.get(); }
     public String getStatus() { return status.get(); }
 
     public int getEventID() { return eventID.get(); }
@@ -68,7 +60,7 @@ public class Calendar {
     public double getSellingPrice() { return sellingPrice.get(); }
     public String getEventStart() { return eventStart.get(); }
     public String getEventEnd() { return eventEnd.get(); }
-    public String getDescription() { return description.get(); }
+    public String getEventDescription() { return eventDescription.get(); }
     public double getMaxDiscount() { return maxDiscount.get(); }
 
     public int getRoomID() { return roomID.get(); }
@@ -82,7 +74,6 @@ public class Calendar {
     public void setStartTime(String startTime) { this.startTime.set(startTime); }
     public void setEndTime(String endTime) { this.endTime.set(endTime); }
     public void setTotalCost(double totalCost) { this.totalCost.set(totalCost); }
-    public void setConfigurationDetails(String configurationDetails) { this.configurationDetails.set(configurationDetails); }
     public void setStatus(String status) { this.status.set(status); }
 
     public void setEventID(int eventID) { this.eventID.set(eventID); }
@@ -90,7 +81,7 @@ public class Calendar {
     public void setSellingPrice(double sellingPrice) { this.sellingPrice.set(sellingPrice); }
     public void setEventStart(String eventStart) { this.eventStart.set(eventStart); }
     public void setEventEnd(String eventEnd) { this.eventEnd.set(eventEnd); }
-    public void setDescription(String description) { this.description.set(description); }
+    public void setEventDescription(String eventDescription) { this.eventDescription.set(eventDescription); }
     public void setMaxDiscount(double maxDiscount) { this.maxDiscount.set(maxDiscount); }
 
     public void setRoomID(int roomID) { this.roomID.set(roomID); }
@@ -99,24 +90,23 @@ public class Calendar {
     public void setLayouts(String layouts) { this.layouts.set(layouts); }
 
     // Property getters
-    public IntegerProperty getBookingIDProperty() { return bookingID; }
-    public StringProperty getDateProperty() { return date; }
-    public StringProperty getStartTimeProperty() { return startTime; }
-    public StringProperty getEndTimeProperty() { return endTime; }
-    public DoubleProperty getTotalCostProperty() { return totalCost; }
-    public StringProperty getConfigurationDetailsProperty() { return configurationDetails; }
-    public StringProperty getStatusProperty() { return status; }
+    public IntegerProperty bookingIDProperty() { return bookingID; }
+    public StringProperty dateProperty() { return date; }
+    public StringProperty startTimeProperty() { return startTime; }
+    public StringProperty endTimeProperty() { return endTime; }
+    public DoubleProperty totalCostProperty() { return totalCost; }
+    public StringProperty statusProperty() { return status; }
 
-    public IntegerProperty getEventIDProperty() { return eventID; }
-    public StringProperty getEventNameProperty() { return eventName; }
-    public DoubleProperty getSellingPriceProperty() { return sellingPrice; }
-    public StringProperty getEventStartProperty() { return eventStart; }
-    public StringProperty getEventEndProperty() { return eventEnd; }
-    public StringProperty getDescriptionProperty() { return description; }
-    public DoubleProperty getMaxDiscountProperty() { return maxDiscount; }
+    public IntegerProperty eventIDProperty() { return eventID; }
+    public StringProperty eventNameProperty() { return eventName; }
+    public DoubleProperty sellingPriceProperty() { return sellingPrice; }
+    public StringProperty eventStartProperty() { return eventStart; }
+    public StringProperty eventEndProperty() { return eventEnd; }
+    public StringProperty eventDescriptionProperty() { return eventDescription; }
+    public DoubleProperty maxDiscountProperty() { return maxDiscount; }
 
-    public IntegerProperty getRoomIDProperty() { return roomID; }
-    public StringProperty getRoomNameProperty() { return roomName; }
-    public IntegerProperty getCapacityProperty() { return capacity; }
-    public StringProperty getLayoutsProperty() { return layouts; }
+    public IntegerProperty roomIDProperty() { return roomID; }
+    public StringProperty roomNameProperty() { return roomName; }
+    public IntegerProperty capacityProperty() { return capacity; }
+    public StringProperty layoutsProperty() { return layouts; }
 }

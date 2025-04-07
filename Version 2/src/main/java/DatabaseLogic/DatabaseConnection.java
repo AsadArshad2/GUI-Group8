@@ -1,13 +1,16 @@
 package DatabaseLogic;
 
 import controllers.BookingController;
+import controllers.TicketSalesSummary;
 import controllers.VenueProfitSummary;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DatabaseConnection {
@@ -162,7 +165,6 @@ public class DatabaseConnection {
             b.start_time,
             b.end_time,
             b.total_cost,
-            b.configuration_details,
             b.status,
 
             e.event_id,
@@ -193,7 +195,6 @@ public class DatabaseConnection {
                         rs.getString("start_time"),
                         rs.getString("end_time"),
                         rs.getDouble("total_cost"),
-                        rs.getString("configuration_details"),
                         rs.getString("status"),
 
                         rs.getInt("event_id"),
@@ -237,7 +238,6 @@ public class DatabaseConnection {
                         rs.getString("start_time"),
                         rs.getString("end_time"),
                         rs.getDouble("total_cost"),
-                        rs.getString("configuration_details"),
                         rs.getString("status")
                 );
                 bookings.add(booking);
@@ -304,7 +304,9 @@ public class DatabaseConnection {
 
     public static List<Booking> getBookings() {
         List<Booking> bookings = new ArrayList<>();
-        String query = "SELECT * FROM Bookings";
+        String query = "SELECT b.*, r.name AS room_name " +
+                "FROM Bookings b " +
+                "LEFT JOIN Rooms r ON b.room_id = r.room_id";
         try (Connection conn = connectToDatabase();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -319,20 +321,21 @@ public class DatabaseConnection {
                     endTime = endTime + ":00";
                 }
 
+                String clientName = getClientNameById(rs.getInt("client_id"));
+                String eventName = getEventNameById(rs.getInt("event_id"));
+                String roomName = rs.getString("room_name") != null ? rs.getString("room_name") : "";
+
                 Booking booking = new Booking(
                         rs.getInt("booking_id"),
-                        rs.getInt("client_id"),
-                        rs.getInt("event_id"),
-                        rs.getInt("room_id"),
+                        clientName,
+                        eventName,
+                        roomName,
                         rs.getString("date"),
                         startTime,
                         endTime,
                         rs.getDouble("total_cost"),
-                        rs.getString("configuration_details"),
                         rs.getString("status")
                 );
-                booking.setClientName(getClientNameById(booking.getClientID()));
-                booking.setEventName(getEventNameById(booking.getEventID()));
                 bookings.add(booking);
             }
         } catch (SQLException e) {
@@ -459,8 +462,8 @@ public class DatabaseConnection {
     }
 
     public static void pushBookingEditsToDatabase(List<Booking> bookings) {
-        String insertSQL = "INSERT INTO Bookings (client_id, event_id, room_id, date, start_time, end_time, total_cost, configuration_details, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String updateSQL = "UPDATE Bookings SET client_id = ?, event_id = ?, room_id = ?, date = ?, start_time = ?, end_time = ?, total_cost = ?, configuration_details = ?, status = ? WHERE booking_id = ?";
+        String insertSQL = "INSERT INTO Bookings (client_id, event_id, room_id, date, start_time, end_time, total_cost, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String updateSQL = "UPDATE Bookings SET client_id = ?, event_id = ?, room_id = ?, date = ?, start_time = ?, end_time = ?, total_cost = ?, status = ? WHERE booking_id = ?";
         String checkOverlapSQL = "SELECT COUNT(*) FROM Bookings WHERE room_id = ? AND date = ? AND booking_id != ? AND status != 'cancelled' AND " +
                 "((start_time < ? AND (end_time > ? OR end_time = '00:00:00')) OR " +
                 "(start_time < ? AND (end_time > ? OR end_time = '00:00:00')) OR " +
@@ -519,8 +522,7 @@ public class DatabaseConnection {
                         insertStmt.setString(5, startTime);
                         insertStmt.setString(6, endTime);
                         insertStmt.setDouble(7, booking.getTotalCost());
-                        insertStmt.setString(8, booking.getConfigurationDetails());
-                        insertStmt.setString(9, booking.getStatus());
+                        insertStmt.setString(8, booking.getStatus());
                         insertStmt.executeUpdate();
 
                         ResultSet generatedKeys = insertStmt.getGeneratedKeys();
@@ -540,9 +542,8 @@ public class DatabaseConnection {
                         updateStmt.setString(5, startTime);
                         updateStmt.setString(6, endTime);
                         updateStmt.setDouble(7, booking.getTotalCost());
-                        updateStmt.setString(8, booking.getConfigurationDetails());
-                        updateStmt.setString(9, booking.getStatus());
-                        updateStmt.setInt(10, booking.getBookingID());
+                        updateStmt.setString(8, booking.getStatus());
+                        updateStmt.setInt(9, booking.getBookingID());
                         updateStmt.executeUpdate();
                     }
                 }
@@ -863,6 +864,44 @@ public class DatabaseConnection {
         return reviews;
     }
 
+    public static List<Ticket> getTicketsForEvent(int eventId) {
+        List<Ticket> tickets = new ArrayList<>();
+        String sql = "SELECT * FROM Ticket_sales WHERE event_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, eventId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Ticket ticket = new Ticket(
+                        rs.getInt("ticket_id"),
+                        rs.getInt("event_id"),
+                        rs.getDate("sale_date"),
+                        rs.getInt("number_of_seats"),
+                        rs.getDouble("selling_price")
+                );
+                tickets.add(ticket);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching tickets for event " + eventId + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return tickets;
+    }
+
+    public static void updateTicketPrice(int ticketId, double newPrice) {
+        String sql = "UPDATE Ticket_sales SET selling_price = ? WHERE ticket_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, newPrice);
+            stmt.setInt(2, ticketId);
+            stmt.executeUpdate();
+            System.out.println("Updated ticket " + ticketId + " with new price: " + newPrice);
+        } catch (SQLException e) {
+            System.err.println("Error updating ticket price for ticket " + ticketId + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public static void addReview(Review review) {
         String insertSQL = "INSERT INTO Reviews (event_id, source, content, rating) VALUES (?, ?, ?, ?)";
         try (Connection conn = connectToDatabase();
@@ -942,6 +981,78 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return venueProfits;
+    }
+
+    public static List<VenueProfitSummary> getVenueProfitsAndTicketRevenue() {
+        List<VenueProfitSummary> venueSummaries = new ArrayList<>();
+
+        // Step 1: Fetch venue profits (already excluding cancelled bookings)
+        String profitSQL = "SELECT r.name AS venue_name, SUM(b.total_cost) AS total_profit " +
+                "FROM Bookings b " +
+                "JOIN Rooms r ON b.room_id = r.room_id " +
+                "WHERE b.status != 'cancelled' " +
+                "GROUP BY r.name";
+
+        // Step 2: Fetch ticket sales, event selling price, and associate them with venues
+        String ticketSQL = "SELECT r.name AS venue_name, " +
+                "SUM(ts.number_of_seats) AS total_seats_sold, " +
+                "SUM(ts.number_of_seats * e.selling_price) AS ticket_revenue, " +
+                "SUM(ts.number_of_seats * e.selling_price) / SUM(ts.number_of_seats) AS avg_ticket_price " +
+                "FROM Ticket_sales ts " +
+                "JOIN Event_details e ON ts.event_id = e.event_id " +
+                "JOIN Bookings b ON b.event_id = e.event_id " +
+                "JOIN Rooms r ON b.room_id = r.room_id " +
+                "WHERE b.status != 'cancelled' " +
+                "GROUP BY r.name " +
+                "HAVING SUM(ts.number_of_seats) > 0";
+
+        Map<String, VenueProfitSummary> venueMap = new HashMap<>();
+
+        // Fetch venue profits
+        try (Connection conn = connectToDatabase();
+             PreparedStatement profitStmt = conn.prepareStatement(profitSQL);
+             ResultSet profitRs = profitStmt.executeQuery()) {
+            while (profitRs.next()) {
+                String venueName = profitRs.getString("venue_name");
+                double totalProfit = profitRs.getDouble("total_profit");
+                venueMap.put(venueName, new VenueProfitSummary(venueName, totalProfit, 0, 0.0, 0.0, totalProfit));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching venue profits: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // Fetch ticket sales and update the summaries
+        try (Connection conn = connectToDatabase();
+             PreparedStatement ticketStmt = conn.prepareStatement(ticketSQL);
+             ResultSet ticketRs = ticketStmt.executeQuery()) {
+            while (ticketRs.next()) {
+                String venueName = ticketRs.getString("venue_name");
+                int totalSeatsSold = ticketRs.getInt("total_seats_sold");
+                double ticketRevenue = ticketRs.getDouble("ticket_revenue");
+                double avgTicketPrice = ticketRs.getDouble("avg_ticket_price");
+
+                VenueProfitSummary summary = venueMap.getOrDefault(venueName, new VenueProfitSummary(venueName, 0.0, 0, 0.0, 0.0, 0.0));
+                double venueProfit = summary.getTotalProfit();
+                double totalProfit = venueProfit + ticketRevenue;
+
+                venueMap.put(venueName, new VenueProfitSummary(
+                        venueName,
+                        venueProfit,
+                        totalSeatsSold,
+                        avgTicketPrice,
+                        ticketRevenue,
+                        totalProfit
+                ));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching ticket revenue: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // Convert map to list
+        venueSummaries.addAll(venueMap.values());
+        return venueSummaries;
     }
 
     public static void createContract(int eventId, int clientId, String description, String contractDate) {
