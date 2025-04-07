@@ -1,40 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.ReviewsController"
-      alignment="CENTER" spacing="10"
-      style="-fx-padding: 10;"> <!-- Removed prefWidth and prefHeight -->
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.FinancesController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-    <!-- Custom Title Bar -->
-    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
-        <Button fx:id="backButton" text="Back" onAction="#handleBackToMenu" styleClass="back-button"/>
-        <Label text="Review Management"
-               style="-fx-font-size: 18px; -fx-text-fill: #333;" HBox.hgrow="ALWAYS" alignment="CENTER"/>
+    <!-- Top HBox for Back Button and Title -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button text="Back" onAction="#handleBackToMenu" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <Label text="Finances" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
     </HBox>
 
-    <Button text="Fetch Reviews from API" onAction="#handleFetchReviews"/>
+    <!-- Venue Profits Chart -->
+    <BarChart fx:id="venueProfitsChart" prefHeight="150">
+        <xAxis>
+            <CategoryAxis label="" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="" />
+        </yAxis>
+    </BarChart>
 
-    <ListView fx:id="reviewList" VBox.vgrow="ALWAYS" prefWidth="450">
-        <placeholder>
-            <Label text="No reviews available" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
-        </placeholder>
-    </ListView>
+    <!-- Ticket Revenue Chart -->
+    <BarChart fx:id="salesChart" prefHeight="150">
+        <xAxis>
+            <CategoryAxis label="" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="" />
+        </yAxis>
+    </BarChart>
 
-    <HBox spacing="10" alignment="CENTER">
-        <TextField fx:id="nameField" promptText="Name" prefWidth="120" HBox.hgrow="ALWAYS"/>
-        <TextField fx:id="reviewField" promptText="Review" prefWidth="200" HBox.hgrow="ALWAYS"/>
-        <Button text="Add" onAction="#handleAddReview"/>
-        <Button text="Delete" onAction="#handleDeleteReview"/>
-        <Button text="Forward to Client" onAction="#handleForwardReview" />
-    </HBox>
+    <!-- Venue Profits and Ticket Sales Summary Table -->
+    <Label text="Financial Summary" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <TableView fx:id="venueSummaryTable" prefHeight="150"> <!-- Reduced height from 300 to 150 -->
+        <columns>
+            <TableColumn fx:id="venueNameCol" text="Venue Name" prefWidth="150"/>
+            <TableColumn fx:id="totalProfitCol" text="Venue Profit (£)" prefWidth="150"/>
+            <TableColumn fx:id="seatsSoldCol" text="Seats Sold" prefWidth="100"/>
+            <TableColumn fx:id="priceCol" text="Ticket Price (£)" prefWidth="100"/>
+            <TableColumn fx:id="revenueCol" text="Ticket Revenue (£)" prefWidth="150"/>
+            <TableColumn fx:id="profitCol" text="Total Profit (£)" prefWidth="150"/>
+        </columns>
+    </TableView>
 
+    <!-- Output Area for Feedback -->
+    <TextArea fx:id="financeOutput" prefHeight="100" editable="false"/>
 </VBox>

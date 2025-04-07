@@ -927,7 +927,7 @@ public class DatabaseConnection {
         String sql = "SELECT r.name AS venue_name, SUM(b.total_cost) AS total_profit " +
                 "FROM Bookings b " +
                 "JOIN Rooms r ON b.room_id = r.room_id " +
-                "WHERE b.status != 'cancelled' " +
+                "WHERE b.status != 'cancelled' " +  // Exclude cancelled bookings
                 "GROUP BY r.name";
         try (Connection conn = connectToDatabase();
              PreparedStatement p = conn.prepareStatement(sql);
