@@ -21,9 +21,8 @@
     <Button onAction="#goToDailyPlanner" text="Daily Reports" />
     <Button onAction="#goToClientPage" text="Clients" />
     <Button onAction="#goToContractInvoicePage" text="Contracts and Invoices" />
-    <Button onAction="#goToSeating" text="Seating Configurations" />
-    <Button onAction="#goToContract" text="Contracts and Invoices" />
     <Button onAction="#goToFinances" text="Ticket Sales Overview" />
+    <Button onAction="#goToSeating" text="Seating Configurations" />
     <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
     <Button onAction="#goToReviews" text="Review System" />
     <Button onAction="#goToSystemSettings" text="System Settings" />

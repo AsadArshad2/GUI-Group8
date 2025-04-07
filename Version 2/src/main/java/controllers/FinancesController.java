@@ -1,137 +1,101 @@
 package controllers;
 
+import DatabaseLogic.DatabaseConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FinancesController {
 
-    @FXML private TextField filmTitleField;
-    @FXML private TextField filmCostField;
-    @FXML private TextField ticketSalesField;
-    @FXML private TextField ticketPriceField;
-
-    @FXML private BarChart<String, Number> costChart;
+    @FXML private BarChart<String, Number> venueProfitsChart;
     @FXML private BarChart<String, Number> salesChart;
     @FXML private TextArea financeOutput;
 
-    @FXML private TableView<FilmFinanceSummary> filmSummaryTable;
-    @FXML private TableColumn<FilmFinanceSummary, String> filmTitleCol;
-    @FXML private TableColumn<FilmFinanceSummary, Number> costCol;
-    @FXML private TableColumn<FilmFinanceSummary, Number> seatsSoldCol;
-    @FXML private TableColumn<FilmFinanceSummary, Number> priceCol;
-    @FXML private TableColumn<FilmFinanceSummary, Number> revenueCol;
-    @FXML private TableColumn<FilmFinanceSummary, Number> profitCol;
+    @FXML private TableView<VenueProfitSummary> venueSummaryTable;
+    @FXML private TableColumn<VenueProfitSummary, String> venueNameCol;
+    @FXML private TableColumn<VenueProfitSummary, Number> totalProfitCol;
+    @FXML private TableColumn<VenueProfitSummary, Number> seatsSoldCol;
+    @FXML private TableColumn<VenueProfitSummary, Number> priceCol;
+    @FXML private TableColumn<VenueProfitSummary, Number> revenueCol;
+    @FXML private TableColumn<VenueProfitSummary, Number> profitCol;
 
-    private final ObservableList<FilmFinanceSummary> summaryData = FXCollections.observableArrayList();
-
-    private final Map<String, Double> filmCosts = new HashMap<>();
-    private final Map<String, Double> filmRevenue = new HashMap<>();
-    private final Map<String, Integer> filmSeatsSold = new HashMap<>();
-    private final Map<String, Double> filmTicketPrice = new HashMap<>();
+    private final ObservableList<VenueProfitSummary> summaryData = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        costChart.setTitle("Film Costs");
+        // Set chart titles
+        venueProfitsChart.setTitle("Venue Profits");
         salesChart.setTitle("Ticket Revenue");
 
-        filmTitleCol.setCellValueFactory(new PropertyValueFactory<>("filmTitle"));
-        costCol.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        // Initialize table columns
+        venueNameCol.setCellValueFactory(new PropertyValueFactory<>("venueName"));
+        totalProfitCol.setCellValueFactory(new PropertyValueFactory<>("totalProfit"));
         seatsSoldCol.setCellValueFactory(new PropertyValueFactory<>("ticketsSold"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("ticketPrice"));
         revenueCol.setCellValueFactory(new PropertyValueFactory<>("revenue"));
         profitCol.setCellValueFactory(new PropertyValueFactory<>("profit"));
-        filmSummaryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        filmSummaryTable.setPlaceholder(new Label("No content available"));
+        venueSummaryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        venueSummaryTable.setPlaceholder(new Label("No content available"));
 
-        filmSummaryTable.setItems(summaryData);
+        // Set table data
+        venueSummaryTable.setItems(summaryData);
+
+        // Load venue profits only once during initialization
+        loadVenueProfits();
     }
 
-    @FXML
-    private void handleLogCost() {
-        String title = filmTitleField.getText().trim();
-        String costStr = filmCostField.getText().trim();
+    private void loadVenueProfits() {
+        // Fetch venue profits from the database
+        List<VenueProfitSummary> venueProfits = DatabaseConnection.getVenueProfits();
 
-        if (title.isEmpty() || costStr.isEmpty()) {
-            financeOutput.setText("Please enter both film title and cost.");
-            return;
+        // Clear existing data to prevent duplicates
+        summaryData.clear();
+        venueProfitsChart.getData().clear();
+        salesChart.getData().clear();
+
+        // Use a Set to ensure uniqueness based on venue name
+        Set<String> seenVenues = new HashSet<>();
+        for (VenueProfitSummary summary : venueProfits) {
+            if (seenVenues.add(summary.getVenueName())) {
+                summaryData.add(summary);
+            } else {
+                System.out.println("Duplicate venue found and skipped: " + summary.getVenueName());
+            }
         }
 
-        try {
-            double cost = Double.parseDouble(costStr);
-            filmCosts.put(title, cost);
-            updateCostChart();
-            updateSummary(title);
-            financeOutput.setText("Logged cost of £" + cost + " for film: " + title);
-        } catch (NumberFormatException e) {
-            financeOutput.setText("Invalid cost. Please enter a number.");
+        // Update the venue profits chart
+        XYChart.Series<String, Number> profitSeries = new XYChart.Series<>();
+        profitSeries.setName("Venue Profits");
+        for (VenueProfitSummary summary : summaryData) {
+            profitSeries.getData().add(new XYChart.Data<>(summary.getVenueName(), summary.getTotalProfit()));
         }
-    }
+        venueProfitsChart.setData(FXCollections.observableArrayList(profitSeries));
 
-    @FXML
-    private void handleLogSales() {
-        String title = filmTitleField.getText().trim();
-        String seatsStr = ticketSalesField.getText().trim();
-        String priceStr = ticketPriceField.getText().trim();
+        // Update the ticket revenue chart (will be empty since no ticket data)
+        XYChart.Series<String, Number> revenueSeries = new XYChart.Series<>();
+        revenueSeries.setName("Ticket Revenue");
+        // No data to add since ticket sales are not available
+        salesChart.setData(FXCollections.observableArrayList(revenueSeries));
 
-        if (title.isEmpty() || seatsStr.isEmpty() || priceStr.isEmpty()) {
-            financeOutput.setText("Please enter film title, ticket sales and price.");
-            return;
-        }
+        // Update the output area with total venue profit
+        double totalVenueProfit = summaryData.stream().mapToDouble(VenueProfitSummary::getTotalProfit).sum();
+        financeOutput.setText("Total Venue Profits: £" + String.format("%.2f", totalVenueProfit));
 
-        try {
-            int seats = Integer.parseInt(seatsStr);
-            double price = Double.parseDouble(priceStr);
-            double revenue = seats * price;
-
-            filmRevenue.put(title, revenue);
-            filmSeatsSold.put(title, seats);
-            filmTicketPrice.put(title, price);
-            updateSalesChart();
-            updateSummary(title);
-            financeOutput.setText("Logged revenue of £" + revenue + " for film: " + title);
-        } catch (NumberFormatException e) {
-            financeOutput.setText("Invalid ticket sales or price. Use numbers only.");
-        }
-    }
-
-    private void updateSummary(String title) {
-        double cost = filmCosts.getOrDefault(title, 0.0);
-        int seats = filmSeatsSold.getOrDefault(title, 0);
-        double price = filmTicketPrice.getOrDefault(title, 0.0);
-        double revenue = seats * price;
-
-        // Remove old summary if exists
-        summaryData.removeIf(s -> s.getFilmTitle().equals(title));
-
-        summaryData.add(new FilmFinanceSummary(title, cost, seats, price));
-    }
-
-    private void updateCostChart() {
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Film Costs");
-        for (Map.Entry<String, Double> entry : filmCosts.entrySet()) {
-            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
-        }
-        costChart.setData(FXCollections.observableArrayList(series));
-    }
-
-    private void updateSalesChart() {
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Ticket Revenue");
-        for (Map.Entry<String, Double> entry : filmRevenue.entrySet()) {
-            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
-        }
-        salesChart.setData(FXCollections.observableArrayList(series));
+        // Debug: Log the number of entries in the table and charts
+        System.out.println("Number of entries in summaryData: " + summaryData.size());
+        System.out.println("Number of bars in venueProfitsChart: " + profitSeries.getData().size());
+        System.out.println("Number of bars in salesChart: " + revenueSeries.getData().size());
     }
 
     @FXML

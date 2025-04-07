@@ -19,11 +19,6 @@ public class MenuController {
     }
 
     @FXML
-    private void goToContract(ActionEvent event) throws Exception {
-        switchScene("Contract.fxml", event);
-    }
-
-    @FXML
     private void goToClientPage(ActionEvent event) throws Exception {
         switchScene("Client.fxml", event);
     }

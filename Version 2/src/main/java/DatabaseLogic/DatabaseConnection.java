@@ -1,6 +1,7 @@
 package DatabaseLogic;
 
 import controllers.BookingController;
+import controllers.VenueProfitSummary;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -730,7 +731,6 @@ public class DatabaseConnection {
         return contracts;
     }
 
-    // New method to fetch contracts with client name
     public static List<Contract> getAllContractsWithClientName() {
         List<Contract> contracts = new ArrayList<>();
         String sql = "SELECT c.*, cl.name AS client_name " +
@@ -757,7 +757,6 @@ public class DatabaseConnection {
         return contracts;
     }
 
-    // Original getAllInvoices (unchanged)
     public static List<Invoice> getAllInvoices() {
         List<Invoice> invoices = new ArrayList<>();
         String sql = "SELECT * FROM Invoices";
@@ -782,7 +781,6 @@ public class DatabaseConnection {
         return invoices;
     }
 
-    // New method to fetch invoices with client name
     public static List<Invoice> getAllInvoicesWithClientName() {
         List<Invoice> invoices = new ArrayList<>();
         String sql = "SELECT i.*, c.name AS client_name " +
@@ -808,6 +806,27 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return invoices;
+    }
+
+    public static List<VenueProfitSummary> getVenueProfits() {
+        List<VenueProfitSummary> venueProfits = new ArrayList<>();
+        String sql = "SELECT r.name AS venue_name, SUM(b.total_cost) AS total_profit " +
+                "FROM Bookings b " +
+                "JOIN Rooms r ON b.room_id = r.room_id " +
+                "GROUP BY r.name";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+            while (rs.next()) {
+                String venueName = rs.getString("venue_name");
+                double totalProfit = rs.getDouble("total_profit");
+                venueProfits.add(new VenueProfitSummary(venueName, totalProfit));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching venue profits: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return venueProfits;
     }
 
     public static void createContract(int eventId, int clientId, String description, String contractDate) {
