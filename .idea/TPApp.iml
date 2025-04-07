@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="mysql-connector-j-9.2.0" level="project" />
+    <orderEntry type="library" exported="" name="mysql-connector-j-9.2.0" level="project" />
+    <orderEntry type="library" name="BoxOfficeAPI" level="application" />
   </component>
 </module>
