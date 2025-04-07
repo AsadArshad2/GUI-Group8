@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.layout.*?>
+        <?import javafx.scene.control.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SmallHallController">
+
+<top>
+    <Label text="Small Hall Seating" style="-fx-font-size: 24px; -fx-padding: 20px;" BorderPane.alignment="CENTER"/>
+</top>
+
+<center>
+    <GridPane fx:id="smallHallGrid" hgap="5" vgap="5" style="-fx-padding: 20;">
+        <!-- Row A -->
+        <Button text="A1" onAction="#toggleSeat" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <Button text="A2" onAction="#toggleSeat" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+        <Button text="A3" onAction="#toggleSeat" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+        <Button text="A4" onAction="#toggleSeat" GridPane.rowIndex="0" GridPane.columnIndex="3" />
+
+        <!-- Row B -->
+        <Button text="B1" onAction="#toggleSeat" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <Button text="B2" onAction="#toggleSeat" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+        <Button text="B3" onAction="#toggleSeat" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+        <Button text="B4" onAction="#toggleSeat" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+    </GridPane>
+</center>
+
+<bottom>
+    <HBox alignment="CENTER" spacing="10" style="-fx-padding: 15;">
+        <Button text="← Back" onAction="#goBack" />
+    </HBox>
+</bottom>
+</BorderPane>

@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainHallController">
+
+    <top>
+        <Label style="-fx-font-size: 24px; -fx-padding: 20px;" text="Main Hall Seating (Balcony + Stalls)" BorderPane.alignment="CENTER" />
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="20" style="-fx-padding: 20;">
+
+                <!-- Balcony Section -->
+                <Label style="-fx-font-size: 18px;" text="Balcony" />
+                <GridPane hgap="5" vgap="5">
+
+                    <!-- AA1 to AA27 (Row 0) -->
+                    <Button onAction="#toggleSeat" text="AA1" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA2" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA3" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA4" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA5" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA6" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA7" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA8" GridPane.columnIndex="7" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA9" GridPane.columnIndex="8" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA10" GridPane.columnIndex="9" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA11" GridPane.columnIndex="10" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA12" GridPane.columnIndex="11" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA13" GridPane.columnIndex="12" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA14" GridPane.columnIndex="13" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA15" GridPane.columnIndex="14" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA16" GridPane.columnIndex="15" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA17" GridPane.columnIndex="16" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA18" GridPane.columnIndex="17" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA19" GridPane.columnIndex="18" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA20" GridPane.columnIndex="19" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA21" GridPane.columnIndex="20" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA22" GridPane.columnIndex="21" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA23" GridPane.columnIndex="22" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA24" GridPane.columnIndex="23" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA25" GridPane.columnIndex="24" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA26" GridPane.columnIndex="25" GridPane.rowIndex="0" />
+                    <Button onAction="#toggleSeat" text="AA27" GridPane.columnIndex="26" GridPane.rowIndex="0" />
+
+                    <!-- AA28 to AA53 (Row 1) -->
+                    <Button onAction="#toggleSeat" text="AA28" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA29" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA30" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA31" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA32" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA33" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA34" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA35" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA36" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA37" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA38" GridPane.columnIndex="10" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA39" GridPane.columnIndex="11" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA40" GridPane.columnIndex="12" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA41" GridPane.columnIndex="13" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA42" GridPane.columnIndex="14" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA43" GridPane.columnIndex="15" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA44" GridPane.columnIndex="16" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA45" GridPane.columnIndex="17" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA46" GridPane.columnIndex="18" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA47" GridPane.columnIndex="19" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA48" GridPane.columnIndex="20" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA49" GridPane.columnIndex="21" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA50" GridPane.columnIndex="22" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA51" GridPane.columnIndex="23" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA52" GridPane.columnIndex="24" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="AA53" GridPane.columnIndex="25" GridPane.rowIndex="1" />
+
+                    <!-- BB1 to BB28 (Row 2) -->
+                    <Button onAction="#toggleSeat" text="BB1" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB4" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB5" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB6" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB7" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB8" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB9" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB10" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB11" GridPane.columnIndex="10" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB12" GridPane.columnIndex="11" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB13" GridPane.columnIndex="12" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB14" GridPane.columnIndex="13" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB15" GridPane.columnIndex="14" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB16" GridPane.columnIndex="15" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB17" GridPane.columnIndex="16" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB18" GridPane.columnIndex="17" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB19" GridPane.columnIndex="18" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB20" GridPane.columnIndex="19" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB21" GridPane.columnIndex="20" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB22" GridPane.columnIndex="21" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB23" GridPane.columnIndex="22" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB24" GridPane.columnIndex="23" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB25" GridPane.columnIndex="24" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB26" GridPane.columnIndex="25" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB27" GridPane.columnIndex="26" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="BB28" GridPane.columnIndex="27" GridPane.rowIndex="2" />
+
+                    <!-- CC1 to CC8 (Row 3) -->
+                    <Button onAction="#toggleSeat" text="CC1" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC2" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC3" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC4" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC5" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC6" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC7" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="CC8" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+
+                </GridPane>
+
+
+                <!-- Stalls Section -->
+                <Label style="-fx-font-size: 18px;" text="Stalls" />
+                <GridPane hgap="5" vgap="5">
+                    <!-- a to l and n: 1 to 19 -->
+                    <!-- m: 1 to 16 -->
+                    <!-- o: 1 to 20 -->
+                    <!-- p: 1 to 11 -->
+                    <!-- q: 1 to 10 -->
+                    <!-- Sorted alphabetically -->
+
+                    <!-- Row a -->
+                    <Button onAction="#toggleSeat" text="a1" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a2" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a3" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a4" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a5" GridPane.columnIndex="4" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a6" GridPane.columnIndex="5" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a7" GridPane.columnIndex="6" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a8" GridPane.columnIndex="7" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a9" GridPane.columnIndex="8" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a10" GridPane.columnIndex="9" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a11" GridPane.columnIndex="10" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a12" GridPane.columnIndex="11" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a13" GridPane.columnIndex="12" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a14" GridPane.columnIndex="13" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a15" GridPane.columnIndex="14" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a16" GridPane.columnIndex="15" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a17" GridPane.columnIndex="16" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a18" GridPane.columnIndex="17" GridPane.rowIndex="15" />
+                    <Button onAction="#toggleSeat" text="a19" GridPane.columnIndex="18" GridPane.rowIndex="15" />
+                    <!-- ... up to a19 ... -->
+
+                    <!-- Row b -->
+                    <Button onAction="#toggleSeat" text="b1" GridPane.columnIndex="0" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b2" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b3" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b4" GridPane.columnIndex="3" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b5" GridPane.columnIndex="4" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b6" GridPane.columnIndex="5" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b7" GridPane.columnIndex="6" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b8" GridPane.columnIndex="7" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b9" GridPane.columnIndex="8" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b10" GridPane.columnIndex="9" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b11" GridPane.columnIndex="10" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b12" GridPane.columnIndex="11" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b13" GridPane.columnIndex="12" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b14" GridPane.columnIndex="13" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b15" GridPane.columnIndex="14" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b16" GridPane.columnIndex="15" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b17" GridPane.columnIndex="16" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b18" GridPane.columnIndex="17" GridPane.rowIndex="14" />
+                    <Button onAction="#toggleSeat" text="b19" GridPane.columnIndex="18" GridPane.rowIndex="14" />
+
+
+                    <!-- Row c -->
+                    <Button onAction="#toggleSeat" text="c1" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c2" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c3" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c4" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c5" GridPane.columnIndex="4" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c6" GridPane.columnIndex="5" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c7" GridPane.columnIndex="6" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c8" GridPane.columnIndex="7" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c9" GridPane.columnIndex="8" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c10" GridPane.columnIndex="9" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c11" GridPane.columnIndex="10" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c12" GridPane.columnIndex="11" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c13" GridPane.columnIndex="12" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c14" GridPane.columnIndex="13" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c15" GridPane.columnIndex="14" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c16" GridPane.columnIndex="15" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c17" GridPane.columnIndex="16" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c18" GridPane.columnIndex="17" GridPane.rowIndex="12" />
+                    <Button onAction="#toggleSeat" text="c19" GridPane.columnIndex="18" GridPane.rowIndex="12" />
+
+
+                    <!-- Row d -->
+                    <Button onAction="#toggleSeat" text="d1" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d2" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d3" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d4" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d5" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d6" GridPane.columnIndex="5" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d7" GridPane.columnIndex="6" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d8" GridPane.columnIndex="7" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d9" GridPane.columnIndex="8" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d10" GridPane.columnIndex="9" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d11" GridPane.columnIndex="10" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d12" GridPane.columnIndex="11" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d13" GridPane.columnIndex="12" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d14" GridPane.columnIndex="13" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d15" GridPane.columnIndex="14" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d16" GridPane.columnIndex="15" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d17" GridPane.columnIndex="16" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d18" GridPane.columnIndex="17" GridPane.rowIndex="11" />
+                    <Button onAction="#toggleSeat" text="d19" GridPane.columnIndex="18" GridPane.rowIndex="11" />
+
+
+                    <!-- Row e -->
+                    <Button onAction="#toggleSeat" text="e1" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e2" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e3" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e4" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e5" GridPane.columnIndex="4" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e6" GridPane.columnIndex="5" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e7" GridPane.columnIndex="6" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e8" GridPane.columnIndex="7" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e9" GridPane.columnIndex="8" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e10" GridPane.columnIndex="9" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e11" GridPane.columnIndex="10" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e12" GridPane.columnIndex="11" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e13" GridPane.columnIndex="12" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e14" GridPane.columnIndex="13" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e15" GridPane.columnIndex="14" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e16" GridPane.columnIndex="15" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e17" GridPane.columnIndex="16" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e18" GridPane.columnIndex="17" GridPane.rowIndex="13" />
+                    <Button onAction="#toggleSeat" text="e19" GridPane.columnIndex="18" GridPane.rowIndex="13" />
+
+
+                    <!-- Row f -->
+                    <Button onAction="#toggleSeat" text="f1" GridPane.columnIndex="0" />
+                    <Button onAction="#toggleSeat" text="f2" GridPane.columnIndex="1" />
+                    <Button onAction="#toggleSeat" text="f3" GridPane.columnIndex="2" />
+                    <Button onAction="#toggleSeat" text="f4" GridPane.columnIndex="3" />
+                    <Button onAction="#toggleSeat" text="f5" GridPane.columnIndex="4" />
+                    <Button onAction="#toggleSeat" text="f6" GridPane.columnIndex="5" />
+                    <Button onAction="#toggleSeat" text="f7" GridPane.columnIndex="6" />
+                    <Button onAction="#toggleSeat" text="f8" GridPane.columnIndex="7" />
+                    <Button onAction="#toggleSeat" text="f9" GridPane.columnIndex="8" />
+                    <Button onAction="#toggleSeat" text="f10" GridPane.columnIndex="9" />
+                    <Button onAction="#toggleSeat" text="f11" GridPane.columnIndex="10" />
+                    <Button onAction="#toggleSeat" text="f12" GridPane.columnIndex="11" />
+                    <Button onAction="#toggleSeat" text="f13" GridPane.columnIndex="12" />
+                    <Button onAction="#toggleSeat" text="f14" GridPane.columnIndex="13" />
+                    <Button onAction="#toggleSeat" text="f15" GridPane.columnIndex="14" />
+                    <Button onAction="#toggleSeat" text="f16" GridPane.columnIndex="15" />
+                    <Button onAction="#toggleSeat" text="f17" GridPane.columnIndex="16" />
+                    <Button onAction="#toggleSeat" text="f18" GridPane.columnIndex="17" />
+                    <Button onAction="#toggleSeat" text="f19" GridPane.columnIndex="18" />
+
+
+                    <!-- Row g -->
+                    <Button onAction="#toggleSeat" text="g1" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g5" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g6" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g7" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g8" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g9" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g10" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g11" GridPane.columnIndex="10" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g12" GridPane.columnIndex="11" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g13" GridPane.columnIndex="12" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g14" GridPane.columnIndex="13" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g15" GridPane.columnIndex="14" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g16" GridPane.columnIndex="15" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g17" GridPane.columnIndex="16" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g18" GridPane.columnIndex="17" GridPane.rowIndex="1" />
+                    <Button onAction="#toggleSeat" text="g19" GridPane.columnIndex="18" GridPane.rowIndex="1" />
+
+
+                    <!-- Row h -->
+                    <Button onAction="#toggleSeat" text="h1" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h2" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h4" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h5" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h6" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h7" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h8" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h9" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h10" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h11" GridPane.columnIndex="10" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h12" GridPane.columnIndex="11" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h13" GridPane.columnIndex="12" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h14" GridPane.columnIndex="13" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h15" GridPane.columnIndex="14" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h16" GridPane.columnIndex="15" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h17" GridPane.columnIndex="16" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h18" GridPane.columnIndex="17" GridPane.rowIndex="2" />
+                    <Button onAction="#toggleSeat" text="h19" GridPane.columnIndex="18" GridPane.rowIndex="2" />
+
+
+
+                    <Button onAction="#toggleSeat" text="j1" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j2" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j3" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j4" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j5" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j6" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j7" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j8" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j9" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j10" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j11" GridPane.columnIndex="10" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j12" GridPane.columnIndex="11" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j13" GridPane.columnIndex="12" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j14" GridPane.columnIndex="13" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j15" GridPane.columnIndex="14" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j16" GridPane.columnIndex="15" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j17" GridPane.columnIndex="16" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j18" GridPane.columnIndex="17" GridPane.rowIndex="3" />
+                    <Button onAction="#toggleSeat" text="j19" GridPane.columnIndex="18" GridPane.rowIndex="3" />
+
+
+                    <Button onAction="#toggleSeat" text="k1" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k2" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k3" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k4" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k5" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k6" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k7" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k8" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k9" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k10" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k11" GridPane.columnIndex="10" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k12" GridPane.columnIndex="11" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k13" GridPane.columnIndex="12" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k14" GridPane.columnIndex="13" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k15" GridPane.columnIndex="14" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k16" GridPane.columnIndex="15" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k17" GridPane.columnIndex="16" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k18" GridPane.columnIndex="17" GridPane.rowIndex="4" />
+                    <Button onAction="#toggleSeat" text="k19" GridPane.columnIndex="18" GridPane.rowIndex="4" />
+
+
+                    <!-- Row l -->
+                    <Button onAction="#toggleSeat" text="l1" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l2" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l3" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l4" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l5" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l6" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l7" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l8" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l9" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l10" GridPane.columnIndex="9" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l11" GridPane.columnIndex="10" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l12" GridPane.columnIndex="11" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l13" GridPane.columnIndex="12" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l14" GridPane.columnIndex="13" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l15" GridPane.columnIndex="14" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l16" GridPane.columnIndex="15" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l17" GridPane.columnIndex="16" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l18" GridPane.columnIndex="17" GridPane.rowIndex="5" />
+                    <Button onAction="#toggleSeat" text="l19" GridPane.columnIndex="18" GridPane.rowIndex="5" />
+
+
+                    <!-- Row m -->
+                    <Button onAction="#toggleSeat" text="m1" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m2" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m3" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m4" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m5" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m6" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m7" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m8" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m9" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m10" GridPane.columnIndex="9" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m11" GridPane.columnIndex="10" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m12" GridPane.columnIndex="11" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m13" GridPane.columnIndex="12" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m14" GridPane.columnIndex="13" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m15" GridPane.columnIndex="14" GridPane.rowIndex="6" />
+                    <Button onAction="#toggleSeat" text="m16" GridPane.columnIndex="15" GridPane.rowIndex="6" />
+
+
+                    <!-- Row n -->
+                    <Button onAction="#toggleSeat" text="n1" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n2" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n3" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n4" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n5" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n6" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n7" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n8" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n9" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n10" GridPane.columnIndex="9" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n11" GridPane.columnIndex="10" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n12" GridPane.columnIndex="11" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n13" GridPane.columnIndex="12" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n14" GridPane.columnIndex="13" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n15" GridPane.columnIndex="14" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n16" GridPane.columnIndex="15" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n17" GridPane.columnIndex="16" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n18" GridPane.columnIndex="17" GridPane.rowIndex="7" />
+                    <Button onAction="#toggleSeat" text="n19" GridPane.columnIndex="18" GridPane.rowIndex="7" />
+
+
+                    <!-- Row o -->
+                    <Button onAction="#toggleSeat" text="o1" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o2" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o3" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o4" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o5" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o6" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o7" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o8" GridPane.columnIndex="7" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o9" GridPane.columnIndex="8" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o10" GridPane.columnIndex="9" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o11" GridPane.columnIndex="10" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o12" GridPane.columnIndex="11" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o13" GridPane.columnIndex="12" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o14" GridPane.columnIndex="13" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o15" GridPane.columnIndex="14" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o16" GridPane.columnIndex="15" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o17" GridPane.columnIndex="16" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o18" GridPane.columnIndex="17" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o19" GridPane.columnIndex="18" GridPane.rowIndex="8" />
+                    <Button onAction="#toggleSeat" text="o20" GridPane.columnIndex="19" GridPane.rowIndex="8" />
+
+
+                    <!-- Row p -->
+                    <Button onAction="#toggleSeat" text="p1" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p2" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p3" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p4" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p5" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p6" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p7" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p8" GridPane.columnIndex="7" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p9" GridPane.columnIndex="8" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p10" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+                    <Button onAction="#toggleSeat" text="p11" GridPane.columnIndex="10" GridPane.rowIndex="9" />
+
+
+                    <!-- Row q -->
+                    <Button onAction="#toggleSeat" text="q1" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q2" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q3" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q4" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q5" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q6" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q7" GridPane.columnIndex="6" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q8" GridPane.columnIndex="7" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q9" GridPane.columnIndex="8" GridPane.rowIndex="10" />
+                    <Button onAction="#toggleSeat" text="q10" GridPane.columnIndex="9" GridPane.rowIndex="10" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+
+                </GridPane>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 15;">
+            <Button onAction="#goBack" text="← Back" />
+        </HBox>
+    </bottom>
+</BorderPane>
