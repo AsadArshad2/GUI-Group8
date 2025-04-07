@@ -17,16 +17,16 @@
 
         <!-- Scrollable TableView -->
         <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="500" hbarPolicy="NEVER">
-            <TableView fx:id="bookingTableView" editable="true">
+            <TableView fx:id="bookingTableView" prefHeight="400">
                 <columns>
-                    <TableColumn fx:id="clientName" text="Client Name" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="eventName" text="Event Name" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="date" text="Date" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="startTime" text="Start Time" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="endTime" text="End Time" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="totalCost" text="Total Cost" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="configurationDetails" text="Configuration" style="-fx-alignment: CENTER;" />
-                    <TableColumn fx:id="status" text="Status" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="clientName" text="Client Name" prefWidth="100"/>
+                    <TableColumn fx:id="eventName" text="Event Name" prefWidth="100"/>
+                    <TableColumn fx:id="roomName" text="Room Name" prefWidth="100"/>
+                    <TableColumn fx:id="date" text="Date" prefWidth="100"/>
+                    <TableColumn fx:id="startTime" text="Start Time" prefWidth="100"/>
+                    <TableColumn fx:id="endTime" text="End Time" prefWidth="100"/>
+                    <TableColumn fx:id="totalCost" text="Total Cost" prefWidth="100"/>
+                    <TableColumn fx:id="status" text="Status" prefWidth="100"/>
                 </columns>
             </TableView>
         </ScrollPane>

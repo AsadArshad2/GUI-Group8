@@ -21,11 +21,11 @@ public class BookingController {
     @FXML private TableView<Booking> bookingTableView;
     @FXML private TableColumn<Booking, String> clientName;
     @FXML private TableColumn<Booking, String> eventName;
+    @FXML private TableColumn<Booking, String> roomName;
     @FXML private TableColumn<Booking, String> date;
     @FXML private TableColumn<Booking, String> startTime;
     @FXML private TableColumn<Booking, String> endTime;
     @FXML private TableColumn<Booking, Double> totalCost;
-    @FXML private TableColumn<Booking, String> configurationDetails;
     @FXML private TableColumn<Booking, String> status;
     @FXML private Label statusLabel;
 
@@ -46,6 +46,10 @@ public class BookingController {
         eventName.setCellFactory(TextFieldTableCell.forTableColumn());
         eventName.setOnEditCommit(event -> event.getRowValue().setEventName(event.getNewValue()));
 
+        roomName.setCellValueFactory(cellData -> cellData.getValue().getRoomNameProperty());
+        roomName.setCellFactory(TextFieldTableCell.forTableColumn());
+        roomName.setOnEditCommit(event -> event.getRowValue().setRoomName(event.getNewValue()));
+
         date.setCellValueFactory(cellData -> cellData.getValue().getDateProperty());
         date.setCellFactory(TextFieldTableCell.forTableColumn());
         date.setOnEditCommit(event -> event.getRowValue().setDate(event.getNewValue()));
@@ -61,10 +65,6 @@ public class BookingController {
         totalCost.setCellValueFactory(cellData -> cellData.getValue().getTotalCostProperty().asObject());
         totalCost.setCellFactory(TextFieldTableCell.<Booking, Double>forTableColumn(new DoubleStringConverter()));
         totalCost.setOnEditCommit(event -> event.getRowValue().setTotalCost(event.getNewValue()));
-
-        configurationDetails.setCellValueFactory(cellData -> cellData.getValue().getConfigurationDetailsProperty());
-        configurationDetails.setCellFactory(TextFieldTableCell.forTableColumn());
-        configurationDetails.setOnEditCommit(event -> event.getRowValue().setConfigurationDetails(event.getNewValue()));
 
         status.setCellValueFactory(cellData -> cellData.getValue().getStatusProperty());
         status.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -168,9 +168,6 @@ public class BookingController {
         datePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateTimeslots.run());
         roomBox.valueProperty().addListener((obs, oldVal, newVal) -> updateTimeslots.run());
 
-        TextField configField = new TextField();
-        configField.setPromptText("Configuration Details");
-
         ComboBox<String> statusBox = new ComboBox<>();
         statusBox.getItems().addAll("held", "confirmed", "cancelled");
         statusBox.setValue("held");
@@ -189,10 +186,8 @@ public class BookingController {
         grid.add(datePicker, 1, 3);
         grid.add(new Label("Timeslot:"), 0, 4);
         grid.add(timeslotBox, 1, 4);
-        grid.add(new Label("Configuration:"), 0, 5);
-        grid.add(configField, 1, 5);
-        grid.add(new Label("Status:"), 0, 6);
-        grid.add(statusBox, 1, 6);
+        grid.add(new Label("Status:"), 0, 5);
+        grid.add(statusBox, 1, 5);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -242,12 +237,12 @@ public class BookingController {
                         selectedTimeslot.getStartTime(),
                         selectedTimeslot.getEndTime(),
                         selectedTimeslot.getCost(),
-                        configField.getText(),
                         statusBox.getValue()
                 );
 
                 newBooking.setClientName(selectedClient.getName());
                 newBooking.setEventName(selectedEvent != null ? selectedEvent.getName() : "");
+                newBooking.setRoomName(selectedRoom.getName());
 
                 return newBooking;
             }

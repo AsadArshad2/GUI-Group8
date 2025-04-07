@@ -14,13 +14,13 @@ public class Booking {
     private StringProperty startTime = new SimpleStringProperty();
     private StringProperty endTime = new SimpleStringProperty();
     private DoubleProperty totalCost = new SimpleDoubleProperty();
-    private StringProperty configurationDetails  = new SimpleStringProperty();
     private StringProperty status = new SimpleStringProperty();
-    private StringProperty clientName = new SimpleStringProperty();  // New property
+    private StringProperty clientName = new SimpleStringProperty();
     private StringProperty eventName = new SimpleStringProperty();
+    private StringProperty roomName = new SimpleStringProperty();
 
-    //full constructor
-    public Booking(int bookingID, int clientID, int eventID, int roomID, String date, String startTime, String endTime, double totalCost, String configurationDetails, String status) {
+    // Full constructor
+    public Booking(int bookingID, int clientID, int eventID, int roomID, String date, String startTime, String endTime, double totalCost, String status) {
         this.bookingID.set(bookingID);
         this.clientID.set(clientID);
         this.eventID.set(eventID);
@@ -29,20 +29,20 @@ public class Booking {
         this.startTime.set(startTime);
         this.endTime.set(endTime);
         this.totalCost.set(totalCost);
-        this.configurationDetails.set(configurationDetails);
         this.status.set(status);
+        this.roomName.set(""); // Initialize roomName as empty; will be set later
     }
 
-    //Constructor for bookings Page
-    public Booking(int bookingID, String clientName, String eventName, String date, String startTime, String endTime, double totalCost, String configurationDetails, String status) {
+    // Constructor for Bookings Page
+    public Booking(int bookingID, String clientName, String eventName, String roomName, String date, String startTime, String endTime, double totalCost, String status) {
         this.bookingID.set(bookingID);
         this.clientName.set(clientName);
         this.eventName.set(eventName);
+        this.roomName.set(roomName);
         this.date.set(date);
         this.startTime.set(startTime);
         this.endTime.set(endTime);
         this.totalCost.set(totalCost);
-        this.configurationDetails.set(configurationDetails);
         this.status.set(status);
     }
 
@@ -54,6 +54,7 @@ public class Booking {
         return LocalTime.parse(endTime.get());
     }
 
+    // Getters
     public int getBookingID() { return bookingID.get(); }
     public int getClientID() { return clientID.get(); }
     public int getEventID() { return eventID.get(); }
@@ -62,11 +63,12 @@ public class Booking {
     public String getStartTime() { return startTime.get(); }
     public String getEndTime() { return endTime.get(); }
     public double getTotalCost() { return totalCost.get(); }
-    public String getConfigurationDetails() { return configurationDetails.get(); }
     public String getStatus() { return status.get(); }
     public String getClientName() { return clientName.get(); }
     public String getEventName() { return eventName.get(); }
+    public String getRoomName() { return roomName.get(); }
 
+    // Setters
     public void setBookingID(int bookingID) { this.bookingID.set(bookingID); }
     public void setClientID(int clientID) { this.clientID.set(clientID); }
     public void setEventID(int eventID) { this.eventID.set(eventID); }
@@ -75,11 +77,12 @@ public class Booking {
     public void setStartTime(String startTime) { this.startTime.set(startTime); }
     public void setEndTime(String endTime) { this.endTime.set(endTime); }
     public void setTotalCost(double totalCost) { this.totalCost.set(totalCost); }
-    public void setConfigurationDetails(String configurationDetails) { this.configurationDetails.set(configurationDetails); }
     public void setStatus(String status) { this.status.set(status); }
     public void setClientName(String clientName) { this.clientName.set(clientName); }
     public void setEventName(String eventName) { this.eventName.set(eventName); }
+    public void setRoomName(String roomName) { this.roomName.set(roomName); }
 
+    // Property getters
     public IntegerProperty getBookingIDProperty() { return bookingID; }
     public IntegerProperty getClientIDProperty() { return clientID; }
     public IntegerProperty getEventIDProperty() { return eventID; }
@@ -88,8 +91,8 @@ public class Booking {
     public StringProperty getStartTimeProperty() { return startTime; }
     public StringProperty getEndTimeProperty() { return endTime; }
     public DoubleProperty getTotalCostProperty() { return totalCost; }
-    public StringProperty getConfigurationDetailsProperty() { return configurationDetails; }
     public StringProperty getStatusProperty() { return status; }
     public StringProperty getClientNameProperty() { return clientName; }
     public StringProperty getEventNameProperty() { return eventName; }
+    public StringProperty getRoomNameProperty() { return roomName; }
 }
