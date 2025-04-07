@@ -29,6 +29,11 @@ public class MenuController {
     }
 
     @FXML
+    private void goToTicketPriceAdjuster(ActionEvent event) throws Exception {
+        switchScene("TicketAdjuster.fxml", event);
+    }
+
+    @FXML
     private void goToInterTeam(ActionEvent event) throws Exception {
         switchScene("InterTeamView.fxml", event);
     }

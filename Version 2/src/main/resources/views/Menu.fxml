@@ -23,6 +23,7 @@
     <Button onAction="#goToContractInvoicePage" text="Contracts and Invoices" />
     <Button onAction="#goToFinances" text="Ticket Sales Overview" />
     <Button onAction="#goToReviews" text="Review System" />
+    <Button onAction="#goToTicketPriceAdjuster" text="Adjust Price" />
     <Button onAction="#goToSeating" text="Seating Configurations" />
     <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
     <Button onAction="#goToSystemSettings" text="System Settings" />

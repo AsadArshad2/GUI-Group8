@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TicketAdjusterController" spacing="15" alignment="CENTER" prefWidth="450" style="-fx-background-color: #f4f4f9; -fx-border-color: #d3d3d3; -fx-border-radius: 10; -fx-background-radius: 10;">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <!-- Title -->
+    <Label text="Ticket Adjuster" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+
+    <!-- Event Selection -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Select Event:" style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+        <ComboBox fx:id="eventComboBox" prefWidth="250" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5;"/>
+    </HBox>
+
+    <!-- Base Price -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Base Price (£):" style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+        <TextField fx:id="basePriceField" promptText="Enter base price" prefWidth="200" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5;"/>
+    </HBox>
+
+    <!-- Discount Percentage -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Discount (%):" style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+        <TextField fx:id="discountField" promptText="0-100" prefWidth="150" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5;"/>
+        <Label fx:id="maxDiscountLabel" text="Max: 0%" style="-fx-font-size: 12px; -fx-text-fill: #888888;"/>
+    </HBox>
+
+    <!-- Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="goBackButton" text="Go Back" onAction="#handleGoBack" style="-fx-background-color: #ff6f61; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+        <Button fx:id="saveButton" text="Save Changes" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+    </HBox>
+
+    <!-- Status Message -->
+    <Label fx:id="statusLabel" text="" style="-fx-font-size: 12px; -fx-text-fill: #f44336;"/>
+</VBox>
