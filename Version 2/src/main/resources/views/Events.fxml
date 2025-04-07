@@ -39,7 +39,6 @@
         <HBox spacing="20" alignment="CENTER">
             <Button text="Add Event" onAction="#handleAddEvent" prefWidth="150" />
             <Button text="Finish Edit" onAction="#handleFinishEdit" prefWidth="150" />
-            <Button text="Back to Menu" onAction="#handleBackToMenu" prefWidth="150" />
         </HBox>
     </VBox>
 </AnchorPane>

@@ -157,8 +157,13 @@ public class DatabaseConnection {
                         rs.getInt("client_id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("address"),
-                        rs.getString("telephone_number")
+                        rs.getString("company_name"),
+                        rs.getString("telephone_number"),
+                        rs.getString("street_address"),
+                        rs.getString("city"),
+                        rs.getString("postcode"),
+                        rs.getString("billing_name"),
+                        rs.getString("billing_email")
                 );
                 clients.add(client);
             }
@@ -351,7 +356,8 @@ public class DatabaseConnection {
 
     public static void pushBookingEditsToDatabase(List<Booking> bookings) {
         String insertSQL = "INSERT INTO Bookings (client_id, event_id, room_id, date, start_time, end_time, total_cost, configuration_details, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String checkOverlapSQL = "SELECT COUNT(*) FROM Bookings WHERE room_id = ? AND date = ? AND " +
+        String updateSQL = "UPDATE Bookings SET client_id = ?, event_id = ?, room_id = ?, date = ?, start_time = ?, end_time = ?, total_cost = ?, configuration_details = ?, status = ? WHERE booking_id = ?";
+        String checkOverlapSQL = "SELECT COUNT(*) FROM Bookings WHERE room_id = ? AND date = ? AND booking_id != ? AND status != 'cancelled' AND " +
                 "((start_time < ? AND (end_time > ? OR end_time = '00:00:00')) OR " +
                 "(start_time < ? AND (end_time > ? OR end_time = '00:00:00')) OR " +
                 "(start_time >= ? AND (end_time <= ? OR end_time = '00:00:00')))";
@@ -359,7 +365,8 @@ public class DatabaseConnection {
         try (Connection conn = connectToDatabase()) {
             conn.setAutoCommit(false);
             try (PreparedStatement checkStmt = conn.prepareStatement(checkOverlapSQL);
-                 PreparedStatement insertStmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+                 PreparedStatement insertStmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+                 PreparedStatement updateStmt = conn.prepareStatement(updateSQL)) {
 
                 for (Booking booking : bookings) {
                     int roomId = booking.getRoomID();
@@ -376,15 +383,16 @@ public class DatabaseConnection {
                         endTime = endTime + ":00";
                     }
 
-                    // Check for overlaps with all bookings
+                    // Check for overlaps, excluding the current booking if it's an update and ignoring cancelled bookings
                     checkStmt.setInt(1, booking.getRoomID());
                     checkStmt.setString(2, booking.getDate());
-                    checkStmt.setString(3, endTime);
-                    checkStmt.setString(4, startTime);
-                    checkStmt.setString(5, endTime);
-                    checkStmt.setString(6, startTime);
+                    checkStmt.setInt(3, booking.getBookingID()); // Exclude the current booking
+                    checkStmt.setString(4, endTime);
+                    checkStmt.setString(5, startTime);
+                    checkStmt.setString(6, endTime);
                     checkStmt.setString(7, startTime);
-                    checkStmt.setString(8, endTime);
+                    checkStmt.setString(8, startTime);
+                    checkStmt.setString(9, endTime);
 
                     ResultSet rs = checkStmt.executeQuery();
                     rs.next();
@@ -393,24 +401,45 @@ public class DatabaseConnection {
                         throw new SQLException("Cannot add booking: timeslot " + booking.getStartTime() + " - " + booking.getEndTime() + " overlaps with an existing booking.");
                     }
 
-                    insertStmt.setInt(1, booking.getClientID());
-                    if (booking.getEventID() == 0) {
-                        insertStmt.setNull(2, java.sql.Types.INTEGER);
-                    } else {
-                        insertStmt.setInt(2, booking.getEventID());
-                    }
-                    insertStmt.setInt(3, booking.getRoomID());
-                    insertStmt.setString(4, booking.getDate());
-                    insertStmt.setString(5, startTime);
-                    insertStmt.setString(6, endTime);
-                    insertStmt.setDouble(7, booking.getTotalCost());
-                    insertStmt.setString(8, booking.getConfigurationDetails());
-                    insertStmt.setString(9, booking.getStatus());
-                    insertStmt.executeUpdate();
+                    // Determine if this is an insert (new booking) or update (existing booking)
+                    if (booking.getBookingID() == 0) {
+                        // Insert new booking
+                        insertStmt.setInt(1, booking.getClientID());
+                        if (booking.getEventID() == 0) {
+                            insertStmt.setNull(2, java.sql.Types.INTEGER);
+                        } else {
+                            insertStmt.setInt(2, booking.getEventID());
+                        }
+                        insertStmt.setInt(3, booking.getRoomID());
+                        insertStmt.setString(4, booking.getDate());
+                        insertStmt.setString(5, startTime);
+                        insertStmt.setString(6, endTime);
+                        insertStmt.setDouble(7, booking.getTotalCost());
+                        insertStmt.setString(8, booking.getConfigurationDetails());
+                        insertStmt.setString(9, booking.getStatus());
+                        insertStmt.executeUpdate();
 
-                    ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        booking.setBookingID(generatedKeys.getInt(1));
+                        ResultSet generatedKeys = insertStmt.getGeneratedKeys();
+                        if (generatedKeys.next()) {
+                            booking.setBookingID(generatedKeys.getInt(1));
+                        }
+                    } else {
+                        // Update existing booking
+                        updateStmt.setInt(1, booking.getClientID());
+                        if (booking.getEventID() == 0) {
+                            updateStmt.setNull(2, java.sql.Types.INTEGER);
+                        } else {
+                            updateStmt.setInt(2, booking.getEventID());
+                        }
+                        updateStmt.setInt(3, booking.getRoomID());
+                        updateStmt.setString(4, booking.getDate());
+                        updateStmt.setString(5, startTime);
+                        updateStmt.setString(6, endTime);
+                        updateStmt.setDouble(7, booking.getTotalCost());
+                        updateStmt.setString(8, booking.getConfigurationDetails());
+                        updateStmt.setString(9, booking.getStatus());
+                        updateStmt.setInt(10, booking.getBookingID());
+                        updateStmt.executeUpdate();
                     }
                 }
 
@@ -549,7 +578,10 @@ public class DatabaseConnection {
             LocalTime slotEnd = slot.getEndTime().equals("00:00") ? LocalTime.MAX : LocalTime.parse(slot.getEndTime() + ":00");
 
             for (Booking booking : bookingsOnDate) {
-                // Consider all bookings (held, confirmed, cancelled) for overlap checks
+                // Ignore bookings with status 'cancelled'
+                if (booking.getStatus().equals("cancelled")) {
+                    continue;
+                }
                 LocalTime bookingStart;
                 LocalTime bookingEnd;
                 try {
@@ -602,6 +634,194 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             System.out.println("Error fetching room name for room_id " + roomId + ": " + e.getMessage());
             return "";
+        }
+    }
+
+    public static void generateInvoiceForClient(int clientId) {
+        String query = "SELECT b.booking_id, b.date, b.start_time, b.end_time, b.total_cost, r.name AS venue_name " +
+                "FROM Bookings b " +
+                "JOIN Rooms r ON b.room_id = r.room_id " +
+                "WHERE b.client_id = ?";
+        double totalCost = 0.0;
+        StringBuilder costDescriptionBuilder = new StringBuilder();
+
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int bookingId = rs.getInt("booking_id");
+                String date = rs.getString("date");
+                String startTime = rs.getString("start_time");
+                String endTime = rs.getString("end_time");
+                double cost = rs.getDouble("total_cost");
+                String venueName = rs.getString("venue_name");
+
+                totalCost += cost;
+                costDescriptionBuilder.append(String.format("Booking #%d on %s from %s to %s: %s - £%.2f\n",
+                        bookingId, date, startTime, endTime, venueName, cost));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error calculating invoice for client: " + e.getMessage());
+        }
+
+        String insertSQL = "INSERT INTO Invoices (client_id, date, cost_description, total_cost, paid_status) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+            stmt.setInt(1, clientId);
+            stmt.setDate(2, Date.valueOf(LocalDate.now()));
+            stmt.setString(3, costDescriptionBuilder.toString());
+            stmt.setDouble(4, totalCost);
+            stmt.setString(5, "unpaid");
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error generating invoice: " + e.getMessage());
+        }
+    }
+
+    public static List<Contract> getAllContracts() {
+        List<Contract> contracts = new ArrayList<>();
+        String sql = "SELECT * FROM Contracts";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+            while (rs.next()) {
+                Contract contract = new Contract(
+                        rs.getInt("contract_id"),
+                        rs.getInt("event_id"),
+                        rs.getInt("client_id"),
+                        rs.getString("description"),
+                        rs.getString("contract_date")
+                );
+                contracts.add(contract);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching contracts: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return contracts;
+    }
+
+    public static List<Contract> getContractInfo() {
+        List<Contract> contracts = new ArrayList<>();
+        String sql = "SELECT c.*, cl.name AS client_name " +
+                "FROM Contracts c " +
+                "JOIN Clients cl ON c.client_id = cl.client_id";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+            while (rs.next()) {
+                Contract contract = new Contract(
+                        rs.getInt("contract_id"),
+                        rs.getInt("event_id"),
+                        rs.getInt("client_id"),
+                        rs.getString("client_name"),
+                        rs.getString("description"),
+                        rs.getString("contract_date")
+                );
+                contracts.add(contract);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching contracts: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return contracts;
+    }
+
+    // New method to fetch contracts with client name
+    public static List<Contract> getAllContractsWithClientName() {
+        List<Contract> contracts = new ArrayList<>();
+        String sql = "SELECT c.*, cl.name AS client_name " +
+                "FROM Contracts c " +
+                "JOIN Clients cl ON c.client_id = cl.client_id";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+            while (rs.next()) {
+                Contract contract = new Contract(
+                        rs.getInt("contract_id"),
+                        rs.getInt("event_id"),
+                        rs.getInt("client_id"),
+                        rs.getString("client_name"),
+                        rs.getString("description"),
+                        rs.getString("contract_date")
+                );
+                contracts.add(contract);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching contracts with client name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return contracts;
+    }
+
+    // Original getAllInvoices (unchanged)
+    public static List<Invoice> getAllInvoices() {
+        List<Invoice> invoices = new ArrayList<>();
+        String sql = "SELECT * FROM Invoices";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+            while (rs.next()) {
+                Invoice invoice = new Invoice(
+                        rs.getInt("invoice_id"),
+                        rs.getInt("client_id"),
+                        rs.getString("date"),
+                        rs.getString("cost_description"),
+                        rs.getDouble("total_cost"),
+                        rs.getString("paid_status")
+                );
+                invoices.add(invoice);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching invoices: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return invoices;
+    }
+
+    // New method to fetch invoices with client name
+    public static List<Invoice> getAllInvoicesWithClientName() {
+        List<Invoice> invoices = new ArrayList<>();
+        String sql = "SELECT i.*, c.name AS client_name " +
+                "FROM Invoices i " +
+                "JOIN Clients c ON i.client_id = c.client_id";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement p = conn.prepareStatement(sql);
+             ResultSet rs = p.executeQuery()) {
+            while (rs.next()) {
+                Invoice invoice = new Invoice(
+                        rs.getInt("invoice_id"),
+                        rs.getInt("client_id"),
+                        rs.getString("client_name"),
+                        rs.getString("date"),
+                        rs.getString("cost_description"),
+                        rs.getDouble("total_cost"),
+                        rs.getString("paid_status")
+                );
+                invoices.add(invoice);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in fetching invoices with client name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return invoices;
+    }
+
+    public static void createContract(int eventId, int clientId, String description, String contractDate) {
+        String insertSQL = "INSERT INTO Contracts (event_id, client_id, description, contract_date) " +
+                "VALUES (?, ?, ?, ?)";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+            stmt.setInt(1, eventId);
+            stmt.setInt(2, clientId);
+            stmt.setString(3, description);
+            stmt.setString(4, contractDate);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating contract: " + e.getMessage());
         }
     }
 

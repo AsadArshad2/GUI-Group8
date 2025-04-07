@@ -39,9 +39,11 @@
 
         <!-- Button Layout at the Bottom -->
         <HBox spacing="20" alignment="CENTER">
+            <Button text="Delete Booking" onAction="#handleCancelledBooking"/>
+            <Button text="Hold Booking" onAction="#handleHeldBooking" />
+            <Button text="Confirmed Booking" onAction="#handleConfirmedBooking" />
             <Button text="Add Booking" onAction="#handleAddBooking" prefWidth="150" />
             <Button text="Finish Edit" onAction="#handleFinishEdit" prefWidth="150" />
-            <Button text="Back to Menu" onAction="#handleBackToMenu" prefWidth="150" />
         </HBox>
     </VBox>
 </AnchorPane>

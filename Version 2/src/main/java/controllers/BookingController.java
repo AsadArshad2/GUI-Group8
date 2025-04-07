@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.util.converter.DoubleStringConverter;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +88,42 @@ public class BookingController {
         bookingTableView.getColumns().forEach(column ->
                 column.prefWidthProperty().bind(bookingTableView.widthProperty().multiply(widthPercentage))
         );
+    }
+
+    @FXML
+    private void handleHeldBooking() {
+        Booking selected = bookingTableView.getSelectionModel().getSelectedItem();
+        if (selected != null && !selected.getStatus().equalsIgnoreCase("held")) {
+            selected.setStatus("held");
+            bookingTableView.refresh();
+            statusLabel.setText("Booking marked as held for: " + selected.getEventName());
+        } else {
+            statusLabel.setText("Select a booking to mark as held.");
+        }
+    }
+
+    @FXML
+    private void handleConfirmedBooking() {
+        Booking selected = bookingTableView.getSelectionModel().getSelectedItem();
+        if (selected != null && !selected.getStatus().equalsIgnoreCase("confirmed")) {
+            selected.setStatus("confirmed");
+            bookingTableView.refresh();
+            statusLabel.setText("Booking confirmed for: " + selected.getEventName());
+        } else {
+            statusLabel.setText("Select a booking to mark as confirmed.");
+        }
+    }
+
+    @FXML
+    private void handleCancelledBooking() {
+        Booking selected = bookingTableView.getSelectionModel().getSelectedItem();
+        if (selected != null && !selected.getStatus().equalsIgnoreCase("cancelled")) {
+            selected.setStatus("cancelled");
+            bookingTableView.refresh();
+            statusLabel.setText("Booking cancelled for: " + selected.getEventName());
+        } else {
+            statusLabel.setText("Select a booking to mark as cancelled.");
+        }
     }
 
     @FXML
@@ -245,8 +280,27 @@ public class BookingController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                DatabaseConnection.pushBookingEditsToDatabase(new ArrayList<>(bookingTableView.getItems()));
-                loadAllBookings();
+                List<Booking> bookingsToUpdate = new ArrayList<>();
+                for (Booking booking : bookingTableView.getItems()) {
+                    // Only update bookings that already exist in the database (booking_id > 0)
+                    if (booking.getBookingID() > 0) {
+                        bookingsToUpdate.add(booking);
+                    }
+                }
+
+                if (bookingsToUpdate.isEmpty()) {
+                    statusLabel.setText("No bookings to update.");
+                    return;
+                }
+
+                try {
+                    DatabaseConnection.pushBookingEditsToDatabase(bookingsToUpdate);
+                    loadAllBookings();
+                    statusLabel.setText("Bookings updated successfully.");
+                } catch (RuntimeException e) {
+                    System.out.println("Error updating bookings: " + e.getMessage());
+                    statusLabel.setText("Error updating bookings: " + e.getMessage());
+                }
             }
         });
     }
