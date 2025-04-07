@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -8,63 +9,54 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1000" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FinancesController">
-    <VBox alignment="CENTER" layoutX="50" layoutY="30" prefWidth="900" spacing="20">
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.FinancesController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="🎬 Film Cost and Ticket Sales Dashboard" />
+    <!-- Top HBox for Back Button and Title -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button text="Back" onAction="#handleBackToMenu" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <Label text="Finances" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    </HBox>
 
-        <HBox spacing="10">
-            <TextField fx:id="filmTitleField" promptText="Film Title" />
-            <TextField fx:id="filmCostField" promptText="Film Cost (£)" />
-            <Button onAction="#handleLogCost" text="Log Film Cost" />
-        </HBox>
+    <!-- Venue Profits Chart -->
+    <BarChart fx:id="venueProfitsChart" prefHeight="150">
+        <xAxis>
+            <CategoryAxis label="" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="" />
+        </yAxis>
+    </BarChart>
 
-        <HBox spacing="10">
-            <TextField fx:id="ticketSalesField" promptText="Total Seats Sold" />
-            <TextField fx:id="ticketPriceField" promptText="Ticket Price (£)" />
-            <Button onAction="#handleLogSales" text="Log Ticket Sales" />
-        </HBox>
+    <!-- Ticket Revenue Chart -->
+    <BarChart fx:id="salesChart" prefHeight="150">
+        <xAxis>
+            <CategoryAxis label="" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="" />
+        </yAxis>
+    </BarChart>
 
-        <TextArea fx:id="financeOutput" prefHeight="120" prefWidth="800" promptText="Results and summaries..." styleClass="text-area" stylesheets="@../styles/style.css" />
-        <TableView fx:id="filmSummaryTable"
-                   prefHeight="200"
-                   stylesheets="@../styles/style.css">
-            <columns>
-                <TableColumn fx:id="filmTitleCol" text="Film " />
-                <TableColumn fx:id="costCol" text="Cost(£)" />
-                <TableColumn fx:id="seatsSoldCol" text="Tickets Sold" />
-                <TableColumn fx:id="priceCol" text="Ticket Price(£)" />
-                <TableColumn fx:id="revenueCol" text="Revenue(£)" />
-                <TableColumn fx:id="profitCol" text="Profit(£)" />
-            </columns>
-        </TableView>
+    <!-- Venue Profits and Ticket Sales Summary Table -->
+    <Label text="Financial Summary" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <TableView fx:id="venueSummaryTable" prefHeight="150"> <!-- Reduced height from 300 to 150 -->
+        <columns>
+            <TableColumn fx:id="venueNameCol" text="Venue Name" prefWidth="150"/>
+            <TableColumn fx:id="totalProfitCol" text="Venue Profit (£)" prefWidth="150"/>
+            <TableColumn fx:id="seatsSoldCol" text="Seats Sold" prefWidth="100"/>
+            <TableColumn fx:id="priceCol" text="Ticket Price (£)" prefWidth="100"/>
+            <TableColumn fx:id="revenueCol" text="Ticket Revenue (£)" prefWidth="150"/>
+            <TableColumn fx:id="profitCol" text="Total Profit (£)" prefWidth="150"/>
+        </columns>
+    </TableView>
 
-
-        <HBox alignment="CENTER" spacing="40">
-            <BarChart fx:id="costChart" prefHeight="250" prefWidth="400">
-                <xAxis>
-                    <CategoryAxis label="Film Title" />
-                </xAxis>
-                <yAxis>
-                    <NumberAxis label="Cost (£)" />
-                </yAxis>
-            </BarChart>
-
-            <BarChart fx:id="salesChart" prefHeight="250" prefWidth="400">
-                <xAxis>
-                    <CategoryAxis label="Film Title" />
-                </xAxis>
-                <yAxis>
-                    <NumberAxis label="Revenue (£)" />
-                </yAxis>
-            </BarChart>
-        </HBox>
-
-        <Button onAction="#handleBackToMenu" text="⬅ Back to Menu" />
-    </VBox>
-</AnchorPane>
+    <!-- Output Area for Feedback -->
+    <TextArea fx:id="financeOutput" prefHeight="100" editable="false"/>
+</VBox>

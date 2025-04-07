@@ -6,7 +6,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.MenuController">
+<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.MenuController"
+      stylesheets="@../styles/style.css">
 
     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
         <image>
@@ -16,14 +17,14 @@
 
     <Label style="-fx-font-size: 24px;" text="Lancaster Music Hall - Staff Dashboard" />
 
-    <Button onAction="#goToBooking" text="Manage Bookings" />
-    <Button onAction="#goToVenueCalendar" text="Venue Calendar" />
+    <Button onAction="#goToCalendar" text="Calendar" />
     <Button onAction="#goToDailyPlanner" text="Daily Reports" />
-    <Button onAction="#goToSeating" text="Seating Configurations" />
-    <Button onAction="#goToContract" text="Contracts and Invoices" />
+    <Button onAction="#goToClientPage" text="Clients" />
+    <Button onAction="#goToContractInvoicePage" text="Contracts and Invoices" />
     <Button onAction="#goToFinances" text="Ticket Sales Overview" />
-    <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
     <Button onAction="#goToReviews" text="Review System" />
+    <Button onAction="#goToSeating" text="Seating Configurations" />
+    <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
     <Button onAction="#goToSystemSettings" text="System Settings" />
     <Button onAction="#goToInterTeam" text="Team Data Sync" />
 </VBox>

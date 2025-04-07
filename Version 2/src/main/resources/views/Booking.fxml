@@ -5,24 +5,23 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BookingController"
-            stylesheets="@../styles/style.css"
             prefWidth="900" prefHeight="600">
 
     <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
-        <Label text="Venue Bookings - Operations and Marketing" style="-fx-font-size: 18px; -fx-text-fill: white;" />
-
+        <!-- Title and Back Button -->
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Select Date:" style="-fx-text-fill: white;"/>
-            <DatePicker fx:id="datePicker" />
-            <Button text="Check Availability" onAction="#handleCheckAvailability" />
+            <Button text="Back" onAction="#handleBackToCalendar" styleClass="back-button" />
+            <Label text="Venue Bookings" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
         </HBox>
 
-        <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="400" hbarPolicy="NEVER">
+        <!-- Scrollable TableView -->
+        <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="500" hbarPolicy="NEVER">
             <TableView fx:id="bookingTableView" editable="true">
                 <columns>
                     <TableColumn fx:id="clientName" text="Client Name" style="-fx-alignment: CENTER;" />
                     <TableColumn fx:id="eventName" text="Event Name" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="date" text="Date" style="-fx-alignment: CENTER;" />
                     <TableColumn fx:id="startTime" text="Start Time" style="-fx-alignment: CENTER;" />
                     <TableColumn fx:id="endTime" text="End Time" style="-fx-alignment: CENTER;" />
                     <TableColumn fx:id="totalCost" text="Total Cost" style="-fx-alignment: CENTER;" />
@@ -32,18 +31,19 @@
             </TableView>
         </ScrollPane>
 
+        <!-- Status Label -->
+        <Label fx:id="statusLabel" text="All bookings loaded..." style="-fx-font-weight: bold;" />
 
-        <HBox spacing="10">
+        <!-- Spacer to Push Buttons to Bottom -->
+        <Region VBox.vgrow="ALWAYS" />
+
+        <!-- Button Layout at the Bottom -->
+        <HBox spacing="20" alignment="CENTER">
             <Button text="Delete Booking" onAction="#handleCancelledBooking"/>
             <Button text="Hold Booking" onAction="#handleHeldBooking" />
             <Button text="Confirmed Booking" onAction="#handleConfirmedBooking" />
-            <Button text="Add Booking" onAction="#handleAddBooking" />
-            <Button text="Finish Edit" onAction="#handleFinishEdit"/>
-            <Button text="Back to Menu" onAction="#handleBackToMenu" styleClass="back-button" />
-
+            <Button text="Add Booking" onAction="#handleAddBooking" prefWidth="150" />
+            <Button text="Finish Edit" onAction="#handleFinishEdit" prefWidth="150" />
         </HBox>
-
-        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-text-fill: lightgray; -fx-font-weight: bold;" />
-
     </VBox>
 </AnchorPane>

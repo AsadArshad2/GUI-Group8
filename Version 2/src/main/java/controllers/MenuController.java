@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
+import javafx.stage.StageStyle;
 
 public class MenuController {
 
@@ -19,17 +20,17 @@ public class MenuController {
     }
 
     @FXML
-    private void goToContract(ActionEvent event) throws Exception {
-        switchScene("Contract.fxml", event);
+    private void goToClientPage(ActionEvent event) throws Exception {
+        switchScene("Client.fxml", event);
     }
     @FXML
-    private void goToInterTeam(ActionEvent event) throws Exception {
-        switchScene("InterTeamView.fxml", event);
+    private void goToContractInvoicePage(ActionEvent event) throws Exception {
+        switchScene("ContractAndInvoices.fxml", event);
     }
 
     @FXML
-    private void goToBooking(ActionEvent event) throws Exception {
-        switchScene("Booking.fxml", event);
+    private void goToInterTeam(ActionEvent event) throws Exception {
+        switchScene("InterTeamView.fxml", event);
     }
 
     @FXML
@@ -48,13 +49,13 @@ public class MenuController {
     }
 
     @FXML
-    private void goToVenueCalendar(ActionEvent event) throws Exception {
-        switchScene("VenueCalendar.fxml", event);
+    private void goToSeating(ActionEvent event) throws Exception {
+        switchScene("Seating.fxml", event);
     }
 
     @FXML
-    private void goToSeating(ActionEvent event) throws Exception {
-        switchScene("Seating.fxml", event);
+    private void goToCalendar(ActionEvent event) throws Exception {
+        switchScene("Calendar.fxml", event);
     }
 
     @FXML

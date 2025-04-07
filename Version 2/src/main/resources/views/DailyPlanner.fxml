@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.DailyPlannerController"
-      stylesheets="@../styles/style.css"
-alignment="CENTER" spacing="15" prefWidth="800" prefHeight="600">
-
-    <!-- ✅ Proper padding syntax for JavaFX 21 -->
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.DailyPlannerController">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="📅 Daily Venue Planner"
-           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-
-    <Label fx:id="dateLabel" style="-fx-font-size: 14px; -fx-text-fill: #555;" />
-
-    <ListView fx:id="scheduleList" prefHeight="350" prefWidth="700" />
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="🧾 Export PDF" onAction="#exportAsPDF" />
-        <Button text="⬅ Back to Menu" onAction="#goBackToMenu" />
+    <!-- Top HBox for Back Button and Date Label -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button text="Back" onAction="#goBackToMenu" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <Label fx:id="dateLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Today is"/>
     </HBox>
 
+    <!-- TableView for Detailed Schedule -->
+    <TableView fx:id="dailyScheduleTable" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="roomColumn" text="Room" prefWidth="100"/>
+            <TableColumn fx:id="timeColumn" text="Time" prefWidth="120"/>
+            <TableColumn fx:id="activityColumn" text="Activity" prefWidth="150"/>
+            <TableColumn fx:id="bookedByColumn" text="Booked By" prefWidth="100"/>
+            <TableColumn fx:id="configurationColumn" text="Configuration" prefWidth="120"/>
+            <TableColumn fx:id="notesColumn" text="Notes" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <!-- ListView for Simple Schedule Display -->
+    <ListView fx:id="scheduleList" prefHeight="150"/>
+
+    <!-- Buttons -->
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Export as PDF" onAction="#exportAsPDF" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    </HBox>
 </VBox>

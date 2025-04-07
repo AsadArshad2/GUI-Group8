@@ -1,36 +1,50 @@
 package DatabaseLogic;
 
-import java.util.Date;
+import javafx.beans.property.*;
 
 public class Invoice {
-    private int invoiceID;
-    private int clientID;
-    private int bookingID;
-    private Date date;
-    private String cost_description;
-    private double total_cost;
-    private String status;
+    private IntegerProperty invoiceId = new SimpleIntegerProperty();
+    private IntegerProperty clientId = new SimpleIntegerProperty();
+    private StringProperty clientName = new SimpleStringProperty();
+    private StringProperty date = new SimpleStringProperty();
+    private StringProperty costDescription = new SimpleStringProperty();
+    private DoubleProperty totalCost = new SimpleDoubleProperty();
+    private StringProperty paidStatus = new SimpleStringProperty();
 
-    public Invoice(int clientID, int bookingID, Date date, String cost_description, double total_cost, String status) {
-        this.clientID = clientID;
-        this.bookingID = bookingID;
-        this.date = date;
-        this.cost_description = cost_description;
-        this.total_cost = total_cost;
-        this.status = status;
+    public Invoice(int invoiceId, int clientId, String clientName, String date, String costDescription, double totalCost, String paidStatus) {
+        this.invoiceId.set(invoiceId);
+        this.clientId.set(clientId);
+        this.clientName.set(clientName);
+        this.date.set(date);
+        this.costDescription.set(costDescription);
+        this.totalCost.set(totalCost);
+        this.paidStatus.set(paidStatus);
     }
-    public int getInvoiceID() { return invoiceID; }
-    public void setInvoiceID(int invoiceID) { this.invoiceID = invoiceID; }
-    public int getClientID() { return clientID; }
-    public void setClientID(int clientID) { this.clientID = clientID; }
-    public int getBookingID() { return bookingID; }
-    public void setBookingID(int bookingID) { this.bookingID = bookingID; }
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
-    public String getCost_description() { return cost_description; }
-    public void setCost_description(String cost_description) { this.cost_description = cost_description; }
-    public double getTotal_cost() { return total_cost; }
-    public void setTotal_cost(double total_cost) { this.total_cost = total_cost; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+
+    public Invoice(int invoiceId, int clientId, String date, String costDescription, double totalCost, String paidStatus) {
+        this.invoiceId.set(invoiceId);
+        this.clientId.set(clientId);
+        this.date.set(date);
+        this.costDescription.set(costDescription);
+        this.totalCost.set(totalCost);
+        this.paidStatus.set(paidStatus);
+    }
+
+    // Getters
+    public int getInvoiceId() { return invoiceId.get(); }
+    public int getClientId() { return clientId.get(); }
+    public String getClientName() { return clientName.get(); }
+    public String getDate() { return date.get(); }
+    public String getCostDescription() { return costDescription.get(); }
+    public double getTotalCost() { return totalCost.get(); }
+    public String getPaidStatus() { return paidStatus.get(); }
+
+    // Property Getters
+    public IntegerProperty getInvoiceIdProperty() { return invoiceId; }
+    public IntegerProperty getClientIdProperty() { return clientId; }
+    public StringProperty getClientNameProperty() { return clientName; }
+    public StringProperty getDateProperty() { return date; }
+    public StringProperty getCostDescriptionProperty() { return costDescription; }
+    public DoubleProperty getTotalCostProperty() { return totalCost; }
+    public StringProperty getPaidStatusProperty() { return paidStatus; }
 }
