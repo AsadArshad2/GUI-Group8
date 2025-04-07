@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseConnection {
-    //way to connect to the database
+
     public static Connection connectToDatabase() throws SQLException {
         String url = "jdbc:mysql://sst-stuproj.city.ac.uk:3306/in2033t08";
         String user = "in2033t08_a";
@@ -21,6 +21,109 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             System.err.println("Connection failed: " + e.getMessage());
             return null;
+        }
+    }
+
+    private static boolean isBookingInvoiced(int bookingId) {
+        String query = "SELECT COUNT(*) FROM Invoices WHERE cost_description LIKE ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Look for the booking ID in the cost description (e.g., "Booking #2 on...")
+            stmt.setString(1, "%Booking #" + bookingId + " on%");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking if booking is invoiced: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static void generateInvoicesForAllUninvoicedBookings() {
+        // Fetch all bookings that are not cancelled
+        List<Booking> bookings = getBookings().stream()
+                .filter(booking -> !"cancelled".equalsIgnoreCase(booking.getStatus()))
+                .collect(Collectors.toList());
+
+        // Group bookings by client
+        var bookingsByClient = bookings.stream()
+                .filter(booking -> !isBookingInvoiced(booking.getBookingID()))
+                .collect(Collectors.groupingBy(Booking::getClientID));
+
+        // Generate one invoice per booking
+        for (var entry : bookingsByClient.entrySet()) {
+            int clientId = entry.getKey();
+            List<Booking> clientBookings = entry.getValue();
+
+            for (Booking booking : clientBookings) {
+                try {
+                    generateInvoiceForBooking(clientId, booking);
+                } catch (SQLException e) {
+                    System.err.println("Failed to generate invoice for booking #" + booking.getBookingID() + ": " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    private static void generateInvoiceForBooking(int clientId, Booking booking) throws SQLException {
+        // Fetch the venue name and event name
+        String query = "SELECT r.name AS venue_name, e.name AS event_name " +
+                "FROM Bookings b " +
+                "JOIN Rooms r ON b.room_id = r.room_id " +
+                "LEFT JOIN Event_details e ON b.event_id = e.event_id " +
+                "WHERE b.booking_id = ?";
+        String venueName;
+        String eventName;
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, booking.getBookingID());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                venueName = rs.getString("venue_name");
+                eventName = rs.getString("event_name");
+                if (eventName == null) {
+                    eventName = "Event #" + booking.getEventID(); // Fallback if no event name
+                }
+            } else {
+                throw new SQLException("Venue not found for booking #" + booking.getBookingID());
+            }
+        }
+
+        // Create the cost description using the event name
+        String costDescription = String.format("%s on %s from %s to %s: %s - £%.2f",
+                eventName, booking.getDate(), booking.getStartTime(), booking.getEndTime(),
+                venueName, booking.getTotalCost());
+
+        // Insert the invoice
+        String insertSQL = "INSERT INTO Invoices (client_id, date, cost_description, total_cost, paid_status) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+            stmt.setInt(1, clientId);
+            stmt.setDate(2, Date.valueOf(LocalDate.now()));
+            stmt.setString(3, costDescription);
+            stmt.setDouble(4, booking.getTotalCost());
+            stmt.setString(5, "unpaid");
+            stmt.executeUpdate();
+        }
+    }
+
+    public static void generateInvoiceForClient(int clientId) {
+        // Fetch bookings for this client that are not cancelled and not yet invoiced
+        List<Booking> bookings = getBookings().stream()
+                .filter(booking -> booking.getClientID() == clientId)
+                .filter(booking -> !"cancelled".equalsIgnoreCase(booking.getStatus()))
+                .filter(booking -> !isBookingInvoiced(booking.getBookingID()))
+                .collect(Collectors.toList());
+
+        // Generate one invoice per booking
+        for (Booking booking : bookings) {
+            try {
+                generateInvoiceForBooking(clientId, booking);
+            } catch (SQLException e) {
+                System.err.println("Failed to generate invoice for booking #" + booking.getBookingID() + ": " + e.getMessage());
+            }
         }
     }
 
@@ -638,50 +741,6 @@ public class DatabaseConnection {
         }
     }
 
-    public static void generateInvoiceForClient(int clientId) {
-        String query = "SELECT b.booking_id, b.date, b.start_time, b.end_time, b.total_cost, r.name AS venue_name " +
-                "FROM Bookings b " +
-                "JOIN Rooms r ON b.room_id = r.room_id " +
-                "WHERE b.client_id = ?";
-        double totalCost = 0.0;
-        StringBuilder costDescriptionBuilder = new StringBuilder();
-
-        try (Connection conn = connectToDatabase();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, clientId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                int bookingId = rs.getInt("booking_id");
-                String date = rs.getString("date");
-                String startTime = rs.getString("start_time");
-                String endTime = rs.getString("end_time");
-                double cost = rs.getDouble("total_cost");
-                String venueName = rs.getString("venue_name");
-
-                totalCost += cost;
-                costDescriptionBuilder.append(String.format("Booking #%d on %s from %s to %s: %s - £%.2f\n",
-                        bookingId, date, startTime, endTime, venueName, cost));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error calculating invoice for client: " + e.getMessage());
-        }
-
-        String insertSQL = "INSERT INTO Invoices (client_id, date, cost_description, total_cost, paid_status) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = connectToDatabase();
-             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
-            stmt.setInt(1, clientId);
-            stmt.setDate(2, Date.valueOf(LocalDate.now()));
-            stmt.setString(3, costDescriptionBuilder.toString());
-            stmt.setDouble(4, totalCost);
-            stmt.setString(5, "unpaid");
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error generating invoice: " + e.getMessage());
-        }
-    }
-
     public static List<Contract> getAllContracts() {
         List<Contract> contracts = new ArrayList<>();
         String sql = "SELECT * FROM Contracts";
@@ -781,6 +840,61 @@ public class DatabaseConnection {
         return invoices;
     }
 
+    public static List<Review> getAllReviews() {
+        List<Review> reviews = new ArrayList<>();
+        String sql = "SELECT * FROM Reviews";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Review review = new Review(
+                        rs.getInt("review_id"),
+                        rs.getInt("event_id"),
+                        rs.getString("source"),
+                        rs.getString("content"),
+                        rs.getInt("rating")
+                );
+                reviews.add(review);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching reviews: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return reviews;
+    }
+
+    public static void addReview(Review review) {
+        String insertSQL = "INSERT INTO Reviews (event_id, source, content, rating) VALUES (?, ?, ?, ?)";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, review.getEventID());
+            stmt.setString(2, review.getSource());
+            stmt.setString(3, review.getContent());
+            stmt.setInt(4, review.getRating());
+            stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                review.setReviewID(generatedKeys.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error adding review: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteReview(int reviewId) {
+        String deleteSQL = "DELETE FROM Reviews WHERE review_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(deleteSQL)) {
+            stmt.setInt(1, reviewId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error deleting review: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public static List<Invoice> getAllInvoicesWithClientName() {
         List<Invoice> invoices = new ArrayList<>();
         String sql = "SELECT i.*, c.name AS client_name " +
@@ -813,6 +927,7 @@ public class DatabaseConnection {
         String sql = "SELECT r.name AS venue_name, SUM(b.total_cost) AS total_profit " +
                 "FROM Bookings b " +
                 "JOIN Rooms r ON b.room_id = r.room_id " +
+                "WHERE b.status != 'cancelled' " +
                 "GROUP BY r.name";
         try (Connection conn = connectToDatabase();
              PreparedStatement p = conn.prepareStatement(sql);
@@ -843,5 +958,4 @@ public class DatabaseConnection {
             throw new RuntimeException("Error creating contract: " + e.getMessage());
         }
     }
-
 }

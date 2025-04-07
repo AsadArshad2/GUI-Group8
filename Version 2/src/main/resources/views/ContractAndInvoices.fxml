@@ -2,13 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -20,7 +16,7 @@
 
     <!-- Top HBox for Back Button and Title -->
     <HBox alignment="CENTER_LEFT" spacing="20">
-        <Button text="Back to Menu" onAction="#goBackToMenu" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        <Button text="Back" onAction="#goBackToMenu" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
         <Label text="Contracts and Invoices" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
     </HBox>
 
@@ -52,9 +48,7 @@
     </TableView>
 
     <!-- Generate Invoice Section -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="Generate Invoice for Client:"/>
-        <ComboBox fx:id="clientSelector" promptText="Select Client"/>
-        <Button text="Generate Invoice" onAction="#generateInvoice" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Generate Invoices" onAction="#generateInvoice" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
     </HBox>
 </VBox>

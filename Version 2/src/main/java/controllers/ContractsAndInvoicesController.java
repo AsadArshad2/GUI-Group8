@@ -33,7 +33,7 @@ public class ContractsAndInvoicesController {
     @FXML private TableColumn<Invoice, Double> totalCostColumn;
     @FXML private TableColumn<Invoice, String> paidStatusColumn;
 
-    @FXML private ComboBox<Client> clientSelector;
+    // Removed @FXML private ComboBox<Client> clientSelector;
 
     @FXML
     public void initialize() {
@@ -64,9 +64,9 @@ public class ContractsAndInvoicesController {
         totalCostColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalCostProperty().asObject());
         paidStatusColumn.setCellValueFactory(cellData -> cellData.getValue().getPaidStatusProperty());
 
-        // Populate the client selector
-        List<Client> clients = DatabaseConnection.getAllClients();
-        clientSelector.setItems(FXCollections.observableArrayList(clients));
+        // Removed client selector population
+        // List<Client> clients = DatabaseConnection.getAllClients();
+        // clientSelector.setItems(FXCollections.observableArrayList(clients));
 
         // Load data
         loadContracts();
@@ -184,29 +184,19 @@ public class ContractsAndInvoicesController {
 
     @FXML
     private void generateInvoice() {
-        Client selectedClient = clientSelector.getSelectionModel().getSelectedItem();
-        if (selectedClient == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Client Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a client to generate an invoice.");
-            alert.showAndWait();
-            return;
-        }
-
         try {
-            DatabaseConnection.generateInvoiceForClient(selectedClient.getClientID());
+            DatabaseConnection.generateInvoicesForAllUninvoicedBookings();
             loadInvoices(); // Refresh the table
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Invoice Generated");
+            alert.setTitle("Invoices Generated");
             alert.setHeaderText(null);
-            alert.setContentText("Invoice generated successfully for " + selectedClient.getName());
+            alert.setContentText("Invoices have been generated for all uninvoiced bookings.");
             alert.showAndWait();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to generate invoice: " + e.getMessage());
+            alert.setContentText("Failed to generate invoices: " + e.getMessage());
             alert.showAndWait();
         }
     }

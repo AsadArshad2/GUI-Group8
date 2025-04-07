@@ -3,30 +3,47 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.geometry.Insets?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.ReviewsController"
-      alignment="CENTER" spacing="15" prefWidth="700" prefHeight="500">
+      alignment="CENTER" spacing="10" style="-fx-padding: 10;">
 
-    <Label text="📋 Review Management"
-           style="-fx-font-size: 18px; -fx-text-fill: #333;" />
+    <!-- Custom Title Bar -->
+    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f0f0f0; -fx-padding: 10;" spacing="20">
+        <Button fx:id="backButton" text="Back" onAction="#handleBackToMenu" styleClass="back-button"/>
+        <Label text="Review Management"
+               style="-fx-font-size: 18px; -fx-text-fill: #333;" HBox.hgrow="ALWAYS" alignment="CENTER"/>
+    </HBox>
 
     <Button text="Fetch Reviews from API" onAction="#handleFetchReviews"/>
 
-    <ListView fx:id="reviewList" prefHeight="250" prefWidth="600"/>
+    <!-- Toggle Button for Sorting -->
+    <HBox alignment="CENTER">
+        <ToggleButton fx:id="sortByRatingButton" text="Sort by Rating (High to Low)" onAction="#handleSortByRating"/>
+    </HBox>
+
+    <!-- TabPane to display reviews grouped by event -->
+    <TabPane fx:id="eventTabs" VBox.vgrow="ALWAYS" prefWidth="450">
+        <!-- Tabs will be created dynamically in the controller -->
+    </TabPane>
 
     <HBox spacing="10" alignment="CENTER">
-        <TextField fx:id="nameField" promptText="Name" prefWidth="150"/>
-        <TextField fx:id="reviewField" promptText="Review" prefWidth="350"/>
+        <ComboBox fx:id="eventComboBox" promptText="Select Event" prefWidth="120"/>
+        <TextField fx:id="nameField" promptText="Name" prefWidth="120" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="reviewField" promptText="Review" prefWidth="200" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="ratingField" promptText="Rating (0-5)" prefWidth="80"/>
         <Button text="Add" onAction="#handleAddReview"/>
         <Button text="Delete" onAction="#handleDeleteReview"/>
         <Button text="Forward to Client" onAction="#handleForwardReview" />
-
     </HBox>
-
-    <Button text="⬅ Back to Menu" onAction="#handleBackToMenu"/>
 
 </VBox>
