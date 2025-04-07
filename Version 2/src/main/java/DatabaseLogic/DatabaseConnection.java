@@ -1069,4 +1069,121 @@ public class DatabaseConnection {
             throw new RuntimeException("Error creating contract: " + e.getMessage());
         }
     }
+
+    public static List<Seat> getAllRestrictedViewSeats() {
+        List<Seat> seats = new ArrayList<>();
+        String sql = "SELECT * FROM Restricted_view_seats";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Seat seat = new Seat(
+                        rs.getInt("seat_id"),
+                        rs.getInt("room_id"),
+                        rs.getString("row"),
+                        rs.getString("number"),
+                        rs.getString("type")
+                );
+                seats.add(seat);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching restricted view seats: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return seats;
+    }
+
+    public static void addRestrictedViewSeat(Seat seat) {
+        String sql = "INSERT INTO Restricted_view_seats (room_id, row, number, type) VALUES (?, ?, ?, ?)";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, seat.getRoomID());
+            stmt.setString(2, seat.getRow());
+            stmt.setString(3, seat.getNumber());
+            stmt.setString(4, seat.getType());
+            stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                seat.setSeatID(generatedKeys.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error adding restricted view seat: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeRestrictedSeat(int seatId) {
+        String sql = "DELETE FROM Restricted_view_seats WHERE seat_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, seatId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error removing restricted seat: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Seat> getRestrictedSeatsForRoom(int roomId) {
+        List<Seat> seats = new ArrayList<>();
+        String sql = "SELECT * FROM Restricted_view_seats WHERE room_id = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, roomId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Seat seat = new Seat(
+                        rs.getInt("seat_id"),
+                        rs.getInt("room_id"),
+                        rs.getString("row"),
+                        rs.getString("number"),
+                        rs.getString("type")
+                );
+                seats.add(seat);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching restricted seats for room " + roomId + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return seats;
+    }
+
+    public static void addRestrictedSeat(Seat seat) {
+        String sql = "INSERT INTO Restricted_view_seats (room_id, row, number, type) VALUES (?, ?, ?, ?)";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, seat.getRoomID());
+            stmt.setString(2, seat.getRow());
+            stmt.setString(3, seat.getNumber());
+            stmt.setString(4, seat.getType());
+            stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                seat.setSeatID(generatedKeys.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error adding restricted seat: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static int getRestrictedSeatId(int roomId, String row, String number) {
+        String sql = "SELECT seat_id FROM Restricted_view_seats WHERE room_id = ? AND row = ? AND number = ?";
+        try (Connection conn = connectToDatabase();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, roomId);
+            stmt.setString(2, row);
+            stmt.setString(3, number);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("seat_id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking restricted seat: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if the seat is not found
+    }
 }
