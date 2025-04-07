@@ -1,5 +1,8 @@
 package controllers;
 
+import DatabaseLogic.DatabaseConnection;
+import DatabaseLogic.Event;
+import DatabaseLogic.Seat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainHallController {
 
@@ -20,21 +25,49 @@ public class MainHallController {
     @FXML private ComboBox<String> eventSelector;
     @FXML private GridPane seatGrid;
 
+    private static final int MAIN_HALL_ROOM_ID = 1; // Assuming Main Hall has room_id = 1 in the Rooms table
+    private List<Event> eventsForDate = new ArrayList<>();
+
+    @FXML
+    public void initialize() {
+        // Load events for the current date when the controller is initialized
+        LocalDate today = LocalDate.now();
+        datePicker.setValue(today);
+        onDateSelected();
+    }
+
     /**
      * Called when the user selects a seat.
-     * If not disabled (i.e. not booked), toggle between available and restricted styles.
+     * If not disabled (i.e., not booked), toggle between available and restricted styles,
+     * and update the Restricted_view_seats table accordingly.
      */
     @FXML
     public void toggleSeat(ActionEvent event) {
-        Button seat = (Button) event.getSource();
-        if (seat.isDisabled()) return;
+        Button seatButton = (Button) event.getSource();
+        if (seatButton.isDisabled()) return;
 
-        if (seat.getStyle().contains("#f44336")) {
-            // Toggle back to available
-            seat.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        String seatLabel = seatButton.getText();
+        String row = seatLabel.substring(0, seatLabel.length() - (seatLabel.length() > 2 && Character.isDigit(seatLabel.charAt(2)) ? 2 : 1));
+        String number = seatLabel.substring(row.length());
+
+        // Check if the seat is already in the Restricted_view_seats table
+        int seatId = DatabaseConnection.getRestrictedSeatId(MAIN_HALL_ROOM_ID, row, number);
+
+        if (seatButton.getStyle().contains("#f44336")) {
+            // Currently restricted, toggle to available
+            seatButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+            if (seatId != -1) {
+                // Remove from Restricted_view_seats
+                DatabaseConnection.removeRestrictedSeat(seatId);
+            }
         } else {
-            // Mark as restricted
-            seat.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+            // Currently available, toggle to restricted
+            seatButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+            if (seatId == -1) {
+                // Add to Restricted_view_seats
+                Seat seat = new Seat(0, MAIN_HALL_ROOM_ID, row, number, "restricted");
+                DatabaseConnection.addRestrictedSeat(seat);
+            }
         }
     }
 
@@ -59,13 +92,24 @@ public class MainHallController {
         LocalDate selectedDate = datePicker.getValue();
         if (selectedDate != null) {
             eventSelector.getItems().clear();
-            eventSelector.getItems().addAll(getEventsForDate(selectedDate));
+            eventsForDate = DatabaseConnection.getAllEvents().stream()
+                    .filter(event -> {
+                        try {
+                            LocalDate eventStart = LocalDate.parse(event.getStartDate());
+                            LocalDate eventEnd = LocalDate.parse(event.getEndDate());
+                            return !selectedDate.isBefore(eventStart) && !selectedDate.isAfter(eventEnd);
+                        } catch (Exception e) {
+                            return false;
+                        }
+                    })
+                    .collect(Collectors.toList());
+            eventSelector.getItems().addAll(eventsForDate.stream().map(Event::getName).collect(Collectors.toList()));
         }
     }
 
     /**
      * Triggered when an event is selected from the dropdown.
-     * Loads the seat availability.
+     * Loads the seat availability and restricted seats.
      */
     @FXML
     private void onEventSelected() {
@@ -76,38 +120,42 @@ public class MainHallController {
     }
 
     /**
-     * Simulates retrieval of events for a given date.
-     * Replace with real DB/API call.
-     */
-    private List<String> getEventsForDate(LocalDate date) {
-        return List.of("Matinee Show", "Evening Performance");
-    }
-
-    /**
      * Loads and resets all seat buttons for a selected event.
-     * Disables and styles booked seats.
+     * Disables and styles booked seats, and marks restricted seats.
      */
-    private void loadSeatConfigurationForEvent(String event) {
-        List<String> bookedSeats = getBookedSeatsForEvent(event);
+    private void loadSeatConfigurationForEvent(String eventName) {
+        List<String> bookedSeats = getBookedSeatsForEvent(eventName);
+        List<Seat> restrictedSeats = DatabaseConnection.getRestrictedSeatsForRoom(MAIN_HALL_ROOM_ID);
 
         for (Node node : seatGrid.getChildren()) {
             if (node instanceof Button seatButton) {
                 seatButton.setDisable(false);
                 seatButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
 
+                // Check if the seat is booked
                 if (bookedSeats.contains(seatButton.getText())) {
                     seatButton.setDisable(true);
                     seatButton.setStyle("-fx-background-color: #B71C1C; -fx-text-fill: white;");
+                } else {
+                    // Check if the seat is restricted
+                    String seatLabel = seatButton.getText();
+                    String row = seatLabel.substring(0, seatLabel.length() - (seatLabel.length() > 2 && Character.isDigit(seatLabel.charAt(2)) ? 2 : 1));
+                    String number = seatLabel.substring(row.length());
+                    boolean isRestricted = restrictedSeats.stream()
+                            .anyMatch(seat -> seat.getRow().equals(row) && seat.getNumber().equals(number));
+                    if (isRestricted) {
+                        seatButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+                    }
                 }
             }
         }
     }
 
     /**
-     * Simulates which seats are booked for an event.
-     * Replace with real DB/API lookup.
+     * Fetches booked seats for an event.
+     * Replace with real DB lookup if needed.
      */
-    private List<String> getBookedSeatsForEvent(String event) {
+    private List<String> getBookedSeatsForEvent(String eventName) {
         // Stub: Replace with actual logic to fetch booked seats for the event
         return List.of("a1", "b3", "c7", "m5", "q10", "AA20", "BB9");
     }
