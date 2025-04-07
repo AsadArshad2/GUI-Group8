@@ -38,31 +38,31 @@ public class CalendarController {
         calendarTableView.setEditable(true);
         calendarTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        eventNameColumn.setCellValueFactory(cellData -> cellData.getValue().getEventNameProperty());
+        eventNameColumn.setCellValueFactory(cellData -> cellData.getValue().eventNameProperty());
         eventNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         eventNameColumn.setOnEditCommit(event -> event.getRowValue().setEventName(event.getNewValue()));
 
-        roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().getRoomNameProperty());
+        roomNameColumn.setCellValueFactory(cellData -> cellData.getValue().roomNameProperty());
         roomNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         roomNameColumn.setOnEditCommit(event -> event.getRowValue().setRoomName(event.getNewValue()));
 
-        startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getStartTimeProperty());
+        startTimeColumn.setCellValueFactory(cellData -> cellData.getValue().startTimeProperty());
         startTimeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         startTimeColumn.setOnEditCommit(event -> event.getRowValue().setStartTime(event.getNewValue()));
 
-        endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getEndTimeProperty());
+        endTimeColumn.setCellValueFactory(cellData -> cellData.getValue().endTimeProperty());
         endTimeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         endTimeColumn.setOnEditCommit(event -> event.getRowValue().setEndTime(event.getNewValue()));
 
-        totalCostColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalCostProperty().asObject());
+        totalCostColumn.setCellValueFactory(cellData -> cellData.getValue().totalCostProperty().asObject());
         totalCostColumn.setCellFactory(TextFieldTableCell.<Calendar, Double>forTableColumn(new DoubleStringConverter()));
         totalCostColumn.setOnEditCommit(event -> event.getRowValue().setTotalCost(event.getNewValue()));
 
-        statusColumn.setCellValueFactory(cellData -> cellData.getValue().getStatusProperty());
+        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
         statusColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         statusColumn.setOnEditCommit(event -> event.getRowValue().setStatus(event.getNewValue()));
 
-        capacityColumn.setCellValueFactory(cellData -> cellData.getValue().getCapacityProperty().asObject());
+        capacityColumn.setCellValueFactory(cellData -> cellData.getValue().capacityProperty().asObject());
         capacityColumn.setCellFactory(TextFieldTableCell.<Calendar, Integer>forTableColumn(new IntegerStringConverter()));
         capacityColumn.setOnEditCommit(event -> event.getRowValue().setCapacity(event.getNewValue()));
 

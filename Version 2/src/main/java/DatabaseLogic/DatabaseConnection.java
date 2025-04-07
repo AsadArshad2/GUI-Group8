@@ -165,7 +165,6 @@ public class DatabaseConnection {
             b.start_time,
             b.end_time,
             b.total_cost,
-            b.configuration_details,
             b.status,
 
             e.event_id,
@@ -196,7 +195,6 @@ public class DatabaseConnection {
                         rs.getString("start_time"),
                         rs.getString("end_time"),
                         rs.getDouble("total_cost"),
-                        rs.getString("configuration_details"),
                         rs.getString("status"),
 
                         rs.getInt("event_id"),
