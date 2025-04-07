@@ -1,6 +1,7 @@
 .root {
     -fx-font-family: "JetBrains Mono", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -fx-background-color: white; /* Make the background white */
+
 }
 
 /* Label text */

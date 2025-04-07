@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.MenuController"
-      stylesheets="@../styles/style.css">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MenuController"
+            prefWidth="900" prefHeight="600"
+            stylesheets="@../styles/style.css"
+            style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #e8f5f8);">
 
-    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="@../images/LancasterLogo.jpg" />
-        </image>
-    </ImageView>
+    <!-- Top: Logo and Title -->
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="20" bottom="10"/>
+            </padding>
+            <ImageView fitHeight="120" fitWidth="180" preserveRatio="true">
+                <image>
+                    <Image url="@../images/LancasterLogo.jpg"/>
+                </image>
+            </ImageView>
+            <Label text="Lancaster Music Hall - Staff Dashboard" styleClass="label title"/>
+        </VBox>
+    </top>
 
-    <Label style="-fx-font-size: 24px;" text="Lancaster Music Hall - Staff Dashboard" />
+    <!-- Center: Button Navigation Panel -->
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <padding>
+                <Insets top="20" left="30" right="30" bottom="30"/>
+            </padding>
 
-    <Button onAction="#goToCalendar" text="Calendar" />
-    <Button onAction="#goToDailyPlanner" text="Daily Reports" />
-    <Button onAction="#goToClientPage" text="Clients" />
-    <Button onAction="#goToContractInvoicePage" text="Contracts and Invoices" />
-    <Button onAction="#goToFinances" text="Ticket Sales Overview" />
-    <Button onAction="#goToReviews" text="Review System" />
-    <Button onAction="#goToTicketPriceAdjuster" text="Adjust Price" />
-    <Button onAction="#goToSeating" text="Seating Configurations" />
-    <Button onAction="#goToUsageTracker" text="Venue Usage Tracker" />
-    <Button onAction="#goToSystemSettings" text="System Settings" />
-    <Button onAction="#goToInterTeam" text="Team Data Sync" />
-</VBox>
+            <Button text="Calendar" onAction="#goToCalendar"/>
+            <Button text="Daily Reports" onAction="#goToDailyPlanner"/>
+            <Button text="Clients" onAction="#goToClientPage"/>
+            <Button text="Contracts and Invoices" onAction="#goToContractInvoicePage"/>
+            <Button text="Ticket Sales Overview" onAction="#goToFinances"/>
+            <Button text="Review System" onAction="#goToReviews"/>
+            <Button text="Adjust Price" onAction="#goToTicketPriceAdjuster"/>
+            <Button text="Seating Configurations" onAction="#goToSeating"/>
+        </VBox>
+    </center>
+</BorderPane>
