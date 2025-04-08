@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BookingController" prefWidth="900" prefHeight="600">
-    <VBox spacing="20" layoutX="50" layoutY="20" alignment="TOP_CENTER" prefWidth="800">
-        <Label text="Venue Bookings - Operations and Marketing" style="-fx-font-size: 18px;"/>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BookingController"
+            prefWidth="900" prefHeight="600">
 
-        <HBox spacing="10">
-            <Label text="Select Date:"/>
-            <DatePicker fx:id="datePicker"/>
-            <Button text="Check Availability" onAction="#handleCheckAvailability"/>
+    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <!-- Title and Back Button -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Back" onAction="#handleBackToCalendar" styleClass="back-button" />
+            <Label text="Venue Bookings" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
         </HBox>
 
-        <TableView fx:id="venueTable" prefHeight="300">
-            <columns>
-                <TableColumn fx:id="venueNameColumn" text="Venue"/>
-                <TableColumn fx:id="statusColumn" text="Status"/>
-                <TableColumn fx:id="capacityColumn" text="Capacity"/>
-            </columns>
-        </TableView>
+        <!-- Scrollable TableView -->
+        <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="500" hbarPolicy="NEVER">
+            <TableView fx:id="bookingTableView" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="clientName" text="Client Name" prefWidth="100"/>
+                    <TableColumn fx:id="eventName" text="Event Name" prefWidth="100"/>
+                    <TableColumn fx:id="roomName" text="Room Name" prefWidth="100"/>
+                    <TableColumn fx:id="date" text="Date" prefWidth="100"/>
+                    <TableColumn fx:id="startTime" text="Start Time" prefWidth="100"/>
+                    <TableColumn fx:id="endTime" text="End Time" prefWidth="100"/>
+                    <TableColumn fx:id="totalCost" text="Total Cost" prefWidth="100"/>
+                    <TableColumn fx:id="status" text="Status" prefWidth="100"/>
+                </columns>
+            </TableView>
+        </ScrollPane>
 
-        <HBox spacing="10">
-            <Button text="Reserve Slot" onAction="#handleReserveSlot"/>
-            <Button text="Delete Booking" onAction="#handleDeleteBooking"/>
+        <!-- Status Label -->
+        <Label fx:id="statusLabel" text="All bookings loaded..." style="-fx-font-weight: bold;" />
+
+        <!-- Spacer to Push Buttons to Bottom -->
+        <Region VBox.vgrow="ALWAYS" />
+
+        <!-- Button Layout at the Bottom -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Delete Booking" onAction="#handleCancelledBooking"/>
+            <Button text="Hold Booking" onAction="#handleHeldBooking" />
+            <Button text="Confirmed Booking" onAction="#handleConfirmedBooking" />
+            <Button text="Add Booking" onAction="#handleAddBooking" prefWidth="150" />
+            <Button text="Finish Edit" onAction="#handleFinishEdit" prefWidth="150" />
         </HBox>
-
-        <Button text="Back to Menu" onAction="#handleBackToMenu"/>
-        <Label fx:id="statusLabel" text="Status messages will appear here..." style="-fx-text-fill: #7f8c8d;"/>
     </VBox>
 </AnchorPane>

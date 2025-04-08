@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SeatingController"
+      alignment="CENTER" spacing="20" style="-fx-padding: 40;">
+
+    <Label text="Select a Venue" style="-fx-font-size: 24px;" />
+
+    <Button text="Main Hall Seating" prefWidth="200" onAction="#openMainHall" />
+    <Button text="Small Hall Seating" prefWidth="200" onAction="#openSmallHall" />
+    <Button text="← Back to Menu" onAction="#handleBackToMenu" />
+</VBox>

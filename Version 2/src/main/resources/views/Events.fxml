@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.EventsController"
+            prefWidth="900" prefHeight="600">
+
+    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+
+        <!-- Title and Back Button -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Back" onAction="#handleBackToCalendar" styleClass="back-button" />
+            <Label text="Venue Events" styleClass="title" />
+        </HBox>
+
+        <!-- Scrollable TableView -->
+        <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="500" hbarPolicy="NEVER">
+            <TableView fx:id="eventsTableView" editable="true">
+                <columns>
+                    <TableColumn fx:id="name" text="Name" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="sellingPrice" text="Selling Price" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="startDate" text="Start Date" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="endDate" text="End Date" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="description" text="Description" style="-fx-alignment: CENTER;" />
+                    <TableColumn fx:id="maxDiscount" text="Max Discount" style="-fx-alignment: CENTER;" />
+                </columns>
+            </TableView>
+        </ScrollPane>
+
+        <!-- Status Label -->
+        <Label fx:id="statusLabel" text="All events loaded..." style="-fx-font-weight: bold;" />
+
+        <!-- Spacer to Push Buttons to Bottom -->
+        <Region VBox.vgrow="ALWAYS" />
+
+        <!-- Button Layout at the Bottom -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Add Event" onAction="#handleAddEvent" prefWidth="150" />
+            <Button text="Finish Edit" onAction="#handleFinishEdit" prefWidth="150" />
+        </HBox>
+    </VBox>
+</AnchorPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="20" prefWidth="900" prefHeight="600"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1"
+      fx:controller="controllers.SystemSettingsController">
+
+    <Label style="-fx-font-size: 20px;" text="System Settings" />
+
+    <Label text="Add New User (Username)" />
+    <TextField fx:id="usernameField" promptText="Enter username" />
+    <Button text="Add User" onAction="#handleAddUser" />
+
+    <Separator />
+
+    <Button text="Backup System Data" onAction="#handleBackup" />
+    <Button text="Restore Backup" onAction="#handleRestore" />
+
+    <Separator />
+
+    <CheckBox fx:id="bookingAlertToggle" text="Enable Booking Conflict Alerts" />
+    <CheckBox fx:id="contractAlertToggle" text="Enable Contract Deadline Alerts" />
+
+    <Button text="Save Alert Preferences" onAction="#handleSaveAlerts" />
+
+    <Separator />
+
+    <Button text="Return to Main Menu" onAction="#goToMainMenu" />
+</VBox>

@@ -1,34 +1,158 @@
 .root {
-    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -fx-background-color: black;
+    -fx-font-family: "JetBrains Mono", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-background-color: white; /* Make the background white */
+
 }
 
+/* Label text */
 .label {
-    -fx-font-size: 14px;
-    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-text-fill: #000; /* Black for visibility */
+    -fx-font-weight: bold;
+    -fx-background-color: transparent; /* Ensure no background color hides the label */
 }
 
+/* Title labels */
+.label.title {
+    -fx-font-size: 18px;
+    -fx-text-fill: #000; /* Black for visibility */
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+}
+
+/* Calendar TableView */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 8;
+    -fx-padding: 4;
+    -fx-font-family: "JetBrains Mono";
+}
+
+/* Table Header */
+.table-view .column-header-background {
+    -fx-background-color: #f5f5f5; /* Light gray for contrast */
+    -fx-border-color: #e0e0e0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000; /* Black for visibility */
+}
+
+/* Table Cell Styling */
+.table-cell {
+    -fx-background-color: white;
+    -fx-text-fill: #000; /* Black for visibility */
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER;
+}
+
+/* Row hover */
+.table-row-cell:hover {
+    -fx-background-color: #f0f8ff; /* Light blue for hover */
+}
+
+/* Row selected */
+.table-row-cell:filled:selected {
+    -fx-background-color: #d0f0ff; /* Light blue for selection */
+    -fx-text-fill: black;
+}
+
+.table-row-cell:filled:selected:hover {
+    -fx-background-color: #b0e0ff; /* Slightly darker blue for hover on selection */
+    -fx-text-fill: black;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* Inputs */
+.text-field,
+.password-field,
+.combo-box,
+.date-picker,
+.text-area {
+    -fx-background-color: #f9f9f9; /* Light gray for contrast */
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #000; /* Black for visibility */
+}
+
+/* Buttons */
 .button {
-    -fx-background-color: #1ABC9C;
+    -fx-background-color: #1abc9c; /* Keep your button color */
     -fx-text-fill: white;
-    -fx-background-radius: 10px;
-    -fx-padding: 10px 18px;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
     -fx-font-size: 14px;
 }
 
 .button:hover {
-    -fx-background-color: #16A085;
+    -fx-background-color: #16a085; /* Keep your hover color */
 }
 
 .button:pressed {
-    -fx-background-color: #148F77;
+    -fx-background-color: #138f77; /* Keep your pressed color */
 }
 
-.text-field, .password-field, .combo-box, .date-picker, .text-area {
-    -fx-background-color: black;
-    -fx-border-color: white;
-    -fx-border-radius: 10px;
-    -fx-padding: 8px;
-    -fx-font-size: 14px;
+/* Back Button */
+.back-button {
+    -fx-background-color: #E74C3C; /* Keep your back button color */
     -fx-text-fill: white;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-font-weight: bold;
+}
+
+.back-button:hover {
+    -fx-background-color: #C0392B; /* Keep your hover color */
+}
+
+.back-button:pressed {
+    -fx-background-color: #A93226; /* Keep your pressed color */
+}
+
+/* Grid Pane */
+.grid-pane {
+    -fx-grid-lines-visible: true;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+    -fx-background-color: white; /* Ensure grid pane background is white */
+}
+
+.grid-pane .grid-line {
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+}
+
+/* Dialog Pane */
+.dialog-pane {
+    -fx-background-color: white;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #000; /* Black text for dialog labels */
+}
+
+.dialog-pane .text-field,
+.dialog-pane .combo-box {
+    -fx-background-color: #f9f9f9;
+    -fx-text-fill: #000; /* Black for visibility */
+}
+
+/* Scroll Pane */
+.scroll-pane {
+    -fx-background-color: white; /* Ensure scroll pane background is white */
+}
+
+/* VBox and HBox */
+.vbox, .hbox {
+    -fx-background-color: white; /* Ensure container backgrounds are white */
 }

@@ -7,8 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.event.ActionEvent;
-
-import java.io.IOException;
+import javafx.stage.StageStyle;
 
 public class MenuController {
 
@@ -21,8 +20,22 @@ public class MenuController {
     }
 
     @FXML
-    private void goToBooking(ActionEvent event) throws Exception {
-        switchScene("Booking.fxml", event);
+    private void goToClientPage(ActionEvent event) throws Exception {
+        switchScene("Client.fxml", event);
+    }
+    @FXML
+    private void goToContractInvoicePage(ActionEvent event) throws Exception {
+        switchScene("ContractAndInvoices.fxml", event);
+    }
+
+    @FXML
+    private void goToTicketPriceAdjuster(ActionEvent event) throws Exception {
+        switchScene("TicketAdjuster.fxml", event);
+    }
+
+    @FXML
+    private void goToInterTeam(ActionEvent event) throws Exception {
+        switchScene("InterTeamView.fxml", event);
     }
 
     @FXML
@@ -38,5 +51,25 @@ public class MenuController {
     @FXML
     private void goToDailyPlanner(ActionEvent event) throws Exception {
         switchScene("DailyPlanner.fxml", event);
+    }
+
+    @FXML
+    private void goToSeating(ActionEvent event) throws Exception {
+        switchScene("Seating.fxml", event);
+    }
+
+    @FXML
+    private void goToCalendar(ActionEvent event) throws Exception {
+        switchScene("Calendar.fxml", event);
+    }
+
+    @FXML
+    private void goToUsageTracker(ActionEvent event) throws Exception {
+        switchScene("UsageTracker.fxml", event);
+    }
+
+    @FXML
+    private void goToSystemSettings(ActionEvent event) throws Exception {
+        switchScene("SystemSettings.fxml", event);
     }
 }
