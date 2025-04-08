@@ -41,6 +41,29 @@ And yes, every part of the system is exportable — whether it’s a contract, f
 From start to curtain call, this dashboard keeps Lancaster running on time, on budget, and on point.
 
 # Version History
+### 3.1.0 - New Feature
+- Exported into Jar file!
+- No need for IDE anymore
+- Imporvents in effecicy
+- 20% faster load times with DB
+
+#### 3.0.1 - Patch
+- Fixed error with Database and vpn connectivity
+- Fixed connection with Itext7 PDF exporter
+
+### 3.0.0 - New Version
+- Gui changed to light theme 
+- Many front end theme changes
+- Ticket sales system added!
+- Added DataBase compatiblity to most classes
+- Client Managment system
+<img width="400" alt="Screenshot 2025-04-08 at 09 21 04" src="https://github.com/user-attachments/assets/e694b810-b815-463f-b7d6-ece0ccad00b3" />
+<img width="400" alt="Screenshot 2025-04-08 at 09 21 07" src="https://github.com/user-attachments/assets/f9a2aece-d6ee-48cc-baeb-f9da7587e6f3" />
+<img width="400" alt="Screenshot 2025-04-08 at 09 22 57" src="https://github.com/user-attachments/assets/3bd6c0b7-a81a-4b85-87b8-04686718dee4" />
+<img width="800" alt="Screenshot 2025-04-08 at 09 23 03" src="https://github.com/user-attachments/assets/f2d3ce20-30d2-498b-9a3e-6c58b06d8e06" />
+
+
+---
 
 ### 2.3.0 - New Features Added
 - Seating layout finalisation added to lock configurations before ticketing
@@ -72,6 +95,10 @@ From start to curtain call, this dashboard keeps Lancaster running on time, on b
 <img width="500" alt="2 1 0 ExportPDF" src="https://github.com/user-attachments/assets/49327c55-1394-47fc-99a2-8c43a1adb7d8" />
 
 ---
+#### 2.0.2 - Patch
+- Testers reported window sizing bug - solved
+- CSS bugs have been repoted
+- Universal CSS added to ensure no issues 
 
 #### 2.0.1 - Patch
 - Ui theme and colour matches with lancasters music hall logo
@@ -101,3 +128,12 @@ From start to curtain call, this dashboard keeps Lancaster running on time, on b
 
 
 <img width="955" alt="Screenshot 2025-03-26 at 11 18 57" src="https://github.com/user-attachments/assets/3790fd85-20b4-4916-aa37-c7d911ea5f99" />
+
+---
+
+### Beta - Draft
+- Initial sketches
+<img width="400" alt="sketch" src="https://github.com/user-attachments/assets/ba670a29-549b-4c8c-93f4-41e69e3f3778" />
+<img width="400" alt="sketch" src="https://github.com/user-attachments/assets/dda41aa6-651a-4781-bc37-a3f9d1e4ef95" />
+
+
